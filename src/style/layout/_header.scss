@@ -48,3 +48,54 @@
   text-decoration: none;
   padding-left: 5px;
 }
+
+.nav {
+  flex-grow: 1;
+  margin-top: 80px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  margin-left: 120px;
+  border-bottom: 1px solid;
+  border-radius: 3px;
+  border-color: $grey-light;
+}
+
+.home-btn {
+  color: $black;
+}
+
+.cart {
+  margin-left: auto;
+  margin-right: 20px;
+  background: url(./favicon.svg);
+  background-size: 30px, 30px;
+  background-position: top, left;
+  width: 50px;
+  height: 40px;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  cursor: pointer;
+}
+
+.cart__num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  width: 25px;
+  height: 25px;
+  font-size: 14px;
+  background-color: $green-dark;
+  color: $white-medium;
+}
+
+.total-amount {
+  min-width: 70px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: flex-end;
+}
