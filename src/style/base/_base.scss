@@ -9,6 +9,12 @@ html {
   box-sizing: border-box;
 }
 
+html,
+body {
+  position: relative;
+  height: 100%;
+}
+
 /**
  * Make all elements from the DOM inherit from the parent box-sizing
  * Since `*` has a specificity of 0, it does not override the `html` value
@@ -25,11 +31,9 @@ html {
  * Basic styles for links
  */
 a {
-  color: $brand-color;
   text-decoration: none;
 
   @include on-event {
-    color: $text-color;
     text-decoration: underline;
   }
 }
