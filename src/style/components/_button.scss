@@ -1,14 +1,30 @@
 .button {
   width: 140px;
-  height: 28px;
-  background-color: $green-medium;
+  height: 40px;
+  background-color: $green-dark;
   color: $white-medium;
-  border-radius: 14px;
+  border-radius: 20px;
   border: none;
   transition: 0.5s;
   cursor: pointer;
   &:hover,
   &:active {
-    background-color: $green-dark;
+    background-color: $green-medium;
+  }
+}
+
+.button-light {
+  width: 140px;
+  height: 40px;
+  background-color: $white-medium;
+  color: $green-light;
+  border-radius: 20px;
+  border: 1px $green-light solid;
+  transition: 0.5s;
+  cursor: pointer;
+  &:hover,
+  &:active {
+    color: $white-medium;
+    background-color: $green-medium;
   }
 }
