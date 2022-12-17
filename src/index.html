@@ -31,7 +31,7 @@
     </header>
     <main class="main">
       <div class="main__container container">
-        <section class="catalog">
+        <template class="catalog page">
 
           <div class="filter">
 
@@ -150,9 +150,9 @@
 
             </div>
           </div>
-        </section>
+        </template>
 
-        <template class="product-page">
+        <template class="product-page page">
           <div class="link-navigation">
             <a class="link-navigation__link" href="#">Catalog</a>
             <span class="link-navigation__slash"> / </span>
@@ -163,8 +163,8 @@
           <h2 class="product-page__title">Succulent</h2>
           <div class="product-page__top-block">
             <div class="product-page__photo-block">
-              <img class="product-page__photo-mini product-page__photo-mini_active" src="./assets/img/catalog/img_1_1.jpg"></img>
-              <img class="product-page__photo-mini" src="./assets/img/catalog/img_1_2.jpg"></img>
+              <img class="product-page__photo-mini product-page__photo-mini_active" src="./assets/img/catalog/img_1_1.jpg">
+              <img class="product-page__photo-mini" src="./assets/img/catalog/img_1_2.jpg">
             </div>
             <div class="product-page__sales-block">
               <div class="product-page__stoke-block">
@@ -216,6 +216,22 @@
             </ul>
           </div>
         </template>
+
+        <section class="cart-page">
+          <div class="link-navigation">
+            <a class="link-navigation__link" href="#">Catalog</a>
+            <span class="link-navigation__slash"> / </span>
+            <a class="link-navigation__link" href="#">Cart</a>
+          </div>
+          <h2 class="product-page__title">Cart</h2>
+          <div class="empty-cart-page">
+            <img class="empty-cart-page__img" src="./assets/svg/empty-cart-icon.svg" alt="empty cart icon">
+            <div class="empty-cart-page__block">
+              <p class="empty-cart-page__text">Your cart is empty.</p>
+              <button class="empty-cart__btn button">Go to catalog</button>
+            </div>
+          </div>   
+        </section>
 
       </div>
     </main>
