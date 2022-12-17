@@ -1,3 +1,14 @@
-// -----------------------------------------------------------------------------
-// This file contains all styles related to the button component.
-// -----------------------------------------------------------------------------
+.button {
+  width: 140px;
+  height: 28px;
+  background-color: $green-medium;
+  color: $white-medium;
+  border-radius: 14px;
+  border: none;
+  transition: 0.5s;
+  cursor: pointer;
+  &:hover,
+  &:active {
+    background-color: $green-dark;
+  }
+}
