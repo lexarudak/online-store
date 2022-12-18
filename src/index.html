@@ -23,8 +23,7 @@
             <span class="cart__num">0</span>
           </div>
           <div class="total-amount">
-            <span class="total-amount__symbol usd-symbol">$</span>
-            <span class="total-amount__value">0</span>
+            <span class="total-amount__value usd-symbol">0</span>
           </div>
         </nav>
       </div>
@@ -70,9 +69,9 @@
 
           <div class="products">
             <div class="products__sort-parametrs"></div>
-            <div class="products__container">
+              <div class="products__container">
 
-              <div id="product" class="product">
+                <div id="product" class="product">
                   <div class="product__photo">
                       <div class="product__icons">
                         <div class="product__discount">20 <span>%</span></div>
@@ -81,15 +80,15 @@
                   </div>
                   <div class="product__info">
                     <div class="product__type">Echeveria</div>
-                    <h2 class="product__title">Succulent</h2>
-                    <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots have become more than usually fleshy by the development of water-storing tissue.</p>
-                    <div class="product__purchase">
-                      <div class="product__price">15$</div>
-                      <button class="product__button button">Add to cart</и>
+                      <h2 class="product__title">Succulent</h2>
+                      <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots have become more than usually fleshy by the development of water-storing tissue.</p>
+                      <div class="product__purchase">
+                        <div class="product__price usd-symbol">15</div>
+                      <button class="product__button button">Add to cart</button>
                     </div>
                     <div class="product__stock">In stock: <span>28</span></div>
                   </div>
-              </div>
+                </div>
 
               <div id="product" class="product">
                 <div class="product__photo">
@@ -103,10 +102,12 @@
                   <h2 class="product__title">Succulent</h2>
                   <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots have become more than usually fleshy by the development of water-storing tissue.</p>
                   <div class="product__purchase">
-                    <div class="product__price">15$</div>
-                    <button class="product__button button">Add to cart</и>
+                    <div class="product__price usd-symbol">15</div>
+                    <button class="product__button button">Add to cart</button>
                   </div>
-                  <div class="product__stock">In stock: <span>28</span></div>
+                  <div class="product__stock">In stock: 
+                    <span>28</span>
+                  </div>
                 </div>
             </div>
 
@@ -122,8 +123,8 @@
                   <h2 class="product__title">Succulent</h2>
                   <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots have become more than usually fleshy by the development of water-storing tissue.</p>
                   <div class="product__purchase">
-                    <div class="product__price">15$</div>
-                    <button class="product__button button">Add to cart</и>
+                    <div class="product__price usd-symbol">15</div>
+                    <button class="product__button button">Add to cart</button>
                   </div>
                   <div class="product__stock">In stock: <span>28</span></div>
                 </div>
@@ -141,8 +142,8 @@
                 <h2 class="product__title">Succulent</h2>
                 <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots have become more than usually fleshy by the development of water-storing tissue.</p>
                 <div class="product__purchase">
-                  <div class="product__price">15$</div>
-                  <button class="product__button button">Add to cart</и>
+                  <div class="product__price usd-symbol">15</div>
+                  <button class="product__button button">Add to cart</button>
                 </div>
                 <div class="product__stock">In stock: <span>28</span></div>
               </div>
@@ -173,12 +174,10 @@
               </div>
               <div class="product-page__price-block">
                 <div class="product-page__new-price-block">
-                  <span class="usd-symbol">$</span>
-                  <span class="product-page__new-price">15</span>
+                  <span class="product-page__new-price usd-symbol">15</span>
                 </div>
                 <div class="product-page__old-price-block">
-                  <span class="usd-symbol">$</span>
-                  <span class="product-page__old-price">18.75</span>
+                  <span class="product-page__old-price usd-symbol">18.75</span>
                 </div>
               </div>
               <div class="product-page__buttons-block">
@@ -217,20 +216,115 @@
           </div>
         </template>
 
-        <section class="cart-page">
+        <section class="cart-page page">
           <div class="link-navigation">
             <a class="link-navigation__link" href="#">Catalog</a>
             <span class="link-navigation__slash"> / </span>
             <a class="link-navigation__link" href="#">Cart</a>
           </div>
           <h2 class="product-page__title">Cart</h2>
-          <div class="empty-cart-page">
+          <template class="empty-cart-page page">
             <img class="empty-cart-page__img" src="./assets/svg/empty-cart-icon.svg" alt="empty cart icon">
             <div class="empty-cart-page__block">
               <p class="empty-cart-page__text">Your cart is empty.</p>
               <button class="empty-cart__btn button">Go to catalog</button>
             </div>
-          </div>   
+          </template>
+          <div class="full-cart-page page">
+            <div class="full-cart-page__products">
+              <div class="full-cart-page__settings">
+                <div class="full-cart-page__pagination">
+                  <div class="full-cart-page__pagination-pages">
+                    <span class="full-cart-page__pagination-text">Page</span>
+                    <button class="button-arrow" id="paginationPageDown">&lt;</button>
+                    <input class="amount-number" id="paginationCurrentPage" type="number" min="1" max="10" value="1" disabled>
+                    <button class="button-arrow" id="paginationPageUp">&gt;</button>
+                    <span class="full-cart-page__pagination-text">of</span>
+                    <input class="amount-number" id="paginationPages" type="number" min="1" max="10" value="2" disabled>
+                  </div>
+                  <div class="full-cart-page__pagination-items">
+                    <span class="full-cart-page__pagination-text">Items on page:</span>
+                    <button class="button-arrow" id="paginationItemsMinus">&lt;</button>
+                    <input class="amount-number" id="paginationItems" type="number" min="1" max="10" value="3" disabled>
+                    <button class="button-arrow" id="paginationItemsPlus">&gt;</button>
+                  </div>
+                </div>
+                <button class="clean-card-btn">Clean cart</button>
+              </div>
+              <ul class="cart-list">
+                <!--CART product card start-->
+                <li class="cart-list__item product">
+                  <div class="product__photo">
+                    <div class="product__icons">
+                      <div class="product__discount">20 <span>%</span></div>
+                      <div class="product__rating">4.5 <span>&#9734;</span></div>
+                    </div>
+                  </div>
+                  <div class="product__info">
+                    <div class="product__type">Echeveria</div>
+                    <h2 class="product__title">Succulent</h2>
+                    <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots
+                      have become more than usually fleshy by the development of water-storing tissue.</p>
+                    <div class="product__purchase">
+                      <div class="product__price usd-symbol">15</div>
+                      <span class="product__old-price usd-symbol">18.75</span>
+                      <div class="product__amount">
+                        <button class="button-arrow product__left-arrow">&lt;</button>
+                        <input class="product__amount-number amount-number" type="number" min="0" value="1" disabled>
+                        <button class="button-arrow product__right-arrow">&gt;</button>
+                      </div>
+                    </div>
+                    <div class="product__stock">In stock: <span>28</span></div>
+                  </div>
+                </li>
+                <!--CART product card end-->
+              </ul>
+            </div>
+            <div class="full-cart-page__panel">
+              <div class="full-cart-page__promo">
+                <input class="full-cart-page__promo-input" type="text" placeholder="PROMO CODE">
+                <button class="full-cart-page__promo-button">Apply</button>
+              </div>
+              <div class="full-cart-page__info">
+                <p class="full-cart-page__subtitle subtitle">
+                  Your order
+                </p>
+                <p class="full-cart-page__items">
+                  <span>Items in cart:</span>
+                  <span class="full-cart-page__items-value" id="itemslVaue">4</span>
+                </p>
+                <p class="full-cart-page__subtotal">
+                  <span>Subtotal</span>
+                  <span class="usd-symbol" id="subtotalVaue">500</span>
+                </p>
+                <ul class="discounts">
+                  <li class="discounts__item">
+                    <span>Product discount</span>
+                    <span class="usd-symbol">20</span>
+                  </li>
+                  <li class="discounts__item discounts__item-promo">
+                    <span>Promo SALE</span>
+                    <span class="usd-symbol">100</span>
+                  </li>
+                  <li class="discounts__item discounts__item-promo">
+                    <span>Promo HOME</span>
+                    <span class="usd-symbol">20</span>
+                  </li>
+                </ul>
+                <p class="full-cart-page__total">
+                  <span>Total</span>
+                  <span class="usd-symbol" id="totalVaue">360</span>
+                </p>
+              </div>
+              <button class="full-cart-page__buy-button button">
+                Proceed to checkout
+              </button>
+              <button class="full-cart-page__catalog-button button-light">
+                Continue shopping
+              </button>
+
+            </div>
+          </div>
         </section>
 
       </div>

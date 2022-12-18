@@ -28,3 +28,30 @@
     background-color: $green-medium;
   }
 }
+
+.button-arrow {
+  text-align: center;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: none;
+  border: none;
+  transition: .3s;
+
+  &:hover {
+    background-color: $green-extra-light-opacity;
+  }
+}
+
+.clean-card-btn {
+  height: 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: $grey-medium;
+  transition: .3s;
+
+  &:hover {
+    color: $green-medium;
+  }
+}
