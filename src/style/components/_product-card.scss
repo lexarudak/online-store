@@ -78,6 +78,53 @@
     font-size: 0.8em;
     text-align: right;
   }
+
+  // cart list 
+
+  .cart-list & {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    border: 1px $grey-medium solid;
+    border-radius: 10px;
+    min-height: auto;
+    box-shadow: none;
+
+    &__photo {
+        @include flexbox(flex-end, flex-end);
+        width: 350px;
+        height: 180px;
+        padding: 20px;
+        background-size: contain;
+        background-origin: content-box
+      }
+    
+    &__purchase {
+      margin-top: auto;
+      justify-content: flex-start;
+      width: 100%;
+      gap: 20px;
+    }
+
+    &__price {
+      font-size: 30px;
+    }
+
+    &__old-price {
+      font-size: 20px;
+      color: $grey-medium;
+      text-decoration: line-through;
+    }
+
+    &__info {
+      position: relative;
+      padding: 30px 30px 5px;
+    }
+
+    &__amount {
+      margin-left: auto;
+    }
+  }
 }
 
 @media (max-width: 1240px) {
