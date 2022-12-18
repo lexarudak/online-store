@@ -26,11 +26,15 @@
 
 // 5. Components
 @import
-  'style/components/button';
+  'style/components/button',
+  'style/components/product-card',
+  'style/components/filters/type';
 
 // 6. Page-specific styles
 @import
-  'style/pages/home';
+  'style/pages/home',
+  'style/pages/product-page',
+  'style/pages/catalog';
 
 // 7. Themes
 @import

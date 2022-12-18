@@ -34,3 +34,19 @@
   }
 }
 
+@mixin flexbox($justifyContent: center, $alignItems: center) {
+  display: flex;
+  justify-content: $justifyContent;
+  align-items: $alignItems;
+}
+
+@mixin iconCircle() {
+  @include flexbox;
+  border-radius: 100%;
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  line-height: 1;
+  background-color: $green-medium;
+  color: $white-medium;
+}

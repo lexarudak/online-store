@@ -23,7 +23,7 @@
             <span class="cart__num">0</span>
           </div>
           <div class="total-amount">
-            <span class="total-amount__symbol">$</span>
+            <span class="total-amount__symbol usd-symbol">$</span>
             <span class="total-amount__value">0</span>
           </div>
         </nav>
@@ -31,6 +31,191 @@
     </header>
     <main class="main">
       <div class="main__container container">
+        <section class="catalog">
+
+          <div class="filter">
+
+            <div class="filter__type type">
+              <h3 class="type__title">Succulent type</h3>
+              <label class="type__check check">Agave
+                <input type="checkbox" class="check__input">
+                <span class="check__span"></span>
+              </label>
+              <label class="type__check check">Aloe
+                <input type="checkbox" class="check__input">
+                <span class="check__span"></span>
+              </label>
+              <label class="type__check check">Сactus
+                <input type="checkbox" class="check__input">
+                <span class="check__span"></span>
+              </label>
+              <label class="type__check check">Echeveria
+                <input type="checkbox" class="check__input">
+                <span class="check__span"></span>
+              </label>
+              <label class="type__check check">Dracaena
+                <input type="checkbox" class="check__input">
+                <span class="check__span"></span>
+              </label>
+              <label class="type__check check">Kalanchoe
+                <input type="checkbox" class="check__input">
+                <span class="check__span"></span>
+              </label>
+              <label class="type__check check">Peperomia
+                <input type="checkbox" class="check__input">
+                <span class="check__span"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="products">
+            <div class="products__sort-parametrs"></div>
+            <div class="products__container">
+
+              <div id="product" class="product">
+                  <div class="product__photo">
+                      <div class="product__icons">
+                        <div class="product__discount">20 <span>%</span></div>
+                        <div class="product__rating">4.5 <span>&#9734;</span></div>
+                      </div>
+                  </div>
+                  <div class="product__info">
+                    <div class="product__type">Echeveria</div>
+                    <h2 class="product__title">Succulent</h2>
+                    <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots have become more than usually fleshy by the development of water-storing tissue.</p>
+                    <div class="product__purchase">
+                      <div class="product__price">15$</div>
+                      <button class="product__button button">Add to cart</и>
+                    </div>
+                    <div class="product__stock">In stock: <span>28</span></div>
+                  </div>
+              </div>
+
+              <div id="product" class="product">
+                <div class="product__photo">
+                    <div class="product__icons">
+                      <div class="product__discount">20 <span>%</span></div>
+                      <div class="product__rating">4.5 <span>&#9734;</span></div>
+                    </div>
+                </div>
+                <div class="product__info">
+                  <div class="product__type">Echeveria</div>
+                  <h2 class="product__title">Succulent</h2>
+                  <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots have become more than usually fleshy by the development of water-storing tissue.</p>
+                  <div class="product__purchase">
+                    <div class="product__price">15$</div>
+                    <button class="product__button button">Add to cart</и>
+                  </div>
+                  <div class="product__stock">In stock: <span>28</span></div>
+                </div>
+            </div>
+
+              <div id="product" class="product">
+                <div class="product__photo">
+                    <div class="product__icons">
+                      <div class="product__discount">20 <span>%</span></div>
+                      <div class="product__rating">4.5 <span>&#9734;</span></div>
+                    </div>
+                </div>
+                <div class="product__info">
+                  <div class="product__type">Echeveria</div>
+                  <h2 class="product__title">Succulent</h2>
+                  <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots have become more than usually fleshy by the development of water-storing tissue.</p>
+                  <div class="product__purchase">
+                    <div class="product__price">15$</div>
+                    <button class="product__button button">Add to cart</и>
+                  </div>
+                  <div class="product__stock">In stock: <span>28</span></div>
+                </div>
+            </div>
+
+            <div id="product" class="product">
+              <div class="product__photo">
+                  <div class="product__icons">
+                    <div class="product__discount">20 <span>%</span></div>
+                    <div class="product__rating">4.5 <span>&#9734;</span></div>
+                  </div>
+              </div>
+              <div class="product__info">
+                <div class="product__type">Echeveria</div>
+                <h2 class="product__title">Succulent</h2>
+                <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots have become more than usually fleshy by the development of water-storing tissue.</p>
+                <div class="product__purchase">
+                  <div class="product__price">15$</div>
+                  <button class="product__button button">Add to cart</и>
+                </div>
+                <div class="product__stock">In stock: <span>28</span></div>
+              </div>
+          </div>
+
+            </div>
+          </div>
+        </section>
+
+        <template class="product-page">
+          <div class="link-navigation">
+            <a class="link-navigation__link" href="#">Catalog</a>
+            <span class="link-navigation__slash"> / </span>
+            <a class="link-navigation__link" href="#">Echeveria</a>
+            <span class="link-navigation__slash"> / </span>
+            <a class="link-navigation__link" href="#">Succulent</a>
+          </div>
+          <h2 class="product-page__title">Succulent</h2>
+          <div class="product-page__top-block">
+            <div class="product-page__photo-block">
+              <img class="product-page__photo-mini product-page__photo-mini_active" src="./assets/img/catalog/img_1_1.jpg"></img>
+              <img class="product-page__photo-mini" src="./assets/img/catalog/img_1_2.jpg"></img>
+            </div>
+            <div class="product-page__sales-block">
+              <div class="product-page__stoke-block">
+                <span class="product-page__stoke-text">In stoke</span>
+                <span class="product-page__stoke-amount">(28 psc.)</span>
+              </div>
+              <div class="product-page__price-block">
+                <div class="product-page__new-price-block">
+                  <span class="usd-symbol">$</span>
+                  <span class="product-page__new-price">15</span>
+                </div>
+                <div class="product-page__old-price-block">
+                  <span class="usd-symbol">$</span>
+                  <span class="product-page__old-price">18.75</span>
+                </div>
+              </div>
+              <div class="product-page__buttons-block">
+                <button class="button product-page__add-to-cart-btn">Add to cart</button>
+                <button class="button-light product-page__buy-now-btn">Buy now</button>
+              </div>
+              <div class="product-page__info-block">
+                <p class="subtitle">
+                  Description
+                </p>
+                <p class="product-page__info-text">
+                  Succulent plants are drought-resistant plants in which the leaves, stem, or roots have become more than usually fleshy
+                  by the development of water-storing tissue.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="product-page__bottom-block">
+            <p class="subtitle">
+              Specification
+            </p>
+            <ul class="product-page__specification-list">
+              <li class="product-page__specification-item">
+                <span class="product-page__specification-name">Name</span>
+                <span class="product-page__specification-text">Succulent</span>
+              </li>
+              <li class="product-page__specification-item">
+                <span class="product-page__specification-name">Type</span>
+                <span class="product-page__specification-text">Echeveria</span>
+              </li>
+              <li class="product-page__specification-item">
+                <span class="product-page__specification-name">Some information</span>
+                <span class="product-page__specification-text">Information</span>
+              </li>
+            </ul>
+          </div>
+        </template>
 
       </div>
     </main>

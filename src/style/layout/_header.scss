@@ -23,7 +23,7 @@
   transition: .3s;
   border-radius: 100%;
   background-color: $green-dark;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+  box-shadow: $shadow;
 
   &::before {
     content: '';
@@ -81,15 +81,13 @@
 }
 
 .cart__num {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100%;
-  width: 25px;
-  height: 25px;
-  font-size: 14px;
-  background-color: $green-dark;
-  color: $white-medium;
+  @include iconCircle();
+  margin-right: -5px;
+  transition: 0.5s;
+  &:hover,
+  &:active {
+    background-color: $green-dark;
+  }
 }
 
 .total-amount {
