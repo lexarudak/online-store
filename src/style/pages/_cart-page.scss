@@ -91,7 +91,22 @@
 }
 
 .cart-list__item {
+  position: relative;
   margin-bottom: 10px;
+}
+
+.cart-list__number {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $grey-medium;
+  border-radius: 100%;
+  border: .5px $grey-medium solid;
 }
 
 .full-cart-page__panel {
