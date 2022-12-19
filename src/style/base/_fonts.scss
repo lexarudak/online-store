@@ -2,6 +2,14 @@
 // This file contains all @font-face declarations, if any.
 // -----------------------------------------------------------------------------
 
+h2 {
+  color: $green-dark;
+  font-size: 40px;
+}
+
+.page-title {
+  margin: 30px 0px;
+}
 
 .subtitle {
   font-weight: bold;
