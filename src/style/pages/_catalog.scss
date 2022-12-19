@@ -6,7 +6,15 @@
 
 .filter {
   flex: 0 0 260px;
-  height: 500px;
+  min-height: 500px;
+  & > div {
+    margin-bottom: 50px;
+  }
+  &__title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: $green-medium;
+  }
 }
 
 .products {

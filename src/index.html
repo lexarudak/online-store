@@ -30,41 +30,85 @@
     </header>
     <main class="main">
       <div class="main__container container">
-        <template class="catalog page">
+        <div class="catalog page">
 
           <div class="filter">
 
             <div class="filter__type type">
-              <h3 class="type__title">Succulent type</h3>
-              <label class="type__check check">Agave
+              <h3 class="filter__title">Category</h3>
+              <label class="type__check check">Succulent
                 <input type="checkbox" class="check__input">
                 <span class="check__span"></span>
               </label>
-              <label class="type__check check">Aloe
+              <label class="type__check check">Sansevieria
                 <input type="checkbox" class="check__input">
                 <span class="check__span"></span>
               </label>
-              <label class="type__check check">Сactus
+              <label class="type__check check">Flowering plant
                 <input type="checkbox" class="check__input">
                 <span class="check__span"></span>
               </label>
-              <label class="type__check check">Echeveria
+              <label class="type__check check">Fern
                 <input type="checkbox" class="check__input">
                 <span class="check__span"></span>
               </label>
-              <label class="type__check check">Dracaena
+              <label class="type__check check">Lavender
                 <input type="checkbox" class="check__input">
                 <span class="check__span"></span>
               </label>
-              <label class="type__check check">Kalanchoe
+              <label class="type__check check">Cactus
                 <input type="checkbox" class="check__input">
                 <span class="check__span"></span>
               </label>
-              <label class="type__check check">Peperomia
+              <label class="type__check check">Tree
                 <input type="checkbox" class="check__input">
                 <span class="check__span"></span>
               </label>
             </div>
+
+            <div class="filter__height type">
+              <h3 class="filter__title">Height</h3>
+              <label class="type__check check">Short
+                <input type="checkbox" class="check__input">
+                <span class="check__span"></span>
+              </label>
+              <label class="type__check check">Medium
+                <input type="checkbox" class="check__input">
+                <span class="check__span"></span>
+              </label>
+              <label class="type__check check">Tall
+                <input type="checkbox" class="check__input">
+                <span class="check__span"></span>
+              </label>
+            </div>
+
+            <div class="filter__price price">
+              <h3 class="filter__title">Price</h3>
+              <div class="price__value">
+                <span>Min</span>
+                <input type="number" class="input-min" value="25">
+                <span>$</span>
+                <div class="price__separator">-</div>
+                <span>Max</span>
+                <input type="number" class="input-max" value="75">
+                <span>$</span>
+              </div>
+              <div class="price__slider slider">
+                <div class="slider__progress"></div>
+              </div>
+              <div class="price__range-input">
+                <input type="range" class="range-min" min="0" max="10000" value="2500" step="100">
+                <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">
+              </div>
+            </div>
+
+            <div class="filter__sale type">
+              <label class="type__check check">Sale
+                <input type="checkbox" class="check__input">
+                <span class="check__span"></span>
+              </label>
+            </div>
+
           </div>
 
           <div class="products">
@@ -151,7 +195,7 @@
 
             </div>
           </div>
-        </template>
+        </div>
 
         <template class="product-page page">
           <div class="link-navigation">

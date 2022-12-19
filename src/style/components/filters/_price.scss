@@ -1,0 +1,64 @@
+.price {
+  width: 95%;
+
+  &__value {
+    width: 100%;
+    @include flexbox(space-between);
+    margin: 25px 0 35px;
+
+    input {
+      width: 50px;
+      height: 40px;
+      font-size: 20px;
+      border-radius: 5px;
+      text-align: center;
+      border: 1px solid $grey-light;
+      outline: none;
+    }
+  }
+
+  &__separator {
+    margin: 10px;
+  }
+
+  &__range-input {
+    position: relative;
+
+    input {
+      position: absolute;
+      width: 100%;
+      height: 6px;
+      top: -6px;
+      background: none;
+      pointer-events: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    height: 16px;
+    width: 16px;
+    border-radius: 8px;
+    background: $green-medium;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+}
+
+.slider {
+  height: 6px;
+  position: relative;
+  background: $grey-light;
+  border-radius: 6px;
+
+  &__progress {
+    height: 100%;
+    left: 25%;
+    right: 25%;
+    position: absolute;
+    border-radius: 6px;
+    background: $green-medium;
+  }
+}

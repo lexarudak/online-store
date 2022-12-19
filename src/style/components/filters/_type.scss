@@ -3,11 +3,6 @@
   flex-direction: column;
   gap: 10px;
 
-  &__title {
-    margin-top: 0;
-    color: $green-medium;
-  }
-
   &__check {
     position: relative;
     padding-left: 35px;
@@ -28,7 +23,7 @@
       height: 16px;
       width: 16px;
       border-radius: 3px;
-      background-color: $grey-light;
+      border: 1px solid $grey-light;
       transition: 0.5s;
     }
   }
@@ -39,5 +34,6 @@
 
   .check__input:checked ~ .check__span {
     background-color: $green-medium;
+    border: none;
   }
 }
