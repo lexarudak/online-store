@@ -24,10 +24,10 @@
   gap: 20px;
 
   &__sort-parametrs {
-    height: 28px;
+    @include flexbox(space-between);
+    gap: 20px;
+    min-height: 28px;
     width: 100%;
-    border: solid 1px $grey-medium;
-    border-radius: 14px;
   }
 
   &__container {
