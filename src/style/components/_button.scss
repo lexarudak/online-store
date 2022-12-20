@@ -11,6 +11,9 @@
   &:active {
     background-color: $green-medium;
   }
+  &_filter {
+    width: 115px;
+  }
 }
 
 .button-light {

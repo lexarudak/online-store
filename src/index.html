@@ -30,40 +30,113 @@
     </header>
     <main class="main">
       <div class="main__container container">
-        <template class="catalog page">
+        <div class="catalog page">
 
           <div class="filter">
+            <div class="filter__type">
+              <h3 class="filter__title">Category</h3>
+              <ul class="filter__list">
+                <li class="check"><label class="check__label">Succulent
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Sansevieria
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Flowering plant
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Fern
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Lavender
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Cactus
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Tree
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+              </ul>
+            </div>
 
-            <div class="filter__type type">
-              <h3 class="type__title">Succulent type</h3>
-              <label class="type__check check">Agave
+            <div class="filter__height type">
+              <h3 class="filter__title">Height</h3>
+              <ul class="filter__list">
+                <li class="check"><label class="check__label">Short
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Medium
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Tall
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+              </ul>
+            </div>
+
+            <div class="filter__price">
+              <h3 class="filter__title">Price</h3>
+              <div class="range">
+                <div class="range__value">
+                  <span>Min</span>
+                  <input type="number" class="input-min" value="25">
+                  <span>$</span>
+                  <div class="range__separator">-</div>
+                  <span>Max</span>
+                  <input type="number" class="input-max" value="75">
+                  <span>$</span>
+                </div>
+                <div class="range__slider slider">
+                  <div class="slider__progress"></div>
+                </div>
+                <div class="range__range-input">
+                  <input type="range" class="range-min" min="0" max="10000" value="2500" step="100">
+                  <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">
+                </div>
+              </div>
+            </div>
+
+            <div class="filter__sale check">
+              <label class="check__label">Sale
                 <input type="checkbox" class="check__input">
                 <span class="check__span"></span>
               </label>
-              <label class="type__check check">Aloe
-                <input type="checkbox" class="check__input">
-                <span class="check__span"></span>
-              </label>
-              <label class="type__check check">Сactus
-                <input type="checkbox" class="check__input">
-                <span class="check__span"></span>
-              </label>
-              <label class="type__check check">Echeveria
-                <input type="checkbox" class="check__input">
-                <span class="check__span"></span>
-              </label>
-              <label class="type__check check">Dracaena
-                <input type="checkbox" class="check__input">
-                <span class="check__span"></span>
-              </label>
-              <label class="type__check check">Kalanchoe
-                <input type="checkbox" class="check__input">
-                <span class="check__span"></span>
-              </label>
-              <label class="type__check check">Peperomia
-                <input type="checkbox" class="check__input">
-                <span class="check__span"></span>
-              </label>
+            </div>
+
+            <div class="filter__stock">
+              <h3 class="filter__title">Stock</h3>
+              <div class="range">
+                <div class="range__value">
+                  <span>Min</span>
+                  <input type="number" class="input-min" value="20">
+                  <div class="range__separator">-</div>
+                  <span>Max</span>
+                  <input type="number" class="input-max" value="35">
+                </div>
+                <div class="range__slider slider">
+                  <div class="slider__progress"></div>
+                </div>
+                <div class="range__range-input">
+                  <input type="range" class="range-min" min="0" max="10000" value="2500" step="100">
+                  <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">
+                </div>
+              </div>
+            </div>
+
+            <div class="filter__button-wrapper">
+              <button class="button button_filter">Reset</button>
+              <button class="button button_filter">Copy link</button>
             </div>
           </div>
 
@@ -151,7 +224,7 @@
 
             </div>
           </div>
-        </template>
+        </div>
 
         <template class="product-page page">
           <div class="link-navigation">
