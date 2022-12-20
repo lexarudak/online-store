@@ -30,65 +30,158 @@
     </header>
     <main class="main">
       <div class="main__container container">
-        <template class="catalog page">
+        <div class="catalog page">
 
           <div class="filter">
+            <div class="filter__type">
+              <h3 class="filter__title">Category</h3>
+              <ul class="filter__list">
+                <li class="check"><label class="check__label">Succulent
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Sansevieria
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Flowering plant
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Fern
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Lavender
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Cactus
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Tree
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+              </ul>
+            </div>
 
-            <div class="filter__type type">
-              <h3 class="type__title">Succulent type</h3>
-              <label class="type__check check">Agave
-                <input type="checkbox" class="check__input">
-                <span class="check__span"></span>
-              </label>
-              <label class="type__check check">Aloe
-                <input type="checkbox" class="check__input">
-                <span class="check__span"></span>
-              </label>
-              <label class="type__check check">Сactus
-                <input type="checkbox" class="check__input">
-                <span class="check__span"></span>
-              </label>
-              <label class="type__check check">Echeveria
-                <input type="checkbox" class="check__input">
-                <span class="check__span"></span>
-              </label>
-              <label class="type__check check">Dracaena
-                <input type="checkbox" class="check__input">
-                <span class="check__span"></span>
-              </label>
-              <label class="type__check check">Kalanchoe
-                <input type="checkbox" class="check__input">
-                <span class="check__span"></span>
-              </label>
-              <label class="type__check check">Peperomia
+            <div class="filter__height type">
+              <h3 class="filter__title">Height</h3>
+              <ul class="filter__list">
+                <li class="check"><label class="check__label">Short
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Medium
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+                <li class="check"><label class="check__label">Tall
+                  <input type="checkbox" class="check__input">
+                  <span class="check__span"></span>
+                </label></li>
+              </ul>
+            </div>
+
+            <div class="filter__price">
+              <h3 class="filter__title">Price</h3>
+              <div class="range">
+                <div class="range__value">
+                  <span>Min</span>
+                  <input type="number" class="input-min" value="25">
+                  <span>$</span>
+                  <div class="range__separator">-</div>
+                  <span>Max</span>
+                  <input type="number" class="input-max" value="75">
+                  <span>$</span>
+                </div>
+                <div class="range__slider slider">
+                  <div class="slider__progress"></div>
+                </div>
+                <div class="range__range-input">
+                  <input type="range" class="range-min" min="0" max="10000" value="2500" step="100">
+                  <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">
+                </div>
+              </div>
+            </div>
+
+            <div class="filter__sale check">
+              <label class="check__label">Sale
                 <input type="checkbox" class="check__input">
                 <span class="check__span"></span>
               </label>
             </div>
+
+            <div class="filter__stock">
+              <h3 class="filter__title">Stock</h3>
+              <div class="range">
+                <div class="range__value">
+                  <span>Min</span>
+                  <input type="number" class="input-min" value="20">
+                  <div class="range__separator">-</div>
+                  <span>Max</span>
+                  <input type="number" class="input-max" value="35">
+                </div>
+                <div class="range__slider slider">
+                  <div class="slider__progress"></div>
+                </div>
+                <div class="range__range-input">
+                  <input type="range" class="range-min" min="0" max="10000" value="2500" step="100">
+                  <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">
+                </div>
+              </div>
+            </div>
+
+            <div class="filter__button-wrapper">
+              <button class="button button_filter">Reset</button>
+              <button class="button button_filter">Copy link</button>
+            </div>
           </div>
 
           <div class="products">
-            <div class="products__sort-parametrs"></div>
-              <div class="products__container">
-
-                <div id="product" class="product">
-                  <div class="product__photo">
-                      <div class="product__icons">
-                        <div class="product__discount">20 <span>%</span></div>
-                        <div class="product__rating">4.5 <span>&#9734;</span></div>
-                      </div>
+            <div class="products__parametrs">
+              <div class="products__sort-parametrs">
+                <div class="sort">
+                  <div class="sort__item">Sort by rating
+                    <div class="sort__up"></div>
+                    <div class="sort__down"></div>
                   </div>
-                  <div class="product__info">
-                    <div class="product__type">Echeveria</div>
-                      <h2 class="product__title">Succulent</h2>
-                      <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots have become more than usually fleshy by the development of water-storing tissue.</p>
-                      <div class="product__purchase">
-                        <div class="product__price usd-symbol">15</div>
-                      <button class="product__button button">Add to cart</button>
-                    </div>
-                    <div class="product__stock">In stock: <span>28</span></div>
+                  <div class="sort__item">Sort by price
+                    <div class="sort__up"></div>
+                    <div class="sort__down"></div>
                   </div>
                 </div>
+                <div class="found-products">Found: <span class="found-products__num">24</span></div>
+                <input type="text" placeholder="Search" class="sort-input">
+              </div>
+
+              <div class="products__layout layout">
+                <div class="layout__portrait"></div>
+                <div class="layout__landscape active"></div>
+              </div>
+            </div>
+
+            <div class="products__container landscape">
+              <div id="product" class="product">
+                <div class="product__photo">
+                    <div class="product__icons">
+                      <div class="product__discount">20 <span>%</span></div>
+                      <div class="product__rating">4.5 <span>&#9734;</span></div>
+                    </div>
+                </div>
+                <div class="product__info">
+                  <div class="product__type">Echeveria</div>
+                    <h2 class="product__title">Succulent</h2>
+                    <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots have become more than usually fleshy by the development of water-storing tissue.</p>
+                    <div class="product__purchase">
+                      <div class="product__price usd-symbol">15</div>
+                    <button class="product__button button">Add to cart</button>
+                  </div>
+                  <div class="product__stock">In stock: <span>28</span></div>
+                </div>
+              </div>
 
               <div id="product" class="product">
                 <div class="product__photo">
@@ -151,7 +244,7 @@
 
             </div>
           </div>
-        </template>
+        </div>
 
         <template class="product-page page">
           <div class="link-navigation">
