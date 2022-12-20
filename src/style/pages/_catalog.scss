@@ -32,11 +32,17 @@
   flex: 1 1 auto;
   gap: 20px;
 
+  &__parametrs {
+    @include flexbox();
+    width: 100%;
+    gap: 20px;
+  }
+
   &__sort-parametrs {
     @include flexbox(space-between);
     gap: 20px;
+    flex: 1 1 auto;
     min-height: 28px;
-    width: 100%;
   }
 
   &__container {
