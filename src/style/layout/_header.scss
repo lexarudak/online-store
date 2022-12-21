@@ -59,10 +59,26 @@
   border-bottom: 1px solid;
   border-radius: 3px;
   border-color: $grey-light;
-}
 
-.home-btn {
-  color: $black;
+  &__list {
+    @include flexbox();
+  }
+
+  &__item {
+    padding: 0 20px;
+  }
+
+  &__link {
+    color: $grey-dark;
+    transition: 0.5s;
+
+    &:hover,
+    &:active {
+      text-decoration: none;
+      color: $green-dark;
+      outline: none;
+    }
+  }
 }
 
 .cart {
