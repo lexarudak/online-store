@@ -7,12 +7,14 @@
   border: none;
   transition: 0.5s;
   cursor: pointer;
+
   &:hover,
   &:active {
     background-color: $green-medium;
   }
+
   &_filter {
-    width: 115px;
+    width: 115px !important;
   }
 }
 

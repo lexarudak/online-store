@@ -18,7 +18,11 @@
           <h1 class="header__logo-text">Online<br>store</h1>
         </div>
         <nav class="nav">
-          <a class="home-btn" href="#">Home</a>
+          <ul class="nav__list">
+            <li class="nav__item"><a class="nav__link" href="#catalog">Catalog</a></li>
+            <li class="nav__item"><a class="nav__link" href="#promo">Promo code</a></li>
+            <li class="nav__item"><a class="nav__link" href="#contacts">Contacts</a></li>
+          </ul>
           <div class="cart">
             <span class="cart__num">0</span>
           </div>
@@ -32,7 +36,20 @@
       <div class="main__container container" id="pageContainer">
       </div>
     </main>
-    <footer class="footer">
+
+    <section id="promo" class="promo">
+      <div class="container">
+        <img class="promo__photo" src="assets/img/eucalypt.png" alt="eucalypt">
+        <div class="promo__container">
+          <h3 class="promo__title">Get <span>10% OFF</span> on your purchase</h3>
+          <div class="promo__descr">Use promo codes:</div>
+          <div class="promo__code"><span>PLANTS10</span> <span>SALE10</span> <span>10FORYOU</span></div>
+          <div class="promo__sum">Discounts are summed up.</div>
+      </div>
+      </div>
+    </section>
+    
+    <footer id="contacts" class="footer">
       <div class="footer__container container">
         <div class="footer__column">
           <p class="footer__title">Contacts</p>
@@ -68,7 +85,7 @@
   <!-- templates -->
   <!-- catalog page -->
   <template id="catalogPageTemplate">
-    <section class="catalog page">
+    <section id="catalog" class="catalog page">
     
       <div class="filter">
         <div class="filter__type">
@@ -127,11 +144,11 @@
           <h3 class="filter__title">Price</h3>
           <div class="range">
             <div class="range__value">
-              <span>Min</span>
+              <span>min</span>
               <input type="number" class="input-min" value="25">
               <span>$</span>
               <div class="range__separator">-</div>
-              <span>Max</span>
+              <span>max</span>
               <input type="number" class="input-max" value="75">
               <span>$</span>
             </div>
@@ -156,10 +173,10 @@
           <h3 class="filter__title">Stock</h3>
           <div class="range">
             <div class="range__value">
-              <span>Min</span>
+              <span>min</span>
               <input type="number" class="input-min" value="20">
               <div class="range__separator">-</div>
-              <span>Max</span>
+              <span>max</span>
               <input type="number" class="input-max" value="35">
             </div>
             <div class="range__slider slider">
@@ -174,7 +191,7 @@
     
         <div class="filter__button-wrapper">
           <button class="button button_filter">Reset</button>
-          <button class="button button_filter">Copy link</button>
+          <button class="button button_filter button-light">Copy link</button>
         </div>
       </div>
     
