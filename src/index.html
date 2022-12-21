@@ -14,18 +14,18 @@
   <div class="body__wrapper">
     <header class="header">
       <div class="header__container container">
-        <div class="header__logo">
+        <a class="header__logo" href="#/catalog">
           <h1 class="header__logo-text">Online<br>store</h1>
-        </div>
+        </a>
         <nav class="nav">
           <ul class="nav__list">
-            <li class="nav__item"><a class="nav__link" href="#catalog">Catalog</a></li>
+            <li class="nav__item"><a class="nav__link" href="#/catalog">Catalog</a></li>
             <li class="nav__item"><a class="nav__link" href="#promo">Promo code</a></li>
             <li class="nav__item"><a class="nav__link" href="#contacts">Contacts</a></li>
           </ul>
-          <div class="cart">
+          <a class="cart" href="#/cart">
             <span class="cart__num">0</span>
-          </div>
+          </a>
           <div class="total-amount">
             <span class="total-amount__value usd-symbol">0</span>
           </div>
@@ -33,22 +33,9 @@
       </div>
     </header>
     <main class="main">
-      <div class="main__container container" id="pageContainer">
+      <div class="main__container container" id="page-сontainer">
       </div>
     </main>
-
-    <section id="promo" class="promo">
-      <div class="container">
-        <img class="promo__photo" src="assets/img/eucalypt.png" alt="eucalypt">
-        <div class="promo__container">
-          <h3 class="promo__title">Get <span>10% OFF</span> on your purchase</h3>
-          <div class="promo__descr">Use promo codes:</div>
-          <div class="promo__code"><span>PLANTS10</span> <span>SALE10</span> <span>10FORYOU</span></div>
-          <div class="promo__sum">Discounts are summed up.</div>
-      </div>
-      </div>
-    </section>
-    
     <footer id="contacts" class="footer">
       <div class="footer__container container">
         <div class="footer__column">
@@ -84,7 +71,7 @@
 
   <!-- templates -->
   <!-- catalog page -->
-  <template id="catalogPageTemplate">
+  <template id="catalog">
     <section id="catalog" class="catalog page">
     
       <div class="filter">
@@ -224,8 +211,30 @@
       </div>
     </section>
   </template>
+      <!-- product card -->
+      <template id="product-card">
+        <div id="product" class="product">
+          <div class="product__photo">
+            <div class="product__icons">
+              <div class="product__discount">20 <span>%</span></div>
+              <div class="product__rating">4.5 <span>&#9734;</span></div>
+            </div>
+          </div>
+          <div class="product__info">
+            <div class="product__type">Echeveria</div>
+            <h2 class="product__title">Succulent</h2>
+            <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or
+              roots have become more than usually fleshy by the development of water-storing tissue.</p>
+            <div class="product__purchase">
+              <div class="product__price usd-symbol">15</div>
+              <button class="product__button button">Add to cart</button>
+            </div>
+            <div class="product__stock">In stock: <span>28</span></div>
+          </div>
+        </div>
+      </template>
   <!-- product page -->
-  <template id="productPageTemplate">
+  <template id="product">
     <section class="product-page page">
       <div class="link-navigation">
         <a class="link-navigation__link" href="#">Catalog</a>
@@ -291,95 +300,130 @@
     </section>
   </template>
   <!-- cart page -->
-  <template id="cartPageTemplate">
+  <template id="cart">
     <section class="cart-page page">
       <div class="link-navigation">
-        <a class="link-navigation__link" href="#">Catalog</a>
+        <a class="link-navigation__link" href="#/catalog">Catalog</a>
         <span class="link-navigation__slash"> / </span>
-        <a class="link-navigation__link" href="#">Cart</a>
+        <a class="link-navigation__link" href="#/cart">Cart</a>
       </div>
       <h2 class="page-title">Cart</h2>
-      <template class="empty-cart-page page">
-        <img class="empty-cart-page__img" src="./assets/svg/empty-cart-icon.svg" alt="empty cart icon">
-        <div class="empty-cart-page__block">
-          <p class="empty-cart-page__text">Your cart is empty.</p>
-          <button class="empty-cart__btn button">Go to catalog</button>
-        </div>
-      </template>
-      <div class="full-cart-page page">
-        <div class="full-cart-page__products">
-          <div class="full-cart-page__settings">
-            <div class="full-cart-page__pagination">
-              <div class="full-cart-page__pagination-pages">
-                <span class="full-cart-page__pagination-text">Page</span>
-                <button class="button-arrow" id="paginationPageDown">&lt;</button>
-                <input class="amount-number" id="paginationCurrentPage" type="number" min="1" max="10" value="1" disabled>
-                <button class="button-arrow" id="paginationPageUp">&gt;</button>
-                <span class="full-cart-page__pagination-text">of</span>
-                <input class="amount-number" id="paginationPages" type="number" min="1" max="10" value="2" disabled>
-              </div>
-              <div class="full-cart-page__pagination-items">
-                <span class="full-cart-page__pagination-text">Items on page:</span>
-                <button class="button-arrow" id="paginationItemsMinus">&lt;</button>
-                <input class="amount-number" id="paginationItems" type="number" min="1" max="10" value="3" disabled>
-                <button class="button-arrow" id="paginationItemsPlus">&gt;</button>
-              </div>
-            </div>
-            <button class="clean-card-btn">Clean cart</button>
-          </div>
-          <ul class="cart-list">
-            
-          </ul>
-        </div>
-        <div class="full-cart-page__panel">
-          <div class="full-cart-page__promo">
-            <input class="full-cart-page__promo-input" type="text" placeholder="PROMO CODE">
-            <button class="full-cart-page__promo-button">Apply</button>
-          </div>
-          <div class="full-cart-page__info">
-            <p class="full-cart-page__subtitle subtitle">
-              Your order
-            </p>
-            <p class="full-cart-page__items">
-              <span>Items in cart:</span>
-              <span class="full-cart-page__items-value" id="itemslVaue">4</span>
-            </p>
-            <p class="full-cart-page__subtotal">
-              <span>Subtotal</span>
-              <span class="usd-symbol" id="subtotalVaue">500</span>
-            </p>
-            <ul class="discounts">
-              <li class="discounts__item">
-                <span>Product discount</span>
-                <span class="usd-symbol">20</span>
-              </li>
-              <li class="discounts__item discounts__item-promo">
-                <span>Promo SALE</span>
-                <span class="usd-symbol">100</span>
-              </li>
-              <li class="discounts__item discounts__item-promo">
-                <span>Promo HOME</span>
-                <span class="usd-symbol">20</span>
-              </li>
-            </ul>
-            <p class="full-cart-page__total">
-              <span>Total</span>
-              <span class="usd-symbol" id="totalVaue">360</span>
-            </p>
-          </div>
-          <button class="full-cart-page__buy-button button">
-            Proceed to checkout
-          </button>
-          <button class="full-cart-page__catalog-button button-light">
-            Continue shopping
-          </button>
-
-        </div>
-      </div>
+      
     </section>
   </template>
-    <!-- 404 page -->
-  <template id="errorPageTemplate">
+      <!-- empty cart page -->
+      <template id="empty-cart">
+        <section class="empty-cart-page page">
+          <img class="empty-cart-page__img" src="./assets/svg/empty-cart-icon.svg" alt="empty cart icon">
+          <div class="empty-cart-page__block">
+            <p class="empty-cart-page__text">Your cart is empty.</p>
+            <button class="empty-cart__btn button">Go to catalog</button>
+          </div>
+        </section>
+      </template>
+      <!-- full cart page -->
+      <template id="full-cart">
+        <div class="full-cart-page page">
+          <div class="full-cart-page__products">
+            <div class="full-cart-page__settings">
+              <div class="full-cart-page__pagination">
+                <div class="full-cart-page__pagination-pages">
+                  <span class="full-cart-page__pagination-text">Page</span>
+                  <button class="button-arrow" id="paginationPageDown">&lt;</button>
+                  <input class="amount-number" id="paginationCurrentPage" type="number" min="1" max="10" value="1" disabled>
+                  <button class="button-arrow" id="paginationPageUp">&gt;</button>
+                  <span class="full-cart-page__pagination-text">of</span>
+                  <input class="amount-number" id="paginationPages" type="number" min="1" max="10" value="2" disabled>
+                </div>
+                <div class="full-cart-page__pagination-items">
+                  <span class="full-cart-page__pagination-text">Items on page:</span>
+                  <button class="button-arrow" id="paginationItemsMinus">&lt;</button>
+                  <input class="amount-number" id="paginationItems" type="number" min="1" max="10" value="3" disabled>
+                  <button class="button-arrow" id="paginationItemsPlus">&gt;</button>
+                </div>
+              </div>
+              <a class="clean-card-btn" href="#/cart/empty-cart">Clean cart</a>
+            </div>
+            <ul class="cart-list">
+              
+            </ul>
+          </div>
+          <div class="full-cart-page__panel">
+            <div class="full-cart-page__promo">
+              <input class="full-cart-page__promo-input" type="text" placeholder="PROMO CODE">
+              <button class="full-cart-page__promo-button">Apply</button>
+            </div>
+            <div class="full-cart-page__info">
+              <p class="full-cart-page__subtitle subtitle">
+                Your order
+              </p>
+              <p class="full-cart-page__items">
+                <span>Items in cart:</span>
+                <span class="full-cart-page__items-value" id="itemslVaue">4</span>
+              </p>
+              <p class="full-cart-page__subtotal">
+                <span>Subtotal</span>
+                <span class="usd-symbol" id="subtotalVaue">500</span>
+              </p>
+              <ul class="discounts">
+                <li class="discounts__item">
+                  <span>Product discount</span>
+                  <span class="usd-symbol">20</span>
+                </li>
+                <li class="discounts__item discounts__item-promo">
+                  <span>Promo SALE</span>
+                  <span class="usd-symbol">100</span>
+                </li>
+                <li class="discounts__item discounts__item-promo">
+                  <span>Promo HOME</span>
+                  <span class="usd-symbol">20</span>
+                </li>
+              </ul>
+              <p class="full-cart-page__total">
+                <span>Total</span>
+                <span class="usd-symbol" id="totalVaue">360</span>
+              </p>
+            </div>
+            <a class="full-cart-page__buy-button button" href="#/purchase">
+              Proceed to checkout
+            </a>
+            <a class="full-cart-page__catalog-button button-light" href="#/catalog">
+              Continue shopping
+            </a>
+
+          </div>
+        </div>
+      </template>
+          <!-- product curt card -->
+          <template id="product-cart-card">
+            <li class="cart-list__item product">
+              <span class="cart-list__number">1</span>
+              <div class="product__photo">
+                <div class="product__icons">
+                  <div class="product__discount">20 <span>%</span></div>
+                  <div class="product__rating">4.5 <span>&#9734;</span></div>
+                </div>
+              </div>
+              <div class="product__info">
+                <div class="product__type">Echeveria</div>
+                <h2 class="product__title">Succulent</h2>
+                <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots
+                  have become more than usually fleshy by the development of water-storing tissue.</p>
+                <div class="product__purchase">
+                  <div class="product__price usd-symbol">15</div>
+                  <span class="product__old-price usd-symbol">18.75</span>
+                  <div class="product__amount">
+                    <button class="button-arrow product__left-arrow">&lt;</button>
+                    <input class="product__amount-number amount-number" type="number" min="0" value="1" disabled>
+                    <button class="button-arrow product__right-arrow">&gt;</button>
+                  </div>
+                </div>
+                <div class="product__stock">In stock: <span>28</span></div>
+              </div>
+            </li>
+          </template>
+  <!-- 404 page -->
+  <template id="error">
     <section class="error-page page">
       <div class="error-page__info">
         <h2 class="error-page__title">SORRY</h2>
@@ -390,58 +434,8 @@
       <span class="error-page__smile">:(</span>
     </section>
   </template>
-  <!-- product card -->
-  <template id="productCardTemplate">
-    <div id="product" class="product">
-      <div class="product__photo">
-        <div class="product__icons">
-          <div class="product__discount">20 <span>%</span></div>
-          <div class="product__rating">4.5 <span>&#9734;</span></div>
-        </div>
-      </div>
-      <div class="product__info">
-        <div class="product__type">Echeveria</div>
-        <h2 class="product__title">Succulent</h2>
-        <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or
-          roots have become more than usually fleshy by the development of water-storing tissue.</p>
-        <div class="product__purchase">
-          <div class="product__price usd-symbol">15</div>
-          <button class="product__button button">Add to cart</button>
-        </div>
-        <div class="product__stock">In stock: <span>28</span></div>
-      </div>
-    </div>
-  </template>
-  <!-- product curt card -->
-  <template id="productCartCardTemplate">
-    <li class="cart-list__item product">
-      <span class="cart-list__number">1</span>
-      <div class="product__photo">
-        <div class="product__icons">
-          <div class="product__discount">20 <span>%</span></div>
-          <div class="product__rating">4.5 <span>&#9734;</span></div>
-        </div>
-      </div>
-      <div class="product__info">
-        <div class="product__type">Echeveria</div>
-        <h2 class="product__title">Succulent</h2>
-        <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots
-          have become more than usually fleshy by the development of water-storing tissue.</p>
-        <div class="product__purchase">
-          <div class="product__price usd-symbol">15</div>
-          <span class="product__old-price usd-symbol">18.75</span>
-          <div class="product__amount">
-            <button class="button-arrow product__left-arrow">&lt;</button>
-            <input class="product__amount-number amount-number" type="number" min="0" value="1" disabled>
-            <button class="button-arrow product__right-arrow">&gt;</button>
-          </div>
-        </div>
-        <div class="product__stock">In stock: <span>28</span></div>
-      </div>
-    </li>
-  </template>
   <!-- modal -->
-  <template id="purchaseModalTemplate">
+  <template id="purchase">
     <section class="purchase-modal page">
       <div class="purchase-modal__wrapper">
         <form class="purchase-form">
@@ -482,6 +476,20 @@
           </div>
           <button class="button">Pay now</button>
         </form>
+      </div>
+    </section>
+  </template>
+  <!-- promo -->
+  <template id="promo">
+    <section id="promo" class="promo">
+      <div class="container">
+        <img class="promo__photo" src="assets/img/eucalypt.png" alt="eucalypt">
+        <div class="promo__container">
+          <h3 class="promo__title">Get <span>10% OFF</span> on your purchase</h3>
+          <div class="promo__descr">Use promo codes:</div>
+          <div class="promo__code"><span>PLANTS10</span> <span>SALE10</span> <span>10FORYOU</span></div>
+          <div class="promo__sum">Discounts are summed up.</div>
+        </div>
       </div>
     </section>
   </template>

@@ -364,3 +364,10 @@ template {
    margin: 0;
    /* <-- Apparently some margin are still there even though it's hidden */
  }
+
+ a:active,
+ a:hover,
+ a {
+   text-decoration: none;
+   color: rgba(255, 255, 255, 0);
+ }
