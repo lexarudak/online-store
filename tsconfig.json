@@ -3,7 +3,7 @@
     "outDir": "dist",
     "target": "es6",
     "moduleResolution": "node",
-    // "allowJs": true,
+    "allowJs": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -21,11 +21,11 @@
     "strictBindCallApply": true,
 
     // Linter Checks
-    // "noImplicitReturns": true,
-    // "noFallthroughCasesInSwitch": true,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
-    // "allowUnreachableCode": false,
-    // "allowUnusedLabels": false
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false
   },
 }
