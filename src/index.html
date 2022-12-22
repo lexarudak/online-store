@@ -200,24 +200,24 @@
           </div>
     
           <div class="products__layout layout">
-            <div class="layout__portrait"></div>
-            <div class="layout__landscape active"></div>
+            <div class="layout__portrait active"></div>
+            <div class="layout__landscape"></div>
           </div>
         </div>
     
-        <div class="products__container landscape">
+        <div class="products__container">
 
         </div>
       </div>
     </section>
   </template>
       <!-- product card -->
-      <template id="product-card">
+      <template id="productCardTemp">
         <div id="product" class="product">
           <div class="product__photo">
             <div class="product__icons">
-              <div class="product__discount">20 <span>%</span></div>
-              <div class="product__rating">4.5 <span>&#9734;</span></div>
+              <div class="product__discount"><div class="product__discount-num">20</div><span>%</span></div>
+              <div class="product__rating"><div class="product__rating-num">4.5</div><span>&#9734;</span></div>
             </div>
           </div>
           <div class="product__info">
@@ -229,7 +229,7 @@
               <div class="product__price usd-symbol">15</div>
               <button class="product__button button">Add to cart</button>
             </div>
-            <div class="product__stock">In stock: <span>28</span></div>
+            <div class="product__stock">In stock: <span class="product__stock-num">28</span></div>
           </div>
         </div>
       </template>

@@ -1,4 +1,5 @@
 import CatalogPage from './pages/catalog-page';
+import data from '../data/plants.json';
 
 class App {
   private catalogPage: CatalogPage;
@@ -9,6 +10,7 @@ class App {
 
   start() {
     this.catalogPage.draw();
+    this.catalogPage.drawProductCard(data);
   }
 }
 

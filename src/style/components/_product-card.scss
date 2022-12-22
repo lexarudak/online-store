@@ -1,5 +1,6 @@
 .product {
-  width: calc((100% - 60px) / 4);
+  align-self: stretch;
+  width: calc((100% - 60px) / 3);
   min-height: 400px;
   border-radius: 10px;
   box-shadow: $shadow;
@@ -9,8 +10,8 @@
     @include flexbox(flex-end, flex-end);
     width: 100%;
     height: 225px;
-    padding: 10px 20px 10px 20px;
-    background: url('assets/img/catalog/img_1_1.jpg') center center no-repeat;
+    padding: 10px 30px 10px 30px;
+    background: url('assets/img/catalog/img_1_1.jpg') bottom center no-repeat;
     background-size: 225px;
   }
 
@@ -33,6 +34,13 @@
     }
   }
 
+  &__discount {
+    background-color: $purple-medium;
+    span {
+      color: $purple-light;
+    }
+  }
+
   &__rating span {
     top: -8px;
     right: -10px;
@@ -40,7 +48,7 @@
   }
 
   &__info {
-    padding: 15px;
+    padding: 20px;
   }
 
   &__type {
@@ -49,7 +57,7 @@
 
   &__title {
     margin: 0;
-    font-size: 1.6em;
+    font-size: 1.5em;
   }
 
   &__description {
@@ -151,7 +159,6 @@
 
 @media (max-width: 1240px) {
   .product {
-    width: calc((100% - 40px) / 3);
 
     .landscape & {
       @include flexbox();
@@ -169,9 +176,9 @@
   }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1150px) {
   .product {
-    width: calc((100% - 20px) / 2);
+    width: calc((100% - 30px) / 2);
   }
 }
 
