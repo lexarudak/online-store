@@ -2,7 +2,7 @@
   "products": [
     {
       "id": 1,
-      "title": "Echeveria SCC09-2",
+      "title": "Echeveria SC-092",
       "description": "Succulent plants are drought-resistant plants in which the leaves, stem, or roots have become more than usually fleshy by the development of water-storing tissue.",
       "height": 18,
       "price": 15,
@@ -19,7 +19,7 @@
     },
     {
       "id": 2,
-      "title": "Echeveria SCC012-8",
+      "title": "Echeveria SC-018",
       "description": "Flowers on short stalks (cymes) arise from compact rosettes of succulent fleshy, often brightly coloured leaves.",
       "height": 17,
       "price": 18,
@@ -36,12 +36,12 @@
     },
     {
       "id": 3,
-      "title": "Echeveria SCC03-5",
-      "description": "Echeveria is a large genus of flowering plants in the family Crassulaceae, native to semi-desert areas of Central America, Mexico and northwestern South America.",
+      "title": "Echeveria SC-035",
+      "description": "Echeveria is a large genus of flowering plant in the family Crassulaceae, native to semi-desert areas of Central America, Mexico and northwestern South America.",
       "height": 10,
       "price": 10,
       "discountPercentage": 10,
-      "rating": 4.0,
+      "rating": 4.6,
       "stock": 36,
       "type": "Succulent",
       "thumbnail": "plants/3/1.jpg",
@@ -53,7 +53,7 @@
     },
     {
       "id": 4,
-      "title": "Echeveria SCC014-9",
+      "title": "Echeveria SC-019",
       "description": "Plants are polycarpic, meaning that they may flower and set seed many times over the course of their lifetimes.",
       "height": 15,
       "price": 22,
@@ -70,7 +70,7 @@
     },
     {
       "id": 5,
-      "title": "Echeveria SCC019-8",
+      "title": "Echeveria SC-018",
       "description": "Echeveria is named for Atanasio Echeverría y Godoy, a botanical illustrator who contributed to Flora Mexicana.",
       "height": 14,
       "price": 20,
@@ -157,7 +157,7 @@
       "discountPercentage": 20,
       "rating": 4.8,
       "stock": 28,
-      "type": "Flowering plants",
+      "type": "Flowering plant",
       "thumbnail": "plants/10/1.jpg",
       "images": [
         "plants/10/1.jpg",
@@ -173,7 +173,7 @@
       "discountPercentage": 10,
       "rating": 4.2,
       "stock": 65,
-      "type": "Flowering plants",
+      "type": "Flowering plant",
       "thumbnail": "plants/11/1.jpg",
       "images": [
         "plants/11/1.jpg",
@@ -187,9 +187,9 @@
       "height": 55,
       "price": 38,
       "discountPercentage": 0,
-      "rating": 4.0,
+      "rating": 4.6,
       "stock": 52,
-      "type": "Flowering plants",
+      "type": "Flowering plant",
       "thumbnail": "plants/12/1.jpg",
       "images": [
         "plants/12/1.jpg",
@@ -205,7 +205,7 @@
       "discountPercentage": 20,
       "rating": 4.8,
       "stock": 40,
-      "type": "Flowering plants",
+      "type": "Flowering plant",
       "thumbnail": "plants/13/1.jpg",
       "images": [
         "plants/13/1.jpg",
@@ -221,7 +221,7 @@
       "discountPercentage": 0,
       "rating": 4.8,
       "stock": 40,
-      "type": "Flowering plants",
+      "type": "Flowering plant",
       "thumbnail": "plants/14/1.jpg",
       "images": [
         "plants/14/1.jpg",
@@ -247,7 +247,7 @@
     },
     {
       "id": 16,
-      "title": "Fern arrangement FRA-013",
+      "title": "Fern FRA-013",
       "description": "Fern is one of the most popular house plants. Although there are several hundreds of fern species of various needs, the most common ones are fairly easy to grow and they don't need any special treatment. ",
       "height": 180,
       "price": 98,
@@ -263,7 +263,7 @@
     },
     {
       "id": 17,
-      "title": "Lavender",
+      "title": "Lavender LV-03",
       "description": "Lavender is technically a flower, herb, and a shrub. It is a flowering semi-woody herbaceous shrub often used as an herb in the kitchen or traditional medicine cabinet.",
       "height": 36,
       "price": 13,
@@ -279,7 +279,7 @@
     },
     {
       "id": 18,
-      "title": "Lavender",
+      "title": "Lavender LV-07",
       "description": "Lavenders are small evergreen shrubs with gray-green hoary linear leaves. The purple flowers are sparsely arranged on spikes at the tips of long bare stalks and produce small nutlet fruits.",
       "height": 30,
       "price": 10,
@@ -343,7 +343,7 @@
     },
     {
       "id": 22,
-      "title": "Boxwood BW12-03",
+      "title": "Boxwood",
       "description": "Boxwood is prized for their densely packed, light-green leaves and a rounded, compact growth habit.",
       "height": 105,
       "price": 80,
@@ -360,7 +360,7 @@
     },
     {
       "id": 23,
-      "title": "Ficus Lyrata FL-223",
+      "title": "Ficus Lyrata",
       "description": "Ficus is a popular indoor tree featuring very large, heavily veined, and glossy violin-shaped leaves that grow upright on a sleek trunk.",
       "height": 130,
       "price": 90,
@@ -376,7 +376,7 @@
     },
     {
       "id": 24,
-      "title": "Clusia CL-022",
+      "title": "Clusia",
       "description": "The foliage is this plant's feature characteristic - leaves are thick and leathery, shaped like fat teardrops or paddles.",
       "height": 125,
       "price": 88,

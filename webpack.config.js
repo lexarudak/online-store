@@ -38,7 +38,10 @@ module.exports = {
     new EslintPlugin({ extensions: ['ts', 'js'] }),
 
     new CopyPlugin({
-      patterns: [{ from: 'src/assets', to: 'assets' }],
+      patterns: [
+        { from: 'src/assets', to: 'assets' },
+        { from: 'src/data/plants', to: 'assets/img/plants' },
+      ],
     }),
 
     new CleanWebpackPlugin(),
