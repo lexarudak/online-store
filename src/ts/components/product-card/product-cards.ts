@@ -1,5 +1,6 @@
 import { Products } from '../../base/types';
 import { isHTMLElement, getExistentElement } from '../../base/helpers';
+import App from './../../app';
 
 class ProductCards {
   draw(data: Products[]): void {
@@ -20,16 +21,26 @@ class ProductCards {
       getExistentElement('.product__type', productCardClone).textContent = item.type;
       getExistentElement('.product__title', productCardClone).textContent = item.title;
       getExistentElement('.product__description', productCardClone).textContent = item.description;
-      getExistentElement('.product__price', productCardClone).textContent = item.price + '';
-      getExistentElement('.product__stock-num', productCardClone).textContent = item.stock + '';
-      getExistentElement('.product__rating-num', productCardClone).textContent = item.rating + '';
+      getExistentElement('.product__price', productCardClone).textContent = item.price.toString();
+      getExistentElement('.product__stock-num', productCardClone).textContent = item.stock.toString();
+      getExistentElement('.product__rating-num', productCardClone).textContent = item.rating.toString();
 
       if (item.discountPercentage) {
-        getExistentElement('.product__discount-num', productCardClone).textContent = item.discountPercentage + '';
+        getExistentElement('.product__discount-num', productCardClone).textContent = item.discountPercentage.toString();
         getExistentElement('.product__price', productCardClone).style.color = '#ab5abb';
       } else {
         getExistentElement('.product__discount', productCardClone).style.display = 'none';
       }
+
+      const button = getExistentElement<HTMLButtonElement>('button', productCardClone);
+
+      getExistentElement('.product', productCardClone).addEventListener('click', function (e) {
+        if (e.target === button) {
+          console.log('add to card');
+        } else {
+          App.loadStartPage(item.id.toString());
+        }
+      });
 
       fragment.append(productCardClone);
     });

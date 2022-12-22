@@ -38,14 +38,14 @@ class App {
     }
   }
 
-  private loadStartPage(startPageId: string) {
+  static loadStartPage(startPageId: string) {
     window.location.hash = `#/${startPageId}`;
     App.router(startPageId);
   }
 
   start() {
     this.loadPage();
-    this.loadStartPage(PagesList.catalogPage);
+    App.loadStartPage(PagesList.catalogPage);
   }
 }
 
