@@ -45,7 +45,7 @@ class App {
 
   start() {
     this.loadPage();
-    App.loadStartPage('1');
+    App.loadStartPage(PagesList.catalogPage);
   }
 }
 
