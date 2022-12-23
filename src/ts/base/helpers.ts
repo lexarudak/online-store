@@ -1,3 +1,5 @@
+import plants from '../../data/plants.json';
+
 function isHTMLElement<T>(el: T | HTMLElement): el is HTMLElement {
   return el instanceof EventTarget;
 }
@@ -8,4 +10,12 @@ function getExistentElement<T extends HTMLElement>(selector: string, node: Docum
   return el;
 }
 
-export { isHTMLElement, getExistentElement };
+function isPlantsId(id: string): boolean {
+  if (Number(id) > 0 && Number(id) <= plants.total) {
+    console.log(id);
+    return true;
+  }
+  return false;
+}
+
+export { isHTMLElement, getExistentElement, isPlantsId };

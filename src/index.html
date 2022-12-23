@@ -234,33 +234,26 @@
         </div>
       </template>
   <!-- product page -->
-  <template id="product">
+  <template id="product-page">
     <section class="product-page page">
       <div class="link-navigation">
-        <a class="link-navigation__link" href="#">Catalog</a>
+        <a class="link-navigation__link" href="#/catalog">Catalog</a>
         <span class="link-navigation__slash"> / </span>
         <a class="link-navigation__link" href="#">Echeveria</a>
         <span class="link-navigation__slash"> / </span>
-        <a class="link-navigation__link" href="#">Succulent</a>
+        <a class="link-navigation__link" id="navigation-name" href="#">Succulent</a>
       </div>
       <h2 class="page-title" id="product-title"></h2>
       <div class="product-page__top-block">
         <div class="product-page__photo-block">
-          <img class="product-page__photo-mini product-page__photo-mini_active" src="./assets/img/catalog/img_1_1.jpg">
-          <img class="product-page__photo-mini" src="./assets/img/catalog/img_1_2.jpg">
         </div>
         <div class="product-page__sales-block">
           <div class="product-page__stoke-block">
-            <span class="product-page__stoke-text">In stoke</span>
-            <span class="product-page__stoke-amount">(28 psc.)</span>
+            <span class="product-page__stoke-text">In stock</span>
+            <span class="product-page__stoke-amount"></span>
           </div>
           <div class="product-page__price-block">
-            <div class="product-page__new-price-block">
-              <span class="product-page__new-price usd-symbol">15</span>
-            </div>
-            <div class="product-page__old-price-block">
-              <span class="product-page__old-price usd-symbol">18.75</span>
-            </div>
+            <span class="product-page__new-price usd-symbol"></span>
           </div>
           <div class="product-page__buttons-block">
             <button class="button product-page__add-to-cart-btn">Add to cart</button>
@@ -271,9 +264,6 @@
               Description
             </p>
             <p class="product-page__info-text">
-              Succulent plants are drought-resistant plants in which the leaves, stem, or roots have become more than
-              usually fleshy
-              by the development of water-storing tissue.
             </p>
           </div>
         </div>
@@ -283,18 +273,6 @@
           Specification
         </p>
         <ul class="product-page__specification-list">
-          <li class="product-page__specification-item">
-            <span class="product-page__specification-name">Name</span>
-            <span class="product-page__specification-text">Succulent</span>
-          </li>
-          <li class="product-page__specification-item">
-            <span class="product-page__specification-name">Type</span>
-            <span class="product-page__specification-text">Echeveria</span>
-          </li>
-          <li class="product-page__specification-item">
-            <span class="product-page__specification-name">Some information</span>
-            <span class="product-page__specification-text">Information</span>
-          </li>
         </ul>
       </div>
     </section>
