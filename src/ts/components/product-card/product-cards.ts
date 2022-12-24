@@ -1,5 +1,6 @@
 import { Products } from '../../base/types';
 import { isHTMLElement, getExistentElement } from '../../base/helpers';
+import App from '../../app';
 
 class ProductCards {
   draw(data: Products[]): void {
@@ -30,6 +31,10 @@ class ProductCards {
       } else {
         getExistentElement('.product__discount', productCardClone).style.display = 'none';
       }
+      getExistentElement('.product__title', productCardClone).addEventListener('click', function () {
+        console.log('qqq');
+        App.loadStartPage(item.id.toString());
+      });
 
       fragment.append(productCardClone);
     });

@@ -69,3 +69,23 @@
     color: $green-medium;
   }
 }
+
+.link-navigation {
+  height: 50px;
+  width: 100%;
+  border-bottom: 1px $grey-light solid;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &__link,
+  &__slash {
+    color: $grey-medium;
+    transition: .3s;
+  }
+
+  &__link:hover {
+      color: $green-medium;
+    }
+}
+

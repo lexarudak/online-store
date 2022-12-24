@@ -1,4 +1,4 @@
-import { isPlantsId } from './components/functions';
+import { isPlantsId } from './base/helpers';
 import CartPage from './pages/cart-page';
 import CatalogPage from './pages/catalog-page';
 import Page from './pages/page';
@@ -38,14 +38,14 @@ class App {
     }
   }
 
-  private loadStartPage(startPageId: string) {
+  public static loadStartPage(startPageId: string) {
     window.location.hash = `#/${startPageId}`;
     App.router(startPageId);
   }
 
   start() {
     this.loadPage();
-    this.loadStartPage(PagesList.catalogPage);
+    App.loadStartPage('1');
   }
 }
 

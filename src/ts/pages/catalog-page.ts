@@ -17,8 +17,8 @@ class CatalogPage extends Page {
     this.productCard.draw(values);
   }
 
-  draw(info = {}) {
-    const page = this.makePage(info);
+  draw(id?: string) {
+    const page = this.makePage(id);
     if (page && this.container) {
       this.container.innerHTML = '';
       this.container.append(page);
