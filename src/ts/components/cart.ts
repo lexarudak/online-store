@@ -2,9 +2,9 @@ import { Basket } from '../base/types';
 import plants from '../../data/plants.json';
 
 class Cart {
-  private productAmount: number;
-  private productSum: number;
-  private productOldSum: number;
+  public productAmount: number;
+  public productSum: number;
+  public productOldSum: number;
   public basket: Basket;
 
   constructor() {

@@ -4,7 +4,6 @@ import Cart from '../components/cart';
 
 class PlantPage extends Page {
   plantId?: string;
-  cart: Cart;
 
   constructor(cart: Cart) {
     super(cart, 'product-page');
@@ -132,7 +131,7 @@ class PlantPage extends Page {
     }
   }
 
-  protected fillPage(id: string, page: Node) {
+  protected fillPage(page: DocumentFragment, id?: string) {
     this.plantId = id;
     if (page instanceof DocumentFragment) {
       const plant = this.getPlant();

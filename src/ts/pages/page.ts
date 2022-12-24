@@ -1,7 +1,7 @@
 import Cart from '../components/cart';
 
 class Page {
-  protected cart: Cart;
+  public cart: Cart;
   protected id: string;
   protected container: HTMLElement | null;
 
@@ -10,7 +10,7 @@ class Page {
     this.id = id;
     this.cart = cart;
   }
-  protected fillPage(id: string, page: Node) {
+  protected fillPage(page: Node, id?: string) {
     console.log('Load page:', id);
     return page;
   }
@@ -20,7 +20,7 @@ class Page {
     if (template instanceof HTMLTemplateElement && this.container) {
       const newPage = template.content.cloneNode(true);
       if (id) {
-        const filledPage = this.fillPage(id, newPage);
+        const filledPage = this.fillPage(newPage, id);
         return filledPage;
       }
       return newPage;

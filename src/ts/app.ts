@@ -27,17 +27,18 @@ class App {
   }
 
   static router(pageId: string) {
-    switch (pageId) {
-      case PagesList.catalogPage:
-        App.catalogPage.draw();
-        break;
-      case PagesList.cartPage:
-        App.cartPage.draw();
-        break;
-      default:
-        if (isPlantsId(pageId)) {
-          App.plantPage.draw(pageId);
-        }
+    if (isPlantsId(pageId)) {
+      App.plantPage.draw(pageId);
+    }
+    if (pageId === PagesList.catalogPage) {
+      App.catalogPage.draw();
+    }
+    if (pageId === PagesList.cartPage) {
+      if (App.cartPage.cart.productAmount === 0) {
+        App.cartPage.draw('empty');
+      } else {
+        App.cartPage.draw('full');
+      }
     }
   }
 
