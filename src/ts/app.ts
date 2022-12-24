@@ -1,4 +1,5 @@
 import { isPlantsId } from './base/helpers';
+import Cart from './components/cart';
 import CartPage from './pages/cart-page';
 import CatalogPage from './pages/catalog-page';
 import Page from './pages/page';
@@ -9,11 +10,13 @@ class App {
   private static catalogPage: Page;
   private static cartPage: Page;
   private static plantPage: Page;
+  public cart: Cart;
 
   constructor() {
-    App.catalogPage = new CatalogPage();
-    App.cartPage = new CartPage();
-    App.plantPage = new PlantPage();
+    this.cart = new Cart();
+    App.catalogPage = new CatalogPage(this.cart);
+    App.cartPage = new CartPage(this.cart);
+    App.plantPage = new PlantPage(this.cart);
   }
 
   private loadPage() {

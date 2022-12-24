@@ -2,13 +2,13 @@ import Page from './page';
 import ProductCards from '../components/product-card/product-cards';
 import { PlantsData, Products } from '../base/types';
 import plantsData from '../../data/plants.json';
+import Cart from '../components/cart';
 
 class CatalogPage extends Page {
   productCard: ProductCards;
 
-  constructor() {
-    super('catalog');
-    console.log(this.id);
+  constructor(cart: Cart) {
+    super(cart, 'catalog');
     this.productCard = new ProductCards();
   }
 

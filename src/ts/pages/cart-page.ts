@@ -1,9 +1,9 @@
+import Cart from '../components/cart';
 import Page from './page';
 
 class CartPage extends Page {
-  constructor() {
-    super('cart');
-    console.log(this.id);
+  constructor(cart: Cart) {
+    super(cart, 'cart');
   }
 }
 

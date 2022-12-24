@@ -32,7 +32,6 @@ class ProductCards {
         getExistentElement('.product__discount', productCardClone).style.display = 'none';
       }
       getExistentElement('.product__title', productCardClone).addEventListener('click', function () {
-        console.log('qqq');
         App.loadStartPage(item.id.toString());
       });
 

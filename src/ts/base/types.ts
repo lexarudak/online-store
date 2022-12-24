@@ -16,3 +16,7 @@ export interface PlantsData {
   products: Products[];
   total: number;
 }
+
+export type Basket = {
+  [id: string]: number;
+};

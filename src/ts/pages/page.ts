@@ -1,13 +1,17 @@
+import Cart from '../components/cart';
+
 class Page {
+  protected cart: Cart;
   protected id: string;
   protected container: HTMLElement | null;
 
-  constructor(id: string) {
+  constructor(cart: Cart, id: string) {
     this.container = document.getElementById('page-container');
     this.id = id;
+    this.cart = cart;
   }
   protected fillPage(id: string, page: Node) {
-    console.log(id, page);
+    console.log('Load page:', id);
     return page;
   }
 
@@ -28,7 +32,6 @@ class Page {
     if (page && this.container) {
       this.container.innerHTML = '';
       this.container.append(page);
-      console.log(this.id);
     }
   }
 }

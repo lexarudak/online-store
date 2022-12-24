@@ -1,11 +1,14 @@
 import Page from './page';
 import plants from '../../data/plants.json';
+import Cart from '../components/cart';
 
 class PlantPage extends Page {
   plantId?: string;
+  cart: Cart;
 
-  constructor() {
-    super('product-page');
+  constructor(cart: Cart) {
+    super(cart, 'product-page');
+    this.cart = cart;
   }
 
   private getPlant() {
@@ -84,13 +87,47 @@ class PlantPage extends Page {
           if (target instanceof HTMLImageElement) {
             container.style.backgroundImage = `url('${target.src}')`;
             const oldPhoto = document.querySelector('.product-page__photo-mini_active');
-            console.log(oldPhoto);
             oldPhoto?.classList.remove('product-page__photo-mini_active');
             target.classList.add('product-page__photo-mini_active');
           }
         });
         index === 0 ? img.classList.add('product-page__photo-mini_active') : null;
         container ? container.append(img) : null;
+      });
+    }
+  }
+
+  private setButtons(page: DocumentFragment) {
+    const plant = this.getPlant();
+    const id = plant.id.toString();
+    const cart = this.cart;
+    const addButton = page.querySelector('.product-page__add-to-cart-btn');
+    const buyNowButton = page.querySelector('.product-page__buy-now-btn');
+    if (buyNowButton) {
+      buyNowButton.addEventListener('click', function () {
+        if (id in cart.basket) {
+          console.log('open popup');
+        } else {
+          cart.add(id);
+          cart.updateHeader();
+          console.log('open popup');
+        }
+      });
+    }
+    if (addButton) {
+      id in cart.basket ? addButton.classList.add('button-purple') : addButton.classList.add('button');
+      id in cart.basket ? (addButton.innerHTML = 'In your cart') : (addButton.innerHTML = 'Add to cart');
+      addButton.addEventListener('click', function () {
+        if (id in cart.basket) {
+          cart.delete(id);
+          addButton.classList.replace('button-purple', 'button');
+          addButton.innerHTML = 'Add to cart';
+        } else {
+          cart.add(id);
+          addButton.classList.replace('button', 'button-purple');
+          addButton.innerHTML = 'In your cart';
+        }
+        cart.updateHeader();
       });
     }
   }
@@ -133,6 +170,7 @@ class PlantPage extends Page {
         descriptionContainer ? this.setDescription(descriptionContainer) : null;
 
         this.setPictures(page);
+        this.setButtons(page);
       }
     }
     return page;
