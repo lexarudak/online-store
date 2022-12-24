@@ -1,6 +1,7 @@
 import Page from './page';
 import ProductCards from '../components/product-card/product-cards';
-import { PlantsData, Products } from '../base/types';
+import { getExistentElement } from '../base/helpers';
+import { PlantsData, Products, DataObj } from '../base/types';
 import plantsData from '../../data/plants.json';
 
 class CatalogPage extends Page {
@@ -15,6 +16,25 @@ class CatalogPage extends Page {
   drawProductCard(data: PlantsData): void {
     const values: Products[] = data.products ? data.products : [];
     this.productCard.draw(values);
+
+    const dataObj: DataObj = {
+      newData: values,
+      inputData: [],
+      sortData: [],
+      chekedData: [],
+    };
+
+    const checkTypes: string[] = [];
+
+    getExistentElement<HTMLInputElement>('.sort-input').addEventListener('input', () =>
+      this.productCard.sortInput(dataObj)
+    );
+
+    getExistentElement('.sort').addEventListener('click', (e) => this.productCard.sortBy(e.target, dataObj));
+
+    getExistentElement('.filter__type').addEventListener('change', (e) => {
+      this.productCard.checkboxTypeFilter(e.target, dataObj, checkTypes);
+    });
   }
 
   draw(info = {}) {

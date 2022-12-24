@@ -16,3 +16,10 @@ export interface PlantsData {
   products: Products[];
   total: number;
 }
+
+export interface DataObj {
+  newData: Products[];
+  inputData: Products[];
+  sortData: Products[];
+  chekedData: Products[];
+}
