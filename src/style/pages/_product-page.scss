@@ -79,7 +79,7 @@
 .product-page__new-price {
   color: $green-light;
   font-weight: bold;
-  font-size: x-large;
+  font-size: xx-large;
 
   &_sale {
     color: $purple-medium;
@@ -89,6 +89,7 @@
 
 .product-page__old-price {
   color: $grey-medium;
+  font-size: large;
   text-decoration: line-through;
 }
 
@@ -126,4 +127,46 @@
 .product-page__specification-name {
   color: $grey-medium;
   border-bottom: 1px $grey-medium dotted;
+}
+
+// popup
+
+.product-page__popup {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  margin: auto 0;
+  transition: .3s;
+  background-color: rgba(255, 255, 255, 0);
+  visibility: hidden;
+
+  & .product-page__popup-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: relative;
+    border-radius: 20px;
+    transition: .3s;
+    opacity: 0;
+    box-shadow: $shadow;
+  }
+
+  &_active {
+    background-color: $green-extra-light-opacity;
+    backdrop-filter: blur(3px);
+    visibility: visible;
+
+    & .product-page__popup-img {
+      opacity: 1;
+    }
+  }
 }

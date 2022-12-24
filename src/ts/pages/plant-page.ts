@@ -42,12 +42,39 @@ class PlantPage extends Page {
     });
   }
 
+  private makePopup() {
+    const popup = document.createElement('div');
+    popup.classList.add('product-page__popup');
+    popup.addEventListener('click', function (e) {
+      if (e.target instanceof HTMLElement) {
+        if (!e.target.classList.contains('product-page__popup-img')) {
+          popup.classList.remove('product-page__popup_active');
+          document.body.classList.remove('body_hold');
+        }
+      }
+    });
+    const popupContainer = document.createElement('img');
+    popupContainer.classList.add('product-page__popup-img');
+    popup.append(popupContainer);
+    document.body.append(popup);
+    return { popupContainer, popup };
+  }
+
   private setPictures(page: DocumentFragment) {
     const plant = this.getPlant();
-    const photo = page.querySelector('.product-page__photo-block');
+    const popupObj = this.makePopup();
     const container = page.querySelector('.product-page__photo-block');
-    if (photo instanceof HTMLElement) {
-      photo.style.backgroundImage = `url('assets/img/${plant.thumbnail}')`;
+    if (container instanceof HTMLElement) {
+      container.style.backgroundImage = `url('assets/img/${plant.thumbnail}')`;
+      container.addEventListener('click', function (e) {
+        const target = e.target;
+        if (target instanceof HTMLElement && target.classList.contains('product-page__photo-block')) {
+          const url = target.style.backgroundImage.slice(5, -2);
+          popupObj.popupContainer.src = url;
+          popupObj.popup.classList.add('product-page__popup_active');
+          document.body.classList.add('body_hold');
+        }
+      });
       plant.images.forEach((pic, index) => {
         const img = document.createElement('img');
         img.src = `assets/img/${pic}`;
@@ -55,7 +82,7 @@ class PlantPage extends Page {
         img.addEventListener('click', function (e) {
           const target = e.target;
           if (target instanceof HTMLImageElement) {
-            photo.style.backgroundImage = `url('${target.src}')`;
+            container.style.backgroundImage = `url('${target.src}')`;
             const oldPhoto = document.querySelector('.product-page__photo-mini_active');
             console.log(oldPhoto);
             oldPhoto?.classList.remove('product-page__photo-mini_active');
