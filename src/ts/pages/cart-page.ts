@@ -1,3 +1,4 @@
+import { promoList } from '../base/promo-codes';
 import Cart from '../components/cart';
 import Page from './page';
 
@@ -5,6 +6,58 @@ class CartPage extends Page {
   constructor(cart: Cart) {
     super(cart, 'cart');
     this.cart = cart;
+  }
+
+  private getTotal() {
+    let sum = this.cart.productSum;
+    if (this.cart.activePromoCodes.length > 0) {
+      this.cart.activePromoCodes.forEach((code) => {
+        sum = sum * ((100 - promoList[code]) / 100);
+      });
+    }
+    return `$${Math.floor(sum).toString()}`;
+  }
+
+  private getProductDiscount() {
+    return `- ${Math.floor((1 - this.cart.productSum / this.cart.productOldSum) * 100).toString()} %`;
+  }
+
+  private makePromoCard(code: string, discount: number): HTMLElement {
+    const promoCard = document.createElement('li');
+    promoCard.id = code;
+    const promoText = document.createElement('span');
+    const promoValue = document.createElement('span');
+    promoCard.classList.add('discounts__item', 'discounts__item-promo');
+    promoText.innerText = `Promo ${code}`;
+    promoValue.innerText = `- ${discount} %`;
+    promoCard.append(promoText, promoValue);
+    return promoCard;
+  }
+
+  private setPromoCodes(container: HTMLElement) {
+    container.innerHTML = '';
+    if (this.cart.activePromoCodes.length > 0) {
+      this.cart.activePromoCodes.forEach((code) => {
+        if (code in promoList) {
+          const promoCard = this.makePromoCard(code, promoList[code]);
+          container.appendChild(promoCard);
+        }
+      });
+    }
+  }
+
+  public updateBill(HTMLBill: Element) {
+    console.log('bill update', this.cart.productAmount);
+    const amount = HTMLBill.querySelector('#bill-item');
+    amount ? (amount.innerHTML = this.cart.productAmount.toString()) : null;
+    const subtotal = HTMLBill.querySelector('#bill-old-sum');
+    subtotal ? (subtotal.innerHTML = this.cart.productOldSum.toString()) : null;
+    const productDiscount = HTMLBill.querySelector('#bill-product-discount-value');
+    productDiscount ? (productDiscount.innerHTML = this.getProductDiscount()) : null;
+    const container = HTMLBill.querySelector('#bill-promo-container');
+    container instanceof HTMLElement ? this.setPromoCodes(container) : null;
+    const total = HTMLBill.querySelector('#bill-total');
+    total ? (total.innerHTML = this.getTotal()) : null;
   }
 
   protected fillPage(page: DocumentFragment, id: string): DocumentFragment {
@@ -20,14 +73,35 @@ class CartPage extends Page {
       const fullTemp = document.getElementById('full-cart');
       if (fullTemp instanceof HTMLTemplateElement) {
         const fullPage = fullTemp.content.cloneNode(true);
-        const fulledPage = this.fillFullPage(fullPage);
-        cartContainer?.append(fulledPage);
+        if (fullPage instanceof DocumentFragment) {
+          const fulledPage = this.fillFullPage(fullPage);
+          cartContainer?.append(fulledPage);
+        }
       }
     }
     return page;
   }
 
-  protected fillFullPage(fullPage: Node): Node {
+  protected fillFullPage(fullPage: DocumentFragment): DocumentFragment {
+    const bill = fullPage.querySelector('#bill');
+    if (bill) {
+      this.updateBill(bill);
+      const promoInput = fullPage.querySelector('.full-cart-page__promo-input');
+      if (promoInput instanceof HTMLInputElement) {
+        promoInput.addEventListener('input', () => this.cart.addPromo(promoInput));
+        promoInput.addEventListener('input', () => this.updateBill(bill));
+        bill.addEventListener('click', (e) => {
+          const target = e.target;
+          if (target instanceof HTMLElement) {
+            const promo = target.closest('.discounts__item-promo');
+            if (promo) {
+              this.cart.deletePromo(promo);
+              this.updateBill(bill);
+            }
+          }
+        });
+      }
+    }
     return fullPage;
   }
 }

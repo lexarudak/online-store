@@ -10,7 +10,7 @@ class Page {
     this.id = id;
     this.cart = cart;
   }
-  protected fillPage(page: Node, id?: string) {
+  protected fillPage(page: DocumentFragment, id?: string) {
     console.log('Load page:', id);
     return page;
   }
@@ -19,7 +19,7 @@ class Page {
     const template = document.getElementById(this.id);
     if (template instanceof HTMLTemplateElement && this.container) {
       const newPage = template.content.cloneNode(true);
-      if (id) {
+      if (id && newPage instanceof DocumentFragment) {
         const filledPage = this.fillPage(newPage, id);
         return filledPage;
       }

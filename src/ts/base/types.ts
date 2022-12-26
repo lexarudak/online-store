@@ -20,3 +20,5 @@ export interface PlantsData {
 export type Basket = {
   [id: string]: number;
 };
+
+export type PromoList = Basket;

@@ -42,7 +42,7 @@
         <div class="promo__container">
           <h3 class="promo__title">Get <span>10% OFF</span> on your purchase</h3>
           <div class="promo__descr">Use promo codes:</div>
-          <div class="promo__code"><span>PLANTS10</span> <span>SALE10</span> <span>10FORYOU</span></div>
+          <div class="promo__code"><span>PLANTS10</span> <span>SALE10</span> <span>FORYOU10</span></div>
           <div class="promo__sum">Discounts are summed up.</div>
         </div>
       </div>
@@ -339,10 +339,9 @@
               
             </ul>
           </div>
-          <div class="full-cart-page__panel">
+          <div class="full-cart-page__panel" id="bill">
             <div class="full-cart-page__promo">
               <input class="full-cart-page__promo-input" type="text" placeholder="PROMO CODE">
-              <button class="full-cart-page__promo-button">Apply</button>
             </div>
             <div class="full-cart-page__info">
               <p class="full-cart-page__subtitle subtitle">
@@ -350,29 +349,21 @@
               </p>
               <p class="full-cart-page__items">
                 <span>Items in cart:</span>
-                <span class="full-cart-page__items-value" id="itemslVaue">4</span>
+                <span class="full-cart-page__items-value" id="bill-item"></span>
               </p>
               <p class="full-cart-page__subtotal">
                 <span>Subtotal</span>
-                <span class="usd-symbol" id="subtotalVaue">500</span>
+                <span class="usd-symbol" id="bill-old-sum"></span>
               </p>
-              <ul class="discounts">
-                <li class="discounts__item">
-                  <span>Product discount</span>
-                  <span class="usd-symbol">20</span>
-                </li>
-                <li class="discounts__item discounts__item-promo">
-                  <span>Promo SALE</span>
-                  <span class="usd-symbol">100</span>
-                </li>
-                <li class="discounts__item discounts__item-promo">
-                  <span>Promo HOME</span>
-                  <span class="usd-symbol">20</span>
-                </li>
+              <div class="discounts__item" id="bill-product-discount">
+                <span>Product discount</span>
+                <span id="bill-product-discount-value"></span>
+              </div>
+              <ul class="discounts" id="bill-promo-container">
               </ul>
               <p class="full-cart-page__total">
                 <span>Total</span>
-                <span class="usd-symbol" id="totalVaue">360</span>
+                <span id="bill-total"></span>
               </p>
             </div>
             <a class="full-cart-page__buy-button button" href="#/purchase">
@@ -467,20 +458,6 @@
           </div>
           <button class="button">Pay now</button>
         </form>
-      </div>
-    </section>
-  </template>
-  <!-- promo -->
-  <template id="promo">
-    <section id="promo" class="promo">
-      <div class="container">
-        <img class="promo__photo" src="assets/img/eucalypt.png" alt="eucalypt">
-        <div class="promo__container">
-          <h3 class="promo__title">Get <span>10% OFF</span> on your purchase</h3>
-          <div class="promo__descr">Use promo codes:</div>
-          <div class="promo__code"><span>PLANTS10</span> <span>SALE10</span> <span>10FORYOU</span></div>
-          <div class="promo__sum">Discounts are summed up.</div>
-        </div>
       </div>
     </section>
   </template>
