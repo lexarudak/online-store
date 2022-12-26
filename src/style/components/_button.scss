@@ -64,6 +64,20 @@
   }
 }
 
+.button-unable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 40px;
+  background-color: $grey-medium;
+  color: $white-medium;
+  border-radius: 20px;
+  border: none;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
 .button-arrow {
   text-align: center;
   cursor: pointer;

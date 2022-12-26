@@ -102,32 +102,44 @@ class PlantPage extends Page {
     const cart = this.cart;
     const addButton = page.querySelector('.product-page__add-to-cart-btn');
     const buyNowButton = page.querySelector('.product-page__buy-now-btn');
-    if (buyNowButton) {
-      buyNowButton.addEventListener('click', function () {
-        if (id in cart.basket) {
-          console.log('open popup');
-        } else {
-          cart.add(id);
+    if (plant.stock > 0) {
+      if (buyNowButton) {
+        buyNowButton.classList.add('button-light');
+        buyNowButton.addEventListener('click', function () {
+          if (id in cart.basket) {
+            console.log('open popup');
+          } else {
+            cart.add(id);
+            cart.updateHeader();
+            console.log('open popup');
+          }
+        });
+      }
+      if (addButton) {
+        id in cart.basket ? addButton.classList.add('button-purple') : addButton.classList.add('button');
+        id in cart.basket ? (addButton.innerHTML = 'In your cart') : (addButton.innerHTML = 'Add to cart');
+        addButton.addEventListener('click', function () {
+          if (id in cart.basket) {
+            cart.delete(id);
+            addButton.classList.replace('button-purple', 'button');
+            addButton.innerHTML = 'Add to cart';
+          } else {
+            cart.add(id);
+            addButton.classList.replace('button', 'button-purple');
+            addButton.innerHTML = 'In your cart';
+          }
           cart.updateHeader();
-          console.log('open popup');
-        }
-      });
-    }
-    if (addButton) {
-      id in cart.basket ? addButton.classList.add('button-purple') : addButton.classList.add('button');
-      id in cart.basket ? (addButton.innerHTML = 'In your cart') : (addButton.innerHTML = 'Add to cart');
-      addButton.addEventListener('click', function () {
-        if (id in cart.basket) {
-          cart.delete(id);
-          addButton.classList.replace('button-purple', 'button');
-          addButton.innerHTML = 'Add to cart';
-        } else {
-          cart.add(id);
-          addButton.classList.replace('button', 'button-purple');
-          addButton.innerHTML = 'In your cart';
-        }
-        cart.updateHeader();
-      });
+        });
+      }
+    } else {
+      if (addButton) {
+        addButton.classList.add('button-unable');
+        addButton.innerHTML = 'not available';
+      }
+      if (buyNowButton) {
+        buyNowButton.classList.add('button-unable');
+        buyNowButton.innerHTML = 'not available';
+      }
     }
   }
 
