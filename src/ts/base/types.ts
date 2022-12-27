@@ -22,4 +22,5 @@ export interface DataObj {
   inputData: Products[];
   sortData: Products[];
   chekedData: Products[];
+  priceData: Products[];
 }

@@ -1,5 +1,6 @@
 import Page from './page';
 import ProductCards from '../components/product-card/product-cards';
+import Filter from '../components/filters/filter';
 import { getExistentElement } from '../base/helpers';
 import { PlantsData, Products, DataObj } from '../base/types';
 import plantsData from '../../data/plants.json';
@@ -22,6 +23,7 @@ class CatalogPage extends Page {
       inputData: [],
       sortData: [],
       chekedData: [],
+      priceData: [],
     };
 
     const checkTypes: string[] = [];
@@ -34,6 +36,13 @@ class CatalogPage extends Page {
 
     getExistentElement('.filter__type').addEventListener('change', (e) => {
       this.productCard.checkboxTypeFilter(e.target, dataObj, checkTypes);
+    });
+
+    const filter = new Filter();
+
+    getExistentElement('.filter').addEventListener('input', (e) => {
+      dataObj.priceData = filter.rangeInputFilter(dataObj.newData, e.target);
+      this.productCard.draw(dataObj.priceData);
     });
   }
 
