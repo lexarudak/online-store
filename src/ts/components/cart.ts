@@ -10,12 +10,10 @@ class Cart {
   public activePromoCodes: string[];
 
   constructor() {
-    this.basket = {
-      '1': 1,
-    };
-    this.productAmount = 1;
-    this.productSum = 15;
-    this.productOldSum = 19;
+    this.basket = {};
+    this.productAmount = 0;
+    this.productSum = 0;
+    this.productOldSum = 0;
     this.activePromoCodes = [];
   }
 
@@ -69,6 +67,16 @@ class Cart {
     if (promo in promoList && !this.activePromoCodes.includes(promo)) {
       this.activePromoCodes.push(promo);
     }
+  }
+  public cleanCart() {
+    this.productAmount = 0;
+    this.productSum = 0;
+    this.productOldSum = 0;
+    const cartKeys = Object.keys(this.basket);
+    cartKeys.forEach((key) => {
+      delete this.basket[key];
+    });
+    this.updateHeader();
   }
 }
 

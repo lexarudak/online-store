@@ -21,4 +21,10 @@ export type Basket = {
   [id: string]: number;
 };
 
-export type PromoList = Basket;
+export type PromoList = {
+  [id: string]: number;
+};
+
+export type PageInfo = {
+  [id: string]: number;
+};

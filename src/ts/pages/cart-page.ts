@@ -1,11 +1,21 @@
+import { getExistentElement } from '../base/helpers';
 import { promoList } from '../base/promo-codes';
 import Cart from '../components/cart';
+import CartList from '../components/cartList';
+import App from '../app';
 import Page from './page';
+import { PageInfo } from '../base/types';
 
 class CartPage extends Page {
+  public pageInfo: PageInfo;
+
   constructor(cart: Cart) {
     super(cart, 'cart');
     this.cart = cart;
+    this.pageInfo = {
+      itemsOnPage: 3,
+      currentPage: 1,
+    };
   }
 
   private getTotal() {
@@ -102,6 +112,23 @@ class CartPage extends Page {
         });
       }
     }
+    const itemsContainer = fullPage.querySelector('.full-cart-page__products');
+    if (itemsContainer instanceof HTMLElement && bill) {
+      getExistentElement('.clean-card-btn', itemsContainer).addEventListener('click', () => {
+        this.cart.cleanCart();
+        App.loadStartPage('cart');
+      });
+      const cartList = new CartList(itemsContainer);
+      itemsContainer.addEventListener('click', (e) => {
+        const newData = cartList.changeCartList(e, this.cart, this.pageInfo);
+        this.cart = newData.cart;
+        this.pageInfo = newData.pageInfo;
+        this.updateBill(bill);
+      });
+      cartList.updateCartList(this.cart, this.pageInfo);
+      cartList.fillCards(this.cart, this.pageInfo);
+    }
+
     return fullPage;
   }
 }

@@ -3,7 +3,7 @@ import Cart from './components/cart';
 import CartPage from './pages/cart-page';
 import CatalogPage from './pages/catalog-page';
 import Page from './pages/page';
-import { PagesList } from './base/pages-list';
+import { PagesList } from './base/enums';
 import PlantPage from './pages/plant-page';
 
 class App {
@@ -49,7 +49,7 @@ class App {
 
   start() {
     this.loadPage();
-    App.loadStartPage(PagesList.cartPage);
+    App.loadStartPage(PagesList.catalogPage);
     this.cart.updateHeader();
   }
 }

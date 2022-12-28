@@ -1,8 +1,8 @@
 import Page from './page';
-import ProductCards from '../components/product-card/product-cards';
 import { PlantsData, Products } from '../base/types';
 import plantsData from '../../data/plants.json';
 import Cart from '../components/cart';
+import ProductCards from '../components/product-card/product-cards';
 
 class CatalogPage extends Page {
   productCard: ProductCards;
