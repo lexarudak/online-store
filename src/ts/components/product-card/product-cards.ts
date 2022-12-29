@@ -1,8 +1,13 @@
 import { Products, DataObj } from '../../base/types';
-import { isHTMLElement, getExistentElement } from '../../base/helpers';
+import { isHTMLElement, getExistentElement, setAddButton } from '../../base/helpers';
 import App from '../../app';
+import Cart from '../cart';
 
 class ProductCards {
+  public cart: Cart;
+  constructor(cart: Cart) {
+    this.cart = cart;
+  }
   draw(data: Products[]): void {
     // console.log(data);
     const productCard: Products[] = data;
@@ -35,14 +40,11 @@ class ProductCards {
         App.loadStartPage(item.id.toString());
       });
 
-      const button = getExistentElement<HTMLButtonElement>('button', productCardClone);
+      const button = getExistentElement<HTMLElement>('button', productCardClone);
+      setAddButton(button, this.cart, item);
 
-      getExistentElement('.product', productCardClone).addEventListener('click', function (e) {
-        if (e.target === button) {
-          console.log('add to card');
-        } else {
-          App.loadStartPage(item.id.toString());
-        }
+      getExistentElement('.product', productCardClone).addEventListener('click', (e) => {
+        e.target !== button ? App.loadStartPage(item.id.toString()) : null;
       });
 
       fragment.append(productCardClone);

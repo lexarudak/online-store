@@ -31,6 +31,7 @@ class Page {
     const page = this.makePage(id);
     if (page && this.container) {
       this.container.innerHTML = '';
+      document.documentElement.scrollTop;
       this.container.append(page);
     }
   }

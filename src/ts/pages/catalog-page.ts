@@ -11,7 +11,7 @@ class CatalogPage extends Page {
 
   constructor(cart: Cart) {
     super(cart, 'catalog');
-    this.productCard = new ProductCards();
+    this.productCard = new ProductCards(cart);
   }
 
   drawProductCard(data: PlantsData): void {
