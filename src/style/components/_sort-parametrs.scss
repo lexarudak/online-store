@@ -14,6 +14,7 @@
     height: 18px;
     background: url('assets/svg/up.svg') center center/contain no-repeat;
     opacity: 0.3;
+    cursor: pointer;
     transition: 0.5s;
     &:hover,
     &:active {
@@ -22,6 +23,8 @@
   }
 
   &__down {
+    transform: rotate(180deg);
+    margin-left: -2px;
     background: url('assets/svg/up.svg') center center/contain no-repeat;
   }
 }

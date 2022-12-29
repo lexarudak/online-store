@@ -5,6 +5,7 @@
   border-radius: 10px;
   box-shadow: $shadow;
   overflow: hidden;
+  cursor: pointer;
 
   &__photo {
     @include flexbox(flex-end, flex-end);

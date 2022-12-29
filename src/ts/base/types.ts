@@ -28,3 +28,11 @@ export type PromoList = {
 export type PageInfo = {
   [id: string]: number;
 };
+
+export interface DataObj {
+  newData: Products[];
+  inputData: Products[];
+  sortData: Products[];
+  chekedData: Products[];
+  priceData: Products[];
+}
