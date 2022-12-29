@@ -24,10 +24,10 @@
             <li class="nav__item"><a class="nav__link" href="#contacts">Contacts</a></li>
           </ul>
           <a class="cart" href="#/cart">
-            <span class="cart__num">0</span>
+            <span class="cart__num" id="header-amount">0</span>
           </a>
           <div class="total-amount">
-            <span class="total-amount__value usd-symbol">0</span>
+            <span class="total-amount__value usd-symbol" id="header-sum">0</span>
           </div>
         </nav>
       </div>
@@ -42,7 +42,7 @@
         <div class="promo__container">
           <h3 class="promo__title">Get <span>10% OFF</span> on your purchase</h3>
           <div class="promo__descr">Use promo codes:</div>
-          <div class="promo__code"><span>PLANTS10</span> <span>SALE10</span> <span>10FORYOU</span></div>
+          <div class="promo__code"><span>PLANTS10</span> <span>SALE10</span> <span>FORYOU10</span></div>
           <div class="promo__sum">Discounts are summed up.</div>
         </div>
       </div>
@@ -88,33 +88,33 @@
       <div class="filter">
         <div class="filter__type">
           <h3 class="filter__title">Category</h3>
-          <ul class="filter__list">
+          <ul id='check-type' class="filter__list">
             <li class="check"><label class="check__label">Succulent
-                <input type="checkbox" class="check__input">
+                <input type="checkbox" class="check__input type" value="succulent">
                 <span class="check__span"></span>
               </label></li>
             <li class="check"><label class="check__label">Sansevieria
-                <input type="checkbox" class="check__input">
+                <input type="checkbox" class="check__input type" value="sansevieria">
                 <span class="check__span"></span>
               </label></li>
             <li class="check"><label class="check__label">Flowering plant
-                <input type="checkbox" class="check__input">
+                <input type="checkbox" class="check__input type" value="flowering plant">
                 <span class="check__span"></span>
               </label></li>
             <li class="check"><label class="check__label">Fern
-                <input type="checkbox" class="check__input">
+                <input type="checkbox" class="check__input type" value="fern">
                 <span class="check__span"></span>
               </label></li>
             <li class="check"><label class="check__label">Lavender
-                <input type="checkbox" class="check__input">
+                <input type="checkbox" class="check__input type" value="lavender">
                 <span class="check__span"></span>
               </label></li>
             <li class="check"><label class="check__label">Cactus
-                <input type="checkbox" class="check__input">
+                <input type="checkbox" class="check__input type" value="cactus">
                 <span class="check__span"></span>
               </label></li>
             <li class="check"><label class="check__label">Tree
-                <input type="checkbox" class="check__input">
+                <input type="checkbox" class="check__input type" value="tree">
                 <span class="check__span"></span>
               </label></li>
           </ul>
@@ -143,19 +143,19 @@
           <div class="range">
             <div class="range__value">
               <span>min</span>
-              <input type="number" class="input-min" value="25">
+              <input type="number" class="input-min" value="1" max="100">
               <span>$</span>
               <div class="range__separator">-</div>
               <span>max</span>
-              <input type="number" class="input-max" value="75">
+              <input type="number" class="input-max" value="100" max="100">
               <span>$</span>
             </div>
             <div class="range__slider slider">
               <div class="slider__progress"></div>
             </div>
             <div class="range__range-input">
-              <input type="range" class="range-min" min="0" max="10000" value="2500" step="100">
-              <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">
+              <input type="range" class="range-min" min="1" max="106" value="1" step="1">
+              <input type="range" class="range-max" min="1" max="100" value="100" step="1">
             </div>
           </div>
         </div>
@@ -172,17 +172,17 @@
           <div class="range">
             <div class="range__value">
               <span>min</span>
-              <input type="number" class="input-min" value="20">
+              <input type="number" class="input-min" value="1" max="65">
               <div class="range__separator">-</div>
               <span>max</span>
-              <input type="number" class="input-max" value="35">
+              <input type="number" class="input-max" value="65" max="65">
             </div>
             <div class="range__slider slider">
               <div class="slider__progress"></div>
             </div>
             <div class="range__range-input">
-              <input type="range" class="range-min" min="0" max="10000" value="2500" step="100">
-              <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">
+              <input type="range" class="range-min" min="1" max="69" value="1" step="1">
+              <input type="range" class="range-max" min="1" max="65" value="65" step="1">
             </div>
           </div>
         </div>
@@ -198,12 +198,12 @@
           <div class="products__sort-parametrs">
             <div class="sort">
               <div class="sort__item">Sort by rating
-                <div class="sort__up"></div>
-                <div class="sort__down"></div>
+                <div data-sort=rating-up class="sort__up sort-control"></div>
+                <div data-sort=rating-down class="sort__down sort-control"></div>
               </div>
               <div class="sort__item">Sort by price
-                <div class="sort__up"></div>
-                <div class="sort__down"></div>
+                <div data-sort=price-up class="sort__up sort-control"></div>
+                <div data-sort=price-down class="sort__down sort-control"></div>
               </div>
             </div>
             <div class="found-products">Found: <span class="found-products__num">24</span></div>
@@ -267,8 +267,8 @@
             <span class="product-page__new-price usd-symbol"></span>
           </div>
           <div class="product-page__buttons-block">
-            <button class="button product-page__add-to-cart-btn">Add to cart</button>
-            <button class="button-light product-page__buy-now-btn">Buy now</button>
+            <button class="product-page__add-to-cart-btn"></button>
+            <button class="product-page__buy-now-btn">Buy now</button>
           </div>
           <div class="product-page__info-block">
             <p class="subtitle">
@@ -297,7 +297,9 @@
         <a class="link-navigation__link" href="#/cart">Cart</a>
       </div>
       <h2 class="page-title">Cart</h2>
-      
+      <div class="cart-page__container">
+
+      </div>
     </section>
   </template>
       <!-- empty cart page -->
@@ -306,7 +308,7 @@
           <img class="empty-cart-page__img" src="./assets/svg/empty-cart-icon.svg" alt="empty cart icon">
           <div class="empty-cart-page__block">
             <p class="empty-cart-page__text">Your cart is empty.</p>
-            <button class="empty-cart__btn button">Go to catalog</button>
+            <a class="empty-cart__btn button" href="#/catalog">Go to catalog</a>
           </div>
         </section>
       </template>
@@ -322,25 +324,24 @@
                   <input class="amount-number" id="paginationCurrentPage" type="number" min="1" max="10" value="1" disabled>
                   <button class="button-arrow" id="paginationPageUp">&gt;</button>
                   <span class="full-cart-page__pagination-text">of</span>
-                  <input class="amount-number" id="paginationPages" type="number" min="1" max="10" value="2" disabled>
+                  <input class="amount-number" id="pagination-max-pages" type="number" min="1" max="10" value="2" disabled>
                 </div>
                 <div class="full-cart-page__pagination-items">
                   <span class="full-cart-page__pagination-text">Items on page:</span>
-                  <button class="button-arrow" id="paginationItemsMinus">&lt;</button>
-                  <input class="amount-number" id="paginationItems" type="number" min="1" max="10" value="3" disabled>
-                  <button class="button-arrow" id="paginationItemsPlus">&gt;</button>
+                  <button class="button-arrow" id="pagination-items-minus">&lt;</button>
+                  <input class="amount-number" id="pagination-items" type="text" disabled>
+                  <button class="button-arrow" id="pagination-items-plus">&gt;</button>
                 </div>
               </div>
-              <a class="clean-card-btn" href="#/cart/empty-cart">Clean cart</a>
+              <a class="clean-card-btn" href="#/cart">Clean cart</a>
             </div>
             <ul class="cart-list">
               
             </ul>
           </div>
-          <div class="full-cart-page__panel">
+          <div class="full-cart-page__panel" id="bill">
             <div class="full-cart-page__promo">
               <input class="full-cart-page__promo-input" type="text" placeholder="PROMO CODE">
-              <button class="full-cart-page__promo-button">Apply</button>
             </div>
             <div class="full-cart-page__info">
               <p class="full-cart-page__subtitle subtitle">
@@ -348,29 +349,21 @@
               </p>
               <p class="full-cart-page__items">
                 <span>Items in cart:</span>
-                <span class="full-cart-page__items-value" id="itemslVaue">4</span>
+                <span class="full-cart-page__items-value" id="bill-item"></span>
               </p>
               <p class="full-cart-page__subtotal">
                 <span>Subtotal</span>
-                <span class="usd-symbol" id="subtotalVaue">500</span>
+                <span class="usd-symbol" id="bill-old-sum"></span>
               </p>
-              <ul class="discounts">
-                <li class="discounts__item">
-                  <span>Product discount</span>
-                  <span class="usd-symbol">20</span>
-                </li>
-                <li class="discounts__item discounts__item-promo">
-                  <span>Promo SALE</span>
-                  <span class="usd-symbol">100</span>
-                </li>
-                <li class="discounts__item discounts__item-promo">
-                  <span>Promo HOME</span>
-                  <span class="usd-symbol">20</span>
-                </li>
+              <div class="discounts__item" id="bill-product-discount">
+                <span>Product discount</span>
+                <span id="bill-product-discount-value"></span>
+              </div>
+              <ul class="discounts" id="bill-promo-container">
               </ul>
               <p class="full-cart-page__total">
                 <span>Total</span>
-                <span class="usd-symbol" id="totalVaue">360</span>
+                <span id="bill-total"></span>
               </p>
             </div>
             <a class="full-cart-page__buy-button button" href="#/purchase">
@@ -383,31 +376,29 @@
           </div>
         </div>
       </template>
-          <!-- product curt card -->
+          <!-- product cart card -->
           <template id="product-cart-card">
             <li class="cart-list__item product">
-              <span class="cart-list__number">1</span>
+              <span class="cart-list__number"></span>
               <div class="product__photo">
                 <div class="product__icons">
-                  <div class="product__discount">20 <span>%</span></div>
-                  <div class="product__rating">4.5 <span>&#9734;</span></div>
+                  <div class="product__rating"></div>
                 </div>
               </div>
               <div class="product__info">
-                <div class="product__type">Echeveria</div>
-                <h2 class="product__title">Succulent</h2>
-                <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or roots
-                  have become more than usually fleshy by the development of water-storing tissue.</p>
+                <div class="product__type"></div>
+                <h2 class="product__title"></h2>
+                <div class="product__stock">In stock: <span   class="product__stock-value"></span>
+                </div>
                 <div class="product__purchase">
-                  <div class="product__price usd-symbol">15</div>
-                  <span class="product__old-price usd-symbol">18.75</span>
+                  <span class="product__price"></span>
+                  <span class="product__old-price"></span>
                   <div class="product__amount">
                     <button class="button-arrow product__left-arrow">&lt;</button>
                     <input class="product__amount-number amount-number" type="number" min="0" value="1" disabled>
                     <button class="button-arrow product__right-arrow">&gt;</button>
                   </div>
                 </div>
-                <div class="product__stock">In stock: <span>28</span></div>
               </div>
             </li>
           </template>
@@ -418,7 +409,7 @@
         <h2 class="error-page__title">SORRY</h2>
         <h3 class="error-page__subtitle">PAGE NOT FOUND</h3>
         <p class="error-page__text">It's just error 404</p>
-        <button class="button error-page__btn">Go to catalog</button>
+        <a class="button error-page__btn" href="#/catalog">Go to catalog</a>
       </div>
       <span class="error-page__smile">:(</span>
     </section>
@@ -465,20 +456,6 @@
           </div>
           <button class="button">Pay now</button>
         </form>
-      </div>
-    </section>
-  </template>
-  <!-- promo -->
-  <template id="promo">
-    <section id="promo" class="promo">
-      <div class="container">
-        <img class="promo__photo" src="assets/img/eucalypt.png" alt="eucalypt">
-        <div class="promo__container">
-          <h3 class="promo__title">Get <span>10% OFF</span> on your purchase</h3>
-          <div class="promo__descr">Use promo codes:</div>
-          <div class="promo__code"><span>PLANTS10</span> <span>SALE10</span> <span>10FORYOU</span></div>
-          <div class="promo__sum">Discounts are summed up.</div>
-        </div>
       </div>
     </section>
   </template>

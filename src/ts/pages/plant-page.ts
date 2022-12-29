@@ -1,11 +1,14 @@
 import Page from './page';
 import plants from '../../data/plants.json';
+import Cart from '../components/cart';
+import { setAddButton, setBuyNowButton } from '../base/helpers';
 
 class PlantPage extends Page {
   plantId?: string;
 
-  constructor() {
-    super('product-page');
+  constructor(cart: Cart) {
+    super(cart, 'product-page');
+    this.cart = cart;
   }
 
   private getPlant() {
@@ -84,7 +87,6 @@ class PlantPage extends Page {
           if (target instanceof HTMLImageElement) {
             container.style.backgroundImage = `url('${target.src}')`;
             const oldPhoto = document.querySelector('.product-page__photo-mini_active');
-            console.log(oldPhoto);
             oldPhoto?.classList.remove('product-page__photo-mini_active');
             target.classList.add('product-page__photo-mini_active');
           }
@@ -95,7 +97,7 @@ class PlantPage extends Page {
     }
   }
 
-  protected fillPage(id: string, page: Node) {
+  protected fillPage(page: DocumentFragment, id?: string) {
     this.plantId = id;
     if (page instanceof DocumentFragment) {
       const plant = this.getPlant();
@@ -133,6 +135,10 @@ class PlantPage extends Page {
         descriptionContainer ? this.setDescription(descriptionContainer) : null;
 
         this.setPictures(page);
+        const addBtn = page.querySelector('.product-page__add-to-cart-btn');
+        const buyNowBtn = page.querySelector('.product-page__buy-now-btn');
+        addBtn instanceof HTMLElement ? setAddButton(addBtn, this.cart, this.getPlant()) : null;
+        buyNowBtn instanceof HTMLElement ? setBuyNowButton(buyNowBtn, this.cart, this.getPlant()) : null;
       }
     }
     return page;

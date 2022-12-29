@@ -14,7 +14,7 @@
 
 .header__logo {
   cursor: pointer;
-  margin-top: 40px;
+  margin-top: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,11 +51,11 @@
 
 .nav {
   flex-grow: 1;
-  margin-top: 80px;
+  margin-top: 70px;
   height: 50px;
   display: flex;
   align-items: center;
-  margin-left: 120px;
+  margin-left: 100px;
   border-bottom: 1px solid;
   border-radius: 3px;
   border-color: $grey-light;

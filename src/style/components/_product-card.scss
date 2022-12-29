@@ -5,6 +5,7 @@
   border-radius: 10px;
   box-shadow: $shadow;
   overflow: hidden;
+  cursor: pointer;
 
   &__photo {
     @include flexbox(flex-end, flex-end);
@@ -122,18 +123,24 @@
 
     &__photo {
       @include flexbox(flex-end, flex-end);
-      width: 350px;
-      height: 180px;
+      width: 200px;
+      height: 185px;
       padding: 20px;
       background-size: contain;
       background-origin: content-box;
     }
 
+    &__stock {
+      margin-right: 15px;
+      margin-top: 40px;
+    }
+
     &__purchase {
       margin-top: auto;
       justify-content: flex-start;
+      align-items: flex-end;
       width: 100%;
-      gap: 20px;
+      gap: 10px;
     }
 
     &__price {
@@ -147,6 +154,7 @@
     }
 
     &__info {
+      flex-grow: 1;
       position: relative;
       padding: 30px 30px 5px;
     }

@@ -1,13 +1,17 @@
+import Cart from '../components/cart';
+
 class Page {
+  public cart: Cart;
   protected id: string;
   protected container: HTMLElement | null;
 
-  constructor(id: string) {
+  constructor(cart: Cart, id: string) {
     this.container = document.getElementById('page-container');
     this.id = id;
+    this.cart = cart;
   }
-  protected fillPage(id: string, page: Node) {
-    console.log(id, page);
+  protected fillPage(page: DocumentFragment, id?: string) {
+    console.log('Load page:', id);
     return page;
   }
 
@@ -15,8 +19,8 @@ class Page {
     const template = document.getElementById(this.id);
     if (template instanceof HTMLTemplateElement && this.container) {
       const newPage = template.content.cloneNode(true);
-      if (id) {
-        const filledPage = this.fillPage(id, newPage);
+      if (id && newPage instanceof DocumentFragment) {
+        const filledPage = this.fillPage(newPage, id);
         return filledPage;
       }
       return newPage;
@@ -27,8 +31,8 @@ class Page {
     const page = this.makePage(id);
     if (page && this.container) {
       this.container.innerHTML = '';
+      document.documentElement.scrollTop;
       this.container.append(page);
-      console.log(this.id);
     }
   }
 }
