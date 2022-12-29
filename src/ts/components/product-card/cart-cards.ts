@@ -1,6 +1,7 @@
 import { Products } from '../../base/types';
 import plants from '../../../data/plants.json';
 import { getExistentElement, isHTMLElement } from '../../base/helpers';
+import App from '../../app';
 
 class CartCard {
   public id: string;
@@ -42,6 +43,12 @@ class CartCard {
       getExistentElement('.product__type', card).innerText = this.plant.type;
       getExistentElement('.product__title', card).innerText = this.plant.title;
       getExistentElement('.product__stock-value', card).innerHTML = this.plant.stock.toString();
+      getExistentElement('.product', card).addEventListener('click', (e) => {
+        const target = e.target;
+        if (target instanceof HTMLElement) {
+          target.classList.contains('button-arrow') ? null : App.loadStartPage(this.id.toString());
+        }
+      });
 
       this.countContainer.value = this.count.toString();
       this.priceContainer.innerHTML = '$' + (this.plant.price * this.count).toString();
