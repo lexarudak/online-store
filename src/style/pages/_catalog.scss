@@ -47,6 +47,7 @@
 
   &__container {
     @include flexbox(flex-start, flex-start);
+    width: 100%;
     flex-wrap: wrap;
     gap: 30px;
   }

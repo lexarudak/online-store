@@ -1,4 +1,4 @@
-import { Products, DataObj } from '../../base/types';
+import { Products } from '../../base/types';
 import { isHTMLElement, getExistentElement, setAddButton } from '../../base/helpers';
 import App from '../../app';
 import Cart from '../cart';
@@ -51,71 +51,6 @@ class ProductCards {
     });
     getExistentElement('.products__container').innerHTML = '';
     getExistentElement('.products__container').appendChild(fragment);
-  }
-
-  sortInput(dataObj: DataObj): void {
-    let newData: Products[] = dataObj.newData;
-    if (dataObj.chekedData.length) newData = dataObj.chekedData;
-
-    const input = getExistentElement<HTMLInputElement>('.sort-input');
-    const sortInputValue: string = input.value.toLowerCase().trim();
-    dataObj.inputData = newData.filter((item) => {
-      return (
-        item.title.toLowerCase().includes(sortInputValue) ||
-        item.type.toLowerCase().includes(sortInputValue) ||
-        item.description.toLowerCase().includes(sortInputValue)
-      );
-    });
-
-    this.draw(dataObj.inputData);
-  }
-
-  sortBy(target: EventTarget | null, dataObj: DataObj): void {
-    let newData: Products[] = dataObj.newData;
-    if (dataObj.chekedData.length) newData = dataObj.chekedData;
-    if (!isHTMLElement(target)) throw new Error();
-    switch (target.dataset.sort) {
-      case 'rating-up':
-        newData = newData.sort((a, b) => a.rating - b.rating);
-        break;
-      case 'rating-down':
-        newData = newData.sort((a, b) => b.rating - a.rating);
-        break;
-      case 'price-up':
-        newData = newData.sort((a, b) => a.price - b.price);
-        break;
-      case 'price-down':
-        newData = newData.sort((a, b) => b.price - a.price);
-        break;
-    }
-
-    this.draw(newData);
-  }
-
-  checkboxTypeFilter(target: EventTarget | null, dataObj: DataObj, checkTypes: string[]): void {
-    if (!isHTMLElement(target)) throw new Error();
-    let newData: Products[] = dataObj.newData;
-    if (dataObj.inputData.length) newData = dataObj.inputData;
-
-    if (target instanceof HTMLInputElement) {
-      if (target.checked) {
-        checkTypes.push(target.value);
-      } else if (!target.checked) {
-        checkTypes.splice(checkTypes.indexOf(target.value), 1);
-      }
-    }
-
-    if (checkTypes.length) {
-      const chekedTypes = [];
-      for (const type of checkTypes) {
-        const oneType = newData.filter((item) => item.type.toLowerCase() === type);
-        chekedTypes.push(oneType);
-      }
-      newData = chekedTypes.flat();
-      dataObj.chekedData = chekedTypes.flat();
-    }
-
-    this.draw(newData);
   }
 }
 
