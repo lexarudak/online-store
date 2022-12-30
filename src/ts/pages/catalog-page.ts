@@ -1,7 +1,7 @@
 import Page from './page';
 import ProductCards from '../components/product-card/product-cards';
 import Filter from '../components/filters/filter';
-import { PlantsData, Products, DataObj } from '../base/types';
+import { PlantsData, Products } from '../base/types';
 import plantsData from '../../data/plants.json';
 import Cart from '../components/cart';
 import { getExistentElement } from '../base/helpers';
@@ -18,31 +18,31 @@ class CatalogPage extends Page {
     const values: Products[] = data.products ? data.products : [];
     this.productCard.draw(values);
 
-    const dataObj: DataObj = {
-      newData: values,
-      inputData: [],
-      sortData: [],
-      chekedData: [],
-      priceData: [],
-    };
-
-    const checkTypes: string[] = [];
-
-    getExistentElement<HTMLInputElement>('.sort-input').addEventListener('input', () =>
-      this.productCard.sortInput(dataObj)
-    );
-
-    getExistentElement('.sort').addEventListener('click', (e) => this.productCard.sortBy(e.target, dataObj));
-
-    getExistentElement('.filter__type').addEventListener('change', (e) => {
-      this.productCard.checkboxTypeFilter(e.target, dataObj, checkTypes);
-    });
-
-    const filter = new Filter();
+    const filter = new Filter(values);
 
     getExistentElement('.filter').addEventListener('input', (e) => {
-      dataObj.priceData = filter.rangeInputFilter(dataObj.newData, e.target);
-      this.productCard.draw(dataObj.priceData);
+      filter.checkboxFilter(e.target, values);
+      filter.rangeInputFilter(e.target, values);
+
+      this.productCard.draw(filter.getData());
+    });
+
+    getExistentElement<HTMLInputElement>('.sort-input').addEventListener('input', () => {
+      filter.sortInput(values);
+      this.productCard.draw(filter.getData());
+    });
+
+    getExistentElement('.sort').addEventListener('click', (e) => {
+      filter.sortBy(e.target, values);
+      this.productCard.draw(filter.getData());
+    });
+
+    getExistentElement('.layout').addEventListener('click', (e) => {
+      filter.changeLayout(e.target);
+    });
+
+    getExistentElement('.button_filter').addEventListener('click', () => {
+      console.log('reset');
     });
   }
 

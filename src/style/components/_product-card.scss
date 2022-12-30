@@ -93,8 +93,8 @@
 
   .landscape & {
     @include flexbox();
-    width: calc((100% - 20px) / 2);
-    min-height: 215px;
+    width: calc((100% - 30px) / 2);
+    min-height: auto;
 
     &__photo {
       height: 215px;
@@ -102,7 +102,8 @@
 
     &__info {
       width: 110%;
-      height: 215px;
+      min-height: 215px;
+      padding-left: 10px;
     }
 
     &__purchase {

@@ -36,3 +36,9 @@ export interface DataObj {
   chekedData: Products[];
   priceData: Products[];
 }
+
+export enum FilterType {
+  category = 'type',
+  height = 'height',
+  sale = 'discountPercentage',
+}
