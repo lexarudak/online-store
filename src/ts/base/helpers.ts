@@ -1,6 +1,7 @@
 import plants from '../../data/plants.json';
 import App from '../app';
 import Cart from '../components/cart';
+import PurchaseModal from '../components/purchase-modal';
 import { Products } from './types';
 
 function isHTMLElement<T>(el: T | HTMLElement): el is HTMLElement {
@@ -47,7 +48,7 @@ function setBuyNowButton(button: HTMLElement, cart: Cart, plant: Products) {
       id in cart.basket ? null : cart.add(id);
       cart.updateHeader();
       App.loadStartPage('cart');
-      console.log('open popup');
+      openPurchaseModal(cart);
     });
   } else {
     button.classList.add('button-unable');
@@ -55,4 +56,12 @@ function setBuyNowButton(button: HTMLElement, cart: Cart, plant: Products) {
   }
 }
 
-export { isHTMLElement, getExistentElement, isPlantsId, setAddButton, setBuyNowButton };
+function openPurchaseModal(cart: Cart) {
+  const modalTemp = document.querySelector('#purchase');
+  if (modalTemp instanceof HTMLTemplateElement) {
+    const modal = new PurchaseModal(modalTemp, cart);
+    modal.draw();
+  }
+}
+
+export { isHTMLElement, getExistentElement, isPlantsId, setAddButton, setBuyNowButton, openPurchaseModal };

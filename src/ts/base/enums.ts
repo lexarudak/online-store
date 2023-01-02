@@ -9,3 +9,16 @@ export const enum changeCartListActions {
   itemsUp = 'pagination-items-plus',
   itemsDown = 'pagination-items-minus',
 }
+
+export const enum cardLogo {
+  visa = './assets/svg/visa-icon.svg',
+  masterCard = './assets/svg/master-card-icon.svg',
+  americanExpress = './assets/svg/american-express-icon.svg',
+  else = './assets/svg/credit-card-payment-icon.svg',
+}
+
+export const enum cardInteger {
+  visa = '4',
+  masterCard = '5',
+  americanExpress = '3',
+}
