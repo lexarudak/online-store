@@ -40,7 +40,6 @@ class PurchaseModal {
     const name = getExistentElement('#purchaseName');
     const error = getExistentElement('#purchaseNameError');
     if (name instanceof HTMLInputElement) {
-      console.log(name);
       let errors = 0;
       const nameValue = name.value.trim();
       const nameArr = nameValue.split(' ');
@@ -48,7 +47,6 @@ class PurchaseModal {
       nameArr.forEach((name) => {
         name.length < 3 ? (errors += 1) : null;
       });
-      console.log(nameValue);
       errors === 0 && nameValue !== ''
         ? error.classList.remove('purchase-form__error_active')
         : error.classList.add('purchase-form__error_active');
@@ -75,7 +73,6 @@ class PurchaseModal {
       errors === 0
         ? error.classList.remove('purchase-form__error_active')
         : error.classList.add('purchase-form__error_active');
-      console.log('phone error');
       phone.value = `+${phoneOnlyNumbers}`;
       if (errors === 0) return true;
     }
@@ -151,7 +148,6 @@ class PurchaseModal {
   }
 
   private isCardNumberValid() {
-    console.log('check card');
     const card = getExistentElement('#payCardNumber');
     const error = getExistentElement('#payCardNumberError');
     if (!(card instanceof HTMLInputElement)) throw new Error(`Element not input!`);
@@ -176,7 +172,6 @@ class PurchaseModal {
   }
 
   private isCardDateValid() {
-    console.log('check cardDate');
     const cardDate = getExistentElement('#payCardDate');
     const error = getExistentElement('#payCardDateError');
     if (!(cardDate instanceof HTMLInputElement)) throw new Error(`Element not input!`);
@@ -197,7 +192,6 @@ class PurchaseModal {
   }
 
   private isCardCVVValid() {
-    console.log('check cardCVV');
     const cardCVV = getExistentElement('#payCardCvv');
     const error = getExistentElement('#payCardCvvError');
     if (!(cardCVV instanceof HTMLInputElement)) throw new Error(`Element not input!`);
@@ -250,7 +244,6 @@ class PurchaseModal {
           this.modalContainer.innerHTML = '';
         } else {
           message.innerHTML = `Thank you for your purchase. Return to catalog page after ${Math.abs(a - 3)} sec.`;
-          console.log(Math.abs(a - 3));
         }
       }, i * 1000);
       i++;

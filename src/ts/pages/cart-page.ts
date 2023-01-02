@@ -57,7 +57,6 @@ class CartPage extends Page {
   }
 
   public updateBill(HTMLBill: Element) {
-    console.log('bill update', this.cart.productAmount);
     const amount = HTMLBill.querySelector('#bill-item');
     amount ? (amount.innerHTML = this.cart.productAmount.toString()) : null;
     const subtotal = HTMLBill.querySelector('#bill-old-sum');
