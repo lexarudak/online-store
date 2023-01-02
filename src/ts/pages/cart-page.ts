@@ -1,4 +1,4 @@
-import { getExistentElement } from '../base/helpers';
+import { getExistentElement, openPurchaseModal } from '../base/helpers';
 import { promoList } from '../base/promo-codes';
 import Cart from '../components/cart';
 import CartList from '../components/cartList';
@@ -57,7 +57,6 @@ class CartPage extends Page {
   }
 
   public updateBill(HTMLBill: Element) {
-    console.log('bill update', this.cart.productAmount);
     const amount = HTMLBill.querySelector('#bill-item');
     amount ? (amount.innerHTML = this.cart.productAmount.toString()) : null;
     const subtotal = HTMLBill.querySelector('#bill-old-sum');
@@ -112,6 +111,9 @@ class CartPage extends Page {
         });
       }
     }
+    const buyBtn = fullPage.querySelector('.full-cart-page__buy-button');
+    buyBtn ? buyBtn.addEventListener('click', () => openPurchaseModal(this.cart)) : null;
+
     const itemsContainer = fullPage.querySelector('.full-cart-page__products');
     if (itemsContainer instanceof HTMLElement && bill) {
       getExistentElement('.clean-card-btn', itemsContainer).addEventListener('click', () => {

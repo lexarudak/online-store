@@ -23,7 +23,6 @@ class CartList {
 
   public changeCartList(e: Event, cart: Cart, pageInfo: PageInfo) {
     const target = e.target;
-    console.log(target, cart);
     if (target instanceof HTMLElement) {
       switch (target.id) {
         case changeCartListActions.pageUp:
@@ -40,10 +39,10 @@ class CartList {
           break;
         default:
           if (target.classList.contains('product__right-arrow')) {
-            cart = this.updateCart(cart, target.closest('.cart-list__item'), 'up');
+            cart = this.updateCart(cart, pageInfo, target.closest('.cart-list__item'), 'up');
           }
           if (target.classList.contains('product__left-arrow')) {
-            cart = this.updateCart(cart, target.closest('.cart-list__item'), 'down');
+            cart = this.updateCart(cart, pageInfo, target.closest('.cart-list__item'), 'down');
           }
           if (this.getMaxPage(cart, pageInfo) < pageInfo.currentPage && this.getMaxPage(cart, pageInfo) !== 0) {
             pageInfo.currentPage -= 1;
@@ -69,7 +68,7 @@ class CartList {
       : null;
   }
 
-  private updateCart(cart: Cart, element: HTMLElement | null, upOrDown: string) {
+  private updateCart(cart: Cart, pageInfo: PageInfo, element: HTMLElement | null, upOrDown: string) {
     if (element) {
       const id = element.id;
       switch (upOrDown) {
@@ -79,10 +78,10 @@ class CartList {
           break;
 
         case 'down':
-          cart.basket[id] === 1 ? element.remove() : null;
-          cart.basket[id] !== 1 ? this.updateCard(element, cart, id) : null;
           cart.delete(id);
-          App.loadStartPage('cart');
+          cart.basket[id] ? this.updateCard(element, cart, id) : element.remove();
+          this.isCurrentPageValid(cart, pageInfo) ? null : this.currentPageDown(cart, pageInfo);
+          this.getMaxPage(cart, pageInfo) ? null : App.loadStartPage('cart');
           break;
         default:
           break;
@@ -109,6 +108,14 @@ class CartList {
     return Math.ceil(itemsInBasket / pageInfo.itemsOnPage);
   }
 
+  private isCurrentPageValid(cart: Cart, pageInfo: PageInfo) {
+    if (this.getMaxPage(cart, pageInfo) < pageInfo.currentPage) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   private currentPageUp(cart: Cart, pageInfo: PageInfo) {
     const maxPage = this.getMaxPage(cart, pageInfo);
     pageInfo.currentPage < maxPage ? (pageInfo.currentPage += 1) : null;
@@ -122,7 +129,7 @@ class CartList {
 
   private itemsOnPageUp(cart: Cart, pageInfo: PageInfo) {
     pageInfo.itemsOnPage < 10 ? (pageInfo.itemsOnPage += 1) : null;
-
+    this.isCurrentPageValid(cart, pageInfo) ? null : this.currentPageDown(cart, pageInfo);
     this.fillCards(cart, pageInfo);
     return pageInfo;
   }
