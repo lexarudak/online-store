@@ -29,6 +29,10 @@ export type PageInfo = {
   [id: string]: number;
 };
 
+export type Routs = {
+  [id: string]: string;
+};
+
 export interface DataObj {
   newData: Products[];
   inputData: Products[];

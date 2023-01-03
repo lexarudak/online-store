@@ -1,10 +1,10 @@
-import { changeCartListActions } from '../base/enums';
+import { changeCartListActions, PagesList } from '../base/enums';
 import { getExistentElement } from '../base/helpers';
 import Cart from './cart';
 import CartCard from './product-card/cart-cards';
 import plants from '../../data/plants.json';
-import App from '../app';
 import { PageInfo } from '../base/types';
+import Router from '../router';
 
 class CartList {
   public container: HTMLElement;
@@ -46,7 +46,7 @@ class CartList {
           }
           if (this.getMaxPage(cart, pageInfo) < pageInfo.currentPage && this.getMaxPage(cart, pageInfo) !== 0) {
             pageInfo.currentPage -= 1;
-            App.loadStartPage('cart');
+            Router.goTo(PagesList.cartPage);
           }
           break;
       }
@@ -81,7 +81,7 @@ class CartList {
           cart.delete(id);
           cart.basket[id] ? this.updateCard(element, cart, id) : element.remove();
           this.isCurrentPageValid(cart, pageInfo) ? null : this.currentPageDown(cart, pageInfo);
-          this.getMaxPage(cart, pageInfo) ? null : App.loadStartPage('cart');
+          this.getMaxPage(cart, pageInfo) ? null : Router.goTo(PagesList.cartPage);
           break;
         default:
           break;

@@ -2,9 +2,10 @@ import { getExistentElement, openPurchaseModal } from '../base/helpers';
 import { promoList } from '../base/promo-codes';
 import Cart from '../components/cart';
 import CartList from '../components/cartList';
-import App from '../app';
 import Page from './page';
 import { PageInfo } from '../base/types';
+import Router from '../router';
+import { PagesList } from '../base/enums';
 
 class CartPage extends Page {
   public pageInfo: PageInfo;
@@ -118,7 +119,7 @@ class CartPage extends Page {
     if (itemsContainer instanceof HTMLElement && bill) {
       getExistentElement('.clean-card-btn', itemsContainer).addEventListener('click', () => {
         this.cart.cleanCart();
-        App.loadStartPage('cart');
+        Router.goTo(PagesList.cartPage);
       });
       const cartList = new CartList(itemsContainer);
       itemsContainer.addEventListener('click', (e) => {

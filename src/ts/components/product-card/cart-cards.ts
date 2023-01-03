@@ -1,7 +1,7 @@
 import { Products } from '../../base/types';
 import plants from '../../../data/plants.json';
 import { getExistentElement, isHTMLElement } from '../../base/helpers';
-import App from '../../app';
+import Router from '../../router';
 
 class CartCard {
   public id: string;
@@ -46,7 +46,7 @@ class CartCard {
       getExistentElement('.product', card).addEventListener('click', (e) => {
         const target = e.target;
         if (target instanceof HTMLElement) {
-          target.classList.contains('button-arrow') ? null : App.loadStartPage(this.id.toString());
+          target.classList.contains('button-arrow') ? null : Router.goTo(this.id.toString());
         }
       });
 

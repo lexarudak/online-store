@@ -1,7 +1,8 @@
 import plants from '../../data/plants.json';
-import App from '../app';
 import Cart from '../components/cart';
 import PurchaseModal from '../components/purchase-modal';
+import Router from '../router';
+import { PagesList } from './enums';
 import { Products } from './types';
 
 function isHTMLElement<T>(el: T | HTMLElement): el is HTMLElement {
@@ -47,7 +48,7 @@ function setBuyNowButton(button: HTMLElement, cart: Cart, plant: Products) {
     button.addEventListener('click', function () {
       id in cart.basket ? null : cart.add(id);
       cart.updateHeader();
-      App.loadStartPage('cart');
+      Router.goTo(PagesList.cartPage);
       openPurchaseModal(cart);
     });
   } else {

@@ -1,6 +1,6 @@
 export const enum PagesList {
-  catalogPage = 'catalog',
-  cartPage = 'cart',
+  catalogPage = '/catalog',
+  cartPage = '/cart',
 }
 
 export const enum changeCartListActions {

@@ -1,7 +1,7 @@
 import { Products } from '../../base/types';
 import { isHTMLElement, getExistentElement, setAddButton } from '../../base/helpers';
-import App from '../../app';
 import Cart from '../cart';
+import Router from '../../router';
 
 class ProductCards {
   public cart: Cart;
@@ -37,14 +37,14 @@ class ProductCards {
         getExistentElement('.product__discount', productCardClone).style.display = 'none';
       }
       getExistentElement('.product__title', productCardClone).addEventListener('click', function () {
-        App.loadStartPage(item.id.toString());
+        Router.goTo(item.id.toString());
       });
 
       const button = getExistentElement<HTMLElement>('button', productCardClone);
       setAddButton(button, this.cart, item);
 
       getExistentElement('.product', productCardClone).addEventListener('click', (e) => {
-        e.target !== button ? App.loadStartPage(item.id.toString()) : null;
+        e.target !== button ? Router.goTo(item.id.toString()) : null;
       });
 
       fragment.append(productCardClone);
