@@ -16,6 +16,7 @@ function getExistentElement<T extends HTMLElement>(selector: string, node: Docum
 }
 
 function isPlantsId(id: string): boolean {
+  id[0] === '/' ? (id = id.slice(1)) : null;
   if (Number(id) > 0 && Number(id) <= plants.total) {
     return true;
   }

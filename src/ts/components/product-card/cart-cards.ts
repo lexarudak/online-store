@@ -5,6 +5,7 @@ import Router from '../../router';
 
 class CartCard {
   public id: string;
+  public link: string;
   public plant: Products;
   public number: number;
   public count: number;
@@ -15,6 +16,7 @@ class CartCard {
 
   constructor(id: string, number: number, count: number) {
     this.id = id;
+    this.link = `/${id}`;
     this.plant = plants.products.filter((plant) => plant.id === Number(id))[0];
     this.number = number;
     this.count = count;
@@ -46,7 +48,7 @@ class CartCard {
       getExistentElement('.product', card).addEventListener('click', (e) => {
         const target = e.target;
         if (target instanceof HTMLElement) {
-          target.classList.contains('button-arrow') ? null : Router.goTo(this.id.toString());
+          target.classList.contains('button-arrow') ? null : Router.goTo(this.link);
         }
       });
 

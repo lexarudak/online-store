@@ -14,18 +14,18 @@
   <div class="body__wrapper">
     <header class="header">
       <div class="header__container container">
-        <div class="header__logo">
+        <a class="header__logo" href="/catalog">
           <h1 class="header__logo-text">Online<br>store</h1>
-        </div>
+        </a>
         <nav class="nav">
           <ul class="nav__list">
-            <li class="nav__item"><a class="nav__link" href="#/catalog">Catalog</a></li>
+            <li class="nav__item"><a class="nav__link" href="/catalog">Catalog</a></li>
             <li class="nav__item"><a class="nav__link" href="#promo">Promo code</a></li>
             <li class="nav__item"><a class="nav__link" href="#contacts">Contacts</a></li>
           </ul>
-          <div class="cart">
+          <a class="cart" href="/cart">
             <span class="cart__num" id="header-amount">0</span>
-          </div>
+          </a>
           <div class="total-amount">
             <span class="total-amount__value usd-symbol" id="header-sum">0</span>
           </div>
@@ -250,11 +250,11 @@
   <template id="product-page">
     <section class="product-page page">
       <div class="link-navigation">
-        <a class="link-navigation__link" href="#/catalog">Catalog</a>
+        <a class="link-navigation__link" href="/catalog">Catalog</a>
         <span class="link-navigation__slash"> / </span>
         <a class="link-navigation__link" href="#">Echeveria</a>
         <span class="link-navigation__slash"> / </span>
-        <a class="link-navigation__link" id="navigation-name" href="#">Succulent</a>
+        <a class="link-navigation__link" href="#">Succulent</a>
       </div>
       <h2 class="page-title" id="product-title"></h2>
       <div class="product-page__top-block">
@@ -294,9 +294,9 @@
   <template id="cart">
     <section class="cart-page page">
       <div class="link-navigation">
-        <a class="link-navigation__link" href="#/catalog">Catalog</a>
+        <a class="link-navigation__link " href="/catalog">Catalog</a>
         <span class="link-navigation__slash"> / </span>
-        <a class="link-navigation__link" href="#/cart">Cart</a>
+        <a class="link-navigation__link" href="/cart">Cart</a>
       </div>
       <h2 class="page-title">Cart</h2>
       <div class="cart-page__container">
@@ -310,7 +310,7 @@
           <img class="empty-cart-page__img" src="./assets/svg/empty-cart-icon.svg" alt="empty cart icon">
           <div class="empty-cart-page__block">
             <p class="empty-cart-page__text">Your cart is empty.</p>
-            <a class="empty-cart__btn button" href="#/catalog">Go to catalog</a>
+            <a class="empty-cart__btn button" href="/catalog">Go to catalog</a>
           </div>
         </section>
       </template>
@@ -335,7 +335,7 @@
                   <button class="button-arrow" id="pagination-items-plus">&gt;</button>
                 </div>
               </div>
-              <a class="clean-card-btn" href="#/cart">Clean cart</a>
+              <a class="clean-card-btn" href="/cart">Clean cart</a>
             </div>
             <ul class="cart-list">
               
@@ -368,10 +368,10 @@
                 <span id="bill-total"></span>
               </p>
             </div>
-            <a class="full-cart-page__buy-button button" href="#/purchase">
+            <span class="full-cart-page__buy-button button">
               Proceed to checkout
-            </a>
-            <a class="full-cart-page__catalog-button button-light" href="#/catalog">
+            </span>
+            <a class="full-cart-page__catalog-button button-light" href="/catalog">
               Continue shopping
             </a>
 
@@ -411,7 +411,7 @@
         <h2 class="error-page__title">SORRY</h2>
         <h3 class="error-page__subtitle">PAGE NOT FOUND</h3>
         <p class="error-page__text">It's just error 404</p>
-        <a class="button error-page__btn" href="#/catalog">Go to catalog</a>
+        <a class="button error-page__btn" href="/catalog">Go to catalog</a>
       </div>
       <span class="error-page__smile">:(</span>
     </section>

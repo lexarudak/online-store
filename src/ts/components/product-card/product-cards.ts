@@ -37,14 +37,14 @@ class ProductCards {
         getExistentElement('.product__discount', productCardClone).style.display = 'none';
       }
       getExistentElement('.product__title', productCardClone).addEventListener('click', function () {
-        Router.goTo(item.id.toString());
+        Router.goTo(`/${item.id}`);
       });
 
       const button = getExistentElement<HTMLElement>('button', productCardClone);
       setAddButton(button, this.cart, item);
 
       getExistentElement('.product', productCardClone).addEventListener('click', (e) => {
-        e.target !== button ? Router.goTo(item.id.toString()) : null;
+        e.target !== button ? Router.goTo(`/${item.id}`) : null;
       });
 
       fragment.append(productCardClone);
