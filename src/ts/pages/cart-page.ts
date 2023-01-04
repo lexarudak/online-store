@@ -6,6 +6,7 @@ import Page from './page';
 import { PageInfo } from '../base/types';
 import Router from '../router';
 import { PagesList } from '../base/enums';
+import plants from '../../data/plants.json';
 
 class CartPage extends Page {
   public pageInfo: PageInfo;
@@ -20,7 +21,7 @@ class CartPage extends Page {
   }
 
   private getTotal() {
-    let sum = this.cart.productSum;
+    let sum = this.cart.getProductSum();
     if (this.cart.activePromoCodes.length > 0) {
       this.cart.activePromoCodes.forEach((code) => {
         sum = sum * ((100 - promoList[code]) / 100);
@@ -30,7 +31,7 @@ class CartPage extends Page {
   }
 
   private getProductDiscount() {
-    return `- ${Math.floor((1 - this.cart.productSum / this.cart.productOldSum) * 100).toString()} %`;
+    return `- ${Math.floor((1 - this.cart.getProductSum() / this.cart.getProductOldSum()) * 100).toString()} %`;
   }
 
   private makePromoCard(code: string, discount: number): HTMLElement {
@@ -59,27 +60,67 @@ class CartPage extends Page {
 
   public updateBill(HTMLBill: Element) {
     const amount = HTMLBill.querySelector('#bill-item');
-    amount ? (amount.innerHTML = this.cart.productAmount.toString()) : null;
+    amount ? (amount.innerHTML = this.cart.getProductAmount().toString()) : null;
     const subtotal = HTMLBill.querySelector('#bill-old-sum');
-    subtotal ? (subtotal.innerHTML = this.cart.productOldSum.toString()) : null;
+    subtotal ? (subtotal.innerHTML = this.cart.getProductOldSum().toString()) : null;
     const productDiscount = HTMLBill.querySelector('#bill-product-discount-value');
     productDiscount ? (productDiscount.innerHTML = this.getProductDiscount()) : null;
     const container = HTMLBill.querySelector('#bill-promo-container');
     container instanceof HTMLElement ? this.setPromoCodes(container) : null;
     const total = HTMLBill.querySelector('#bill-total');
     total ? (total.innerHTML = this.getTotal()) : null;
+    this.setQuery();
   }
 
-  protected fillPage(page: DocumentFragment, id: string): DocumentFragment {
+  private setCartFromQuery() {
+    const currentUrl = new URL(window.location.href);
+    const queryCart = currentUrl.searchParams.get('cart');
+    if (queryCart) {
+      const fakeCart: Cart = JSON.parse(queryCart);
+      if (this.isCartValid(fakeCart)) {
+        this.cart.basket = fakeCart.basket;
+        this.cart.activePromoCodes = fakeCart.activePromoCodes;
+      }
+    }
+  }
+
+  private setPaginationFromQuery() {
+    const currentUrl = new URL(window.location.href);
+    const queryPageInfo = currentUrl.searchParams.get('pageInfo');
+    queryPageInfo ? (this.pageInfo = JSON.parse(queryPageInfo)) : null;
+  }
+
+  private setQuery() {
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('cart', JSON.stringify(this.cart));
+    currentUrl.searchParams.set('pageInfo', JSON.stringify(this.pageInfo));
+    window.history.pushState('', currentUrl.toString(), currentUrl);
+  }
+
+  private isCartValid(fakeCart: Cart) {
+    let errors = 0;
+    !fakeCart.activePromoCodes ? (errors += 1) : null;
+    !fakeCart.basket ? (errors += 1) : null;
+    for (const key in fakeCart.basket) {
+      const plant = plants.products.filter((value) => value.id.toString() === key)[0];
+      !plant ? (errors += 1) : null;
+      plant.stock < fakeCart.basket[key] ? (errors += 1) : null;
+    }
+    if (errors === 0) return true;
+    return false;
+  }
+
+  protected fillPage(page: DocumentFragment): DocumentFragment {
+    this.setCartFromQuery();
+    this.setPaginationFromQuery();
     const cartContainer = page.querySelector('.cart-page__container');
-    if (id === 'empty') {
+    if (this.cart.getProductAmount() === 0) {
       const emptyTemp = document.getElementById('empty-cart');
       if (emptyTemp instanceof HTMLTemplateElement) {
         const emptyPage = emptyTemp.content.cloneNode(true);
         cartContainer?.append(emptyPage);
       }
-    }
-    if (id === 'full') {
+    } else {
       const fullTemp = document.getElementById('full-cart');
       if (fullTemp instanceof HTMLTemplateElement) {
         const fullPage = fullTemp.content.cloneNode(true);
@@ -127,9 +168,12 @@ class CartPage extends Page {
         this.cart = newData.cart;
         this.pageInfo = newData.pageInfo;
         this.updateBill(bill);
+        this.setQuery();
       });
       cartList.updateCartList(this.cart, this.pageInfo);
       cartList.fillCards(this.cart, this.pageInfo);
+      this.cart.updateHeader();
+      this.setQuery();
     }
 
     return fullPage;

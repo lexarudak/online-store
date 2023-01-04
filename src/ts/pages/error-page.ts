@@ -4,7 +4,6 @@ import Page from './page';
 class ErrorPage extends Page {
   constructor(cart: Cart) {
     super(cart, 'error');
-    console.log(this.id);
   }
 }
 

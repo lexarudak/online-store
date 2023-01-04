@@ -6,9 +6,20 @@ class App {
   static router: Router;
 
   constructor() {
-    this.cart = new Cart();
+    this.cart = this.setCart();
     App.router = new Router(this.cart);
-    console.log('App constructor');
+  }
+
+  private setCart() {
+    const newCart = new Cart();
+    const oldCartJson = localStorage.getItem('cart');
+    if (oldCartJson) {
+      const oldCart: Cart = JSON.parse(oldCartJson);
+      oldCart.basket ? (newCart.basket = oldCart.basket) : null;
+      oldCart.activePromoCodes ? (newCart.activePromoCodes = oldCart.activePromoCodes) : null;
+    }
+    console.log(newCart);
+    return newCart;
   }
 
   start() {

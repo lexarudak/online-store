@@ -27,11 +27,7 @@ class Router {
         Router.catalogPage.draw();
         break;
       case PagesList.cartPage:
-        if (Router.cartPage.cart.productAmount === 0) {
-          Router.cartPage.draw('empty');
-        } else {
-          Router.cartPage.draw('full');
-        }
+        Router.cartPage.draw();
         break;
       case '/':
         this.goTo(PagesList.catalogPage);
@@ -56,7 +52,6 @@ class Router {
     const links = document.querySelectorAll('[href^="/"]');
     links.forEach((link) => {
       if (!link.classList.contains('link-changed')) {
-        console.log(link);
         link.addEventListener('click', (e) => {
           e.preventDefault();
           link instanceof HTMLAnchorElement ? Router.goTo(new URL(link.href).pathname) : null;
