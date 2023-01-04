@@ -22,3 +22,9 @@ export const enum cardInteger {
   masterCard = '5',
   americanExpress = '3',
 }
+
+export enum FilterType {
+  category = 'type',
+  height = 'height',
+  sale = 'discountPercentage',
+}

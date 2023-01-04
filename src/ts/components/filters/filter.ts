@@ -1,5 +1,6 @@
 import { isHTMLElement, getExistentElement } from '../../base/helpers';
-import { Products, FilterType } from '../../base/types';
+import { Products } from '../../base/types';
+import { FilterType } from '../../base/enums';
 import RangeInput from './rangeInput';
 import CheckboxFilter from './checkboxFilter';
 import FilteredData from './filteredData';
@@ -69,7 +70,7 @@ class Filter {
     if (target.closest('.filter__type'))
       this.filteredData.checkCategoryData = this.categoryFilter.checkboxTypeFilter(target, data);
     if (target.closest('.filter__height'))
-      this.filteredData.checHeightData = this.heightFilter.checkboxTypeFilter(target, data);
+      this.filteredData.checkHeightData = this.heightFilter.checkboxTypeFilter(target, data);
     if (target.closest('.filter__sale'))
       this.filteredData.checkSaleData = this.saleFilter.checkboxTypeFilter(target, data);
   }

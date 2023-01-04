@@ -41,8 +41,13 @@ export interface DataObj {
   priceData: Products[];
 }
 
-export enum FilterType {
-  category = 'type',
-  height = 'height',
-  sale = 'discountPercentage',
+export interface QueryParams {
+  searchInput?: string;
+  category?: string;
+  heigh?: string;
+  sale?: string;
+  priceMin?: string;
+  priceMax?: string;
+  stockMin?: string;
+  stockMax?: string;
 }

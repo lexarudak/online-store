@@ -1,5 +1,6 @@
 import { isHTMLElement } from '../../base/helpers';
-import { Products, FilterType } from '../../base/types';
+import { Products } from '../../base/types';
+import { FilterType } from '../../base/enums';
 
 class CheckboxFilter {
   selectedArr: string[];

@@ -26,7 +26,7 @@ class Router {
     if (isPlantsId(pathname)) {
       Router.plantPage.draw(pathname);
     }
-    if (pathname === PagesList.catalogPage) {
+    if (pathname === PagesList.catalogPage || pathname === '/') {
       console.log('load Catalog Page');
       Router.catalogPage.draw();
     }
@@ -51,6 +51,26 @@ class Router {
     });
     const page = new URL(window.location.href).pathname;
     Router.render(page);
+    Router.getQueryParams(); //test
+  }
+
+  //test
+  static getQueryParams() {
+    const queryParams = {
+      searchInput: '',
+      category: 'succulent',
+      height: '35',
+      sale: 'no',
+      priceMin: '4',
+      priceMax: '60',
+      stockMin: '7',
+      stockMax: '30',
+    };
+    const params = new URLSearchParams(queryParams);
+    const baseUrl = window.location.href;
+    const postUrl = new URL('catalog', baseUrl);
+    postUrl.search = params.toString();
+    console.log(postUrl.toString());
   }
 }
 
