@@ -32,7 +32,7 @@ class Cart {
     let answer = 0;
     for (const key in this.basket) {
       const plant = plants.products.filter((plant) => plant.id.toString() === key)[0];
-      answer += this.basket[key] * (plant.price / (1 - plant.discountPercentage / 100));
+      answer += this.basket[key] * (plant.price / (1 - plant.sale / 100));
     }
     return Math.ceil(answer);
   }

@@ -96,8 +96,8 @@ class CartList {
     const oldPriceContainer = getExistentElement('.product__old-price', element);
     const countContainer = getExistentElement('.product__amount-number', element) as HTMLInputElement;
     priceContainer.innerHTML = '$' + (plant.price * cart.basket[id]).toString();
-    if (plant.discountPercentage) {
-      const oldPriceValue = Math.ceil((plant.price * cart.basket[id]) / ((100 - plant.discountPercentage) / 100));
+    if (plant.sale) {
+      const oldPriceValue = Math.ceil((plant.price * cart.basket[id]) / ((100 - plant.sale) / 100));
       oldPriceContainer.innerHTML = '$' + oldPriceValue.toString();
     }
     countContainer.value = cart.basket[id].toString();

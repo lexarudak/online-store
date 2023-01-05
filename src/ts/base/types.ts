@@ -4,7 +4,7 @@ export interface Products {
   description: string;
   height: number;
   price: number;
-  discountPercentage: number;
+  sale: number;
   rating: number;
   stock: number;
   type: string;
@@ -42,12 +42,12 @@ export interface DataObj {
 }
 
 export interface QueryParams {
-  searchInput?: string;
-  category?: string;
-  heigh?: string;
+  search?: string;
+  sort?: string;
+  type?: string;
+  height?: string;
   sale?: string;
-  priceMin?: string;
-  priceMax?: string;
-  stockMin?: string;
-  stockMax?: string;
+  price?: string;
+  stock?: string;
+  landscape?: string;
 }

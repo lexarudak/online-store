@@ -1,6 +1,7 @@
 import { isHTMLElement } from '../../base/helpers';
 import { Products } from '../../base/types';
 import { FilterType } from '../../base/enums';
+import { queryParamsObj } from './queryParams';
 
 class CheckboxFilter {
   selectedArr: string[];
@@ -21,11 +22,14 @@ class CheckboxFilter {
         this.selectedArr.splice(this.selectedArr.indexOf(target.value), 1);
       }
     }
+    queryParamsObj[this.filterType] = this.selectedArr.join('↕');
+    console.log(queryParamsObj);
+    localStorage.setItem('queryParams', JSON.stringify(queryParamsObj));
 
     let currData = data;
 
     if (this.selectedArr.length) {
-      if (this.filterType === FilterType.sale) return currData.filter((item) => item.discountPercentage);
+      if (this.filterType === FilterType.sale) return currData.filter((item) => item.sale);
 
       const chekedData = [];
       for (const selectedItem of this.selectedArr) {

@@ -4,6 +4,8 @@ import { FilterType } from '../../base/enums';
 import RangeInput from './rangeInput';
 import CheckboxFilter from './checkboxFilter';
 import FilteredData from './filteredData';
+import { queryParamsObj } from './queryParams';
+import Router from '../../router';
 
 class Filter {
   priceRangeInputParent: HTMLElement;
@@ -39,11 +41,16 @@ class Filter {
       const stock = this.stockRangeInput;
       const [min, max] = this.addListenerByType(stock);
       this.filteredData.stockData = this.filterByStock(data, min, max);
-    } else {
+      queryParamsObj.stock = min + '↕' + max;
+      console.log(queryParamsObj);
+    } else if (target.closest('.filter__price')) {
       const price = this.priceRangeInput;
       const [min, max] = this.addListenerByType(price);
       this.filteredData.priceData = this.filterByPrice(data, min, max);
+      queryParamsObj.price = min + '↕' + max;
+      console.log(queryParamsObj);
     }
+    localStorage.setItem('queryParams', JSON.stringify(queryParamsObj));
   }
 
   addListenerByType(type: RangeInput) {
@@ -87,6 +94,8 @@ class Filter {
         item.description.toLowerCase().includes(sortInputValue)
       );
     });
+    queryParamsObj.search = sortInputValue;
+    localStorage.setItem('queryParams', JSON.stringify(queryParamsObj));
   }
 
   sortBy(target: EventTarget | null, data: Products[]): void {
@@ -105,6 +114,8 @@ class Filter {
         this.filteredData.sortData = data.sort((a, b) => b.price - a.price);
         break;
     }
+    queryParamsObj.sort = target.dataset.sort;
+    localStorage.setItem('queryParams', JSON.stringify(queryParamsObj));
   }
 
   // landscape
@@ -120,11 +131,15 @@ class Filter {
       portrait.classList.add('active');
       landscape.classList.remove('active');
       productsContainer.classList.remove('landscape');
+      queryParamsObj.landscape = '';
     } else if (target === landscape) {
       landscape.classList.add('active');
       portrait.classList.remove('active');
       productsContainer.classList.add('landscape');
+      queryParamsObj.landscape = 'true';
     }
+    localStorage.setItem('queryParams', JSON.stringify(queryParamsObj));
+    Router.setQueryParams();
   }
 
   // data
@@ -132,6 +147,7 @@ class Filter {
   getData() {
     const data = this.filteredData.getFinalData();
     this.productCount.textContent = data.length + '';
+    Router.setQueryParams();
     return data;
   }
 }

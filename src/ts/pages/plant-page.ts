@@ -122,8 +122,8 @@ class PlantPage extends Page {
 
         const newPrice = page.querySelector('.product-page__new-price');
         newPrice ? (newPrice.innerHTML = plant.price.toString()) : null;
-        if (plant.discountPercentage > 0) {
-          const oldPriceValue = Math.ceil(plant.price / ((100 - plant.discountPercentage) / 100));
+        if (plant.sale > 0) {
+          const oldPriceValue = Math.ceil(plant.price / ((100 - plant.sale) / 100));
           const oldPrice = document.createElement('span');
           oldPrice.textContent = oldPriceValue.toString();
           oldPrice.classList.add('product-page__old-price', 'usd-symbol');

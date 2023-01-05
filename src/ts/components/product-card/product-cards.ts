@@ -30,8 +30,8 @@ class ProductCards {
       getExistentElement('.product__stock-num', productCardClone).textContent = item.stock.toString();
       getExistentElement('.product__rating-num', productCardClone).textContent = item.rating.toString();
 
-      if (item.discountPercentage) {
-        getExistentElement('.product__discount-num', productCardClone).textContent = item.discountPercentage.toString();
+      if (item.sale) {
+        getExistentElement('.product__discount-num', productCardClone).textContent = item.sale.toString();
         getExistentElement('.product__price', productCardClone).style.color = '#ab5abb';
       } else {
         getExistentElement('.product__discount', productCardClone).style.display = 'none';

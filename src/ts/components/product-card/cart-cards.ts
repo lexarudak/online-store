@@ -54,14 +54,12 @@ class CartCard {
 
       this.countContainer.value = this.count.toString();
       this.priceContainer.innerHTML = '$' + (this.plant.price * this.count).toString();
-      if (this.plant.discountPercentage > 0) {
+      if (this.plant.sale > 0) {
         const round = document.createElement('div');
         round.classList.add('product__discount');
-        round.innerHTML = this.plant.discountPercentage.toString() + '<span> %</span>';
+        round.innerHTML = this.plant.sale.toString() + '<span> %</span>';
         getExistentElement('.product__icons', card).prepend(round);
-        const oldPriceValue = Math.ceil(
-          (this.plant.price * this.count) / ((100 - this.plant.discountPercentage) / 100)
-        );
+        const oldPriceValue = Math.ceil((this.plant.price * this.count) / ((100 - this.plant.sale) / 100));
         this.oldPriceContainer.innerHTML = '$' + oldPriceValue.toString();
         this.priceContainer.classList.add('product-page__new-price_sale');
       }
