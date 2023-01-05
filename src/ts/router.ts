@@ -42,15 +42,6 @@ class Router {
         }
         break;
     }
-    // if (pathname.match(PagesList.catalogPage)) {
-    //   Router.catalogPage.draw();
-    // }
-    // if (pathname.match(PagesList.cartPage)) {
-    //   Router.cartPage.draw();
-    // }
-    // if (pathname === '/') {
-    //   Router.catalogPage.draw();
-    // }
     Router.changeLinks();
   }
 
