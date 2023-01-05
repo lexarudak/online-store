@@ -1,5 +1,5 @@
 import { PagesList } from './base/enums';
-// import { isPlantsId } from './base/helpers';
+import { isPlantsId } from './base/helpers';
 import Cart from './components/cart';
 import CartPage from './pages/cart-page';
 import CatalogPage from './pages/catalog-page';
@@ -24,33 +24,33 @@ class Router {
 
   static render(pathname: string) {
     console.log('render start', pathname);
-    // switch (pathname) {
-    //   case PagesList.catalogPage:
-    //     Router.catalogPage.draw();
-    //     break;
-    //   case PagesList.cartPage:
-    //     Router.cartPage.draw();
-    //     break;
-    //   case '/':
-    //     this.goTo(PagesList.catalogPage);
-    //     break;
-    //   default:
-    //     if (isPlantsId(pathname)) {
-    //       Router.plantPage.draw(pathname.slice(1));
-    //     } else {
-    //       Router.errorPage.draw();
-    //     }
-    //     break;
+    switch (pathname) {
+      case PagesList.catalogPage:
+        Router.catalogPage.draw();
+        break;
+      case PagesList.cartPage:
+        Router.cartPage.draw();
+        break;
+      case '/':
+        this.goTo(PagesList.catalogPage);
+        break;
+      default:
+        if (isPlantsId(pathname)) {
+          Router.plantPage.draw(pathname.slice(1));
+        } else {
+          Router.errorPage.draw();
+        }
+        break;
+    }
+    // if (pathname.match(PagesList.catalogPage)) {
+    //   Router.catalogPage.draw();
     // }
-    if (pathname.match(PagesList.catalogPage)) {
-      Router.catalogPage.draw();
-    }
-    if (pathname.match(PagesList.cartPage)) {
-      Router.cartPage.draw();
-    }
-    if (pathname === '/') {
-      Router.catalogPage.draw();
-    }
+    // if (pathname.match(PagesList.cartPage)) {
+    //   Router.cartPage.draw();
+    // }
+    // if (pathname === '/') {
+    //   Router.catalogPage.draw();
+    // }
     Router.changeLinks();
   }
 
