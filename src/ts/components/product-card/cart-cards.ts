@@ -44,6 +44,7 @@ class CartCard {
       getExistentElement('.product__rating', card).innerHTML = this.plant.rating.toString() + '<span>&#9734;</span>';
       getExistentElement('.product__type', card).innerText = this.plant.type;
       getExistentElement('.product__title', card).innerText = this.plant.title;
+      getExistentElement('.product__description', card).innerHTML = this.plant.description.toString();
       getExistentElement('.product__stock-value', card).innerHTML = this.plant.stock.toString();
       getExistentElement('.product', card).addEventListener('click', (e) => {
         const target = e.target;

@@ -43,10 +43,6 @@ class CartPage extends Page {
     return `$${Math.floor(sum).toString()}`;
   }
 
-  private getProductDiscount() {
-    return `- ${Math.floor((1 - this.cart.getProductSum() / this.cart.getProductOldSum()) * 100).toString()} %`;
-  }
-
   private makePromoCard(code: string, discount: number): HTMLElement {
     const promoCard = document.createElement('li');
     promoCard.id = code;
@@ -74,14 +70,20 @@ class CartPage extends Page {
   public updateBill(HTMLBill: Element) {
     const amount = HTMLBill.querySelector('#bill-item');
     amount ? (amount.innerHTML = this.cart.getProductAmount().toString()) : null;
-    const subtotal = HTMLBill.querySelector('#bill-old-sum');
-    subtotal ? (subtotal.innerHTML = this.cart.getProductOldSum().toString()) : null;
-    const productDiscount = HTMLBill.querySelector('#bill-product-discount-value');
-    productDiscount ? (productDiscount.innerHTML = this.getProductDiscount()) : null;
     const container = HTMLBill.querySelector('#bill-promo-container');
     container instanceof HTMLElement ? this.setPromoCodes(container) : null;
     const total = HTMLBill.querySelector('#bill-total');
     total ? (total.innerHTML = this.getTotal()) : null;
+    const subtotal = HTMLBill.querySelector('#bill-old-sum');
+    if (subtotal instanceof HTMLElement) {
+      const subtotalVal = this.cart.getProductOldSum().toString();
+      subtotal.innerHTML = subtotalVal;
+      if (subtotalVal === this.getTotal().slice(1)) {
+        subtotal.style.textDecoration = 'none';
+      } else {
+        subtotal.style.textDecoration = 'line-through';
+      }
+    }
     this.setQuery();
   }
 
@@ -89,11 +91,16 @@ class CartPage extends Page {
     const currentUrl = new URL(window.location.href);
     const queryCart = currentUrl.searchParams.get('cart');
     if (queryCart) {
-      const queryCartObj: Cart = JSON.parse(queryCart);
-      if (queryCartObj && this.isCartValid(queryCartObj)) {
-        this.cart.basket = queryCartObj.basket;
-        this.cart.activePromoCodes = queryCartObj.activePromoCodes;
-        this.cart.saveCart();
+      try {
+        const queryCartObj: Cart = JSON.parse(queryCart);
+        console.log(queryCartObj);
+        if (queryCartObj && this.isCartValid(queryCartObj)) {
+          this.cart.basket = queryCartObj.basket;
+          this.cart.activePromoCodes = queryCartObj.activePromoCodes;
+          this.cart.saveCart();
+        }
+      } catch (e) {
+        console.log('Non-existent query parameters. oh well, we loaded the page without them');
       }
     }
   }
@@ -101,7 +108,7 @@ class CartPage extends Page {
   private setPaginationFromQuery() {
     const currentUrl = new URL(window.location.href);
     const queryPageInfo = currentUrl.searchParams.get('pageInfo');
-    if (queryPageInfo) {
+    if (queryPageInfo && JSON.parse(queryPageInfo)) {
       const queryPageInfoObj: PageInfo = JSON.parse(queryPageInfo);
       if (queryPageInfoObj && this.isPaginationValid(queryPageInfoObj)) {
         this.pageInfo = queryPageInfoObj;
@@ -193,6 +200,7 @@ class CartPage extends Page {
     if (itemsContainer instanceof HTMLElement && bill) {
       getExistentElement('.clean-card-btn', itemsContainer).addEventListener('click', () => {
         this.cart.cleanCart();
+        this.pageInfo.currentPage = 1;
         Router.goTo(PagesList.cartPage);
       });
       const cartList = new CartList(itemsContainer);
