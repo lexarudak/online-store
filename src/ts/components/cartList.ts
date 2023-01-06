@@ -52,6 +52,7 @@ class CartList {
       }
       cart.updateHeader();
       this.updateCartList(cart, pageInfo);
+      localStorage.setItem('pageInfo', JSON.stringify(pageInfo));
     }
     return { cart, pageInfo };
   }
