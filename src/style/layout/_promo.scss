@@ -4,6 +4,10 @@
   width: 100%;
   background-color: #dff3ed;
 
+  @media (max-width: 600px) {
+      min-height: 260px;
+  }
+
   .container {
     @include flexbox();
     position: relative;
@@ -17,6 +21,16 @@
     text-align: center;
     border-radius: 10px;
     background-color: #fff;
+
+    @media (max-width: 840px) {
+      margin: 0;
+    }
+
+    @media (max-width: 600px) {
+      padding: 10px;
+      height: 200px;
+    }
+    
   }
 
   &__photo {
@@ -24,6 +38,10 @@
     height: 350px;
     left: 0;
     bottom: 0;
+
+    @media (max-width: 840px) {
+      display: none;
+    }
   }
 
   &__title {
@@ -33,6 +51,10 @@
     span {
       color: $green-medium;
       font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      margin: 5px 0px 20px;
     }
   }
 
@@ -53,6 +75,14 @@
       border-radius: 20px;
       border: 1px $green-light solid;
       cursor: copy;
+
+      @media (max-width: 600px) {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      gap: 5px;
     }
   }
 
