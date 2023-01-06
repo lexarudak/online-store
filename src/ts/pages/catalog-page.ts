@@ -18,7 +18,7 @@ class CatalogPage extends Page {
     const values: Products[] = data.products ? data.products : [];
     this.productCard.draw(values);
 
-    const filter = new Filter(values);
+    let filter = new Filter(values);
 
     getExistentElement('.filter').addEventListener('input', (e) => {
       filter.checkboxFilter(e.target, values);
@@ -42,7 +42,14 @@ class CatalogPage extends Page {
     });
 
     getExistentElement('.button_filter').addEventListener('click', () => {
-      console.log('reset');
+      filter = new Filter(values);
+      filter.resetState(values);
+      this.productCard.draw(values);
+    });
+
+    window.addEventListener('load', () => {
+      filter.recoveryState(values);
+      this.productCard.draw(filter.getData());
     });
   }
 

@@ -4,7 +4,7 @@ import { FilterType } from '../../base/enums';
 import RangeInput from './rangeInput';
 import CheckboxFilter from './checkboxFilter';
 import FilteredData from './filteredData';
-import { queryParamsObj } from './queryParams';
+import { queryParamsObj, resetQueryParamsObj } from './queryParams';
 import Router from '../../router';
 
 class Filter {
@@ -17,6 +17,7 @@ class Filter {
   heightFilter: CheckboxFilter;
   saleFilter: CheckboxFilter;
 
+  currentData: Products[];
   filteredData: FilteredData;
   productCount: HTMLElement;
 
@@ -30,6 +31,7 @@ class Filter {
     this.heightFilter = new CheckboxFilter(FilterType.height);
     this.saleFilter = new CheckboxFilter(FilterType.sale);
 
+    this.currentData = data;
     this.filteredData = new FilteredData(data);
     this.productCount = getExistentElement('.found-products__num');
   }
@@ -80,6 +82,29 @@ class Filter {
       this.filteredData.checkHeightData = this.heightFilter.checkboxTypeFilter(target, data);
     if (target.closest('.filter__sale'))
       this.filteredData.checkSaleData = this.saleFilter.checkboxTypeFilter(target, data);
+
+    this.updateCheckbox();
+  }
+
+  updateCheckbox() {
+    const checkbox = [...getExistentElement('.filter').querySelectorAll('input[type="checkbox"]')];
+    const checked = [
+      ...this.categoryFilter.selectedArr,
+      ...this.heightFilter.selectedArr,
+      ...this.saleFilter.selectedArr,
+    ];
+
+    checkbox.forEach((item) => {
+      if (item instanceof HTMLInputElement) {
+        if (checked.length) {
+          checked.forEach((check) => {
+            if (item.value === check) item.checked = true;
+          });
+        } else {
+          item.checked = false;
+        }
+      }
+    });
   }
 
   //sort
@@ -146,9 +171,66 @@ class Filter {
 
   getData() {
     const data = this.filteredData.getFinalData();
+    this.currentData = data;
     this.productCount.textContent = data.length + '';
     Router.setQueryParams();
     return data;
+  }
+
+  // recovery
+
+  recoveryState(data: Products[]) {
+    const currentParamsObj = Router.getQueryParams();
+    const currentParams = Object.keys(currentParamsObj);
+    currentParams.forEach((param) => {
+      if (param === FilterType.category) {
+        this.categoryFilter.selectedArr = currentParamsObj[param].split('%E2%86%95');
+        this.filteredData.checkCategoryData = this.categoryFilter.checkboxTypeFilt(this.currentData);
+      }
+      if (param === FilterType.height) {
+        this.heightFilter.selectedArr = currentParamsObj[param].split('%E2%86%95');
+        this.filteredData.checkHeightData = this.heightFilter.checkboxTypeFilt(this.currentData);
+      }
+      if (param === FilterType.sale) {
+        this.saleFilter.selectedArr = currentParamsObj[param].split('%E2%86%95');
+        this.filteredData.checkSaleData = this.saleFilter.checkboxTypeFilt(this.currentData);
+      }
+      if (param === 'price') {
+        const [min, max] = currentParamsObj[param].split('%E2%86%95');
+        this.priceRangeInput.recoveryRangeFilter(min, max);
+        this.filteredData.priceData = this.filterByPrice(data, min, max);
+      }
+      if (param === 'stock') {
+        const [min, max] = currentParamsObj[param].split('%E2%86%95');
+        this.stockRangeInput.recoveryRangeFilter(min, max);
+        this.filteredData.stockData = this.filterByStock(data, min, max);
+      }
+    });
+    this.updateCheckbox();
+    console.log('Params:', currentParams);
+  }
+
+  // reset
+
+  resetState(data: Products[]) {
+    console.log('reset');
+    this.productCount.textContent = '24';
+    this.filteredData = new FilteredData(data);
+    resetQueryParamsObj();
+    Router.setQueryParams();
+
+    this.resetCheckboxFilter();
+
+    this.priceRangeInput.resetRangeFilter();
+    this.stockRangeInput.resetRangeFilter();
+  }
+
+  resetCheckboxFilter() {
+    this.categoryFilter.resetSelectedArr();
+    this.heightFilter.resetSelectedArr();
+    this.saleFilter.resetSelectedArr();
+
+    this.updateCheckbox();
   }
 }
 

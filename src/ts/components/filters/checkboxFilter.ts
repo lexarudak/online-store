@@ -22,10 +22,14 @@ class CheckboxFilter {
         this.selectedArr.splice(this.selectedArr.indexOf(target.value), 1);
       }
     }
-    queryParamsObj[this.filterType] = this.selectedArr.join('↕');
+    queryParamsObj[this.filterType] = [...new Set(this.selectedArr)].join('↕');
     console.log(queryParamsObj);
     localStorage.setItem('queryParams', JSON.stringify(queryParamsObj));
 
+    return this.checkboxTypeFilt(data);
+  }
+
+  checkboxTypeFilt(data: Products[]) {
     let currData = data;
 
     if (this.selectedArr.length) {
@@ -49,6 +53,10 @@ class CheckboxFilter {
     if (selectedItem === 'short') return currData.filter((item) => item.height <= 30);
     if (selectedItem === 'medium') return currData.filter((item) => item.height > 30 && item.height <= 100);
     return currData.filter((item) => item.height > 100);
+  }
+
+  resetSelectedArr() {
+    this.selectedArr = [];
   }
 }
 
