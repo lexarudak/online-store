@@ -4,7 +4,7 @@ import { FilterType } from '../../base/enums';
 import RangeInput from './rangeInput';
 import CheckboxFilter from './checkboxFilter';
 import FilteredData from './filteredData';
-import { queryParamsObj, resetQueryParamsObj } from './queryParams';
+import { queryParamsObj, resetQueryParamsObj, setQueryParamsObj } from './queryParams';
 import Router from '../../router';
 
 class Filter {
@@ -43,16 +43,15 @@ class Filter {
       const stock = this.stockRangeInput;
       const [min, max] = this.addListenerByType(stock);
       this.filteredData.stockData = this.filterByStock(data, min, max);
-      queryParamsObj.stock = min + '↕' + max;
+      queryParamsObj.stock = min + '.' + max;
       console.log(queryParamsObj);
     } else if (target.closest('.filter__price')) {
       const price = this.priceRangeInput;
       const [min, max] = this.addListenerByType(price);
       this.filteredData.priceData = this.filterByPrice(data, min, max);
-      queryParamsObj.price = min + '↕' + max;
+      queryParamsObj.price = min + '.' + max;
       console.log(queryParamsObj);
     }
-    localStorage.setItem('queryParams', JSON.stringify(queryParamsObj));
   }
 
   addListenerByType(type: RangeInput) {
@@ -120,12 +119,17 @@ class Filter {
       );
     });
     queryParamsObj.search = sortInputValue;
-    localStorage.setItem('queryParams', JSON.stringify(queryParamsObj));
   }
 
   sortBy(target: EventTarget | null, data: Products[]): void {
-    if (!isHTMLElement(target)) throw new Error();
-    switch (target.dataset.sort) {
+    if (!isHTMLElement(target) || !target.dataset.sort) throw new Error();
+    this.checkSortType(target.dataset.sort, data);
+    queryParamsObj.sort = target.dataset.sort;
+  }
+
+  checkSortType(sortType: string, data: Products[]) {
+    this.filteredData.sortData = data.sort((a, b) => a.id - b.id);
+    switch (sortType) {
       case 'rating-up':
         this.filteredData.sortData = data.sort((a, b) => a.rating - b.rating);
         break;
@@ -139,8 +143,6 @@ class Filter {
         this.filteredData.sortData = data.sort((a, b) => b.price - a.price);
         break;
     }
-    queryParamsObj.sort = target.dataset.sort;
-    localStorage.setItem('queryParams', JSON.stringify(queryParamsObj));
   }
 
   // landscape
@@ -163,7 +165,6 @@ class Filter {
       productsContainer.classList.add('landscape');
       queryParamsObj.landscape = 'true';
     }
-    localStorage.setItem('queryParams', JSON.stringify(queryParamsObj));
     Router.setQueryParams();
   }
 
@@ -180,34 +181,43 @@ class Filter {
   // recovery
 
   recoveryState(data: Products[]) {
-    const currentParamsObj = Router.getQueryParams();
-    const currentParams = Object.keys(currentParamsObj);
-    currentParams.forEach((param) => {
+    if (!window.location.search) return;
+    const currentParamsList = window.location.search.slice(1).split('&');
+    const currentParamsObj = Object.fromEntries(currentParamsList.map((el) => el.split('=')));
+    console.log('Object:', currentParamsObj);
+    const paramsKeys = Object.keys(currentParamsObj);
+    console.log('Keys:', paramsKeys);
+    setQueryParamsObj(currentParamsObj);
+    paramsKeys.forEach((param: string) => {
+      const paramValue = currentParamsObj[param].split('.');
+      console.log('Value:', paramValue);
       if (param === FilterType.category) {
-        this.categoryFilter.selectedArr = currentParamsObj[param].split('%E2%86%95');
+        this.categoryFilter.selectedArr = paramValue;
         this.filteredData.checkCategoryData = this.categoryFilter.checkboxTypeFilt(this.currentData);
       }
       if (param === FilterType.height) {
-        this.heightFilter.selectedArr = currentParamsObj[param].split('%E2%86%95');
+        this.heightFilter.selectedArr = paramValue;
         this.filteredData.checkHeightData = this.heightFilter.checkboxTypeFilt(this.currentData);
       }
       if (param === FilterType.sale) {
-        this.saleFilter.selectedArr = currentParamsObj[param].split('%E2%86%95');
+        this.saleFilter.selectedArr = paramValue;
         this.filteredData.checkSaleData = this.saleFilter.checkboxTypeFilt(this.currentData);
       }
       if (param === 'price') {
-        const [min, max] = currentParamsObj[param].split('%E2%86%95');
+        const [min, max] = paramValue;
         this.priceRangeInput.recoveryRangeFilter(min, max);
         this.filteredData.priceData = this.filterByPrice(data, min, max);
       }
       if (param === 'stock') {
-        const [min, max] = currentParamsObj[param].split('%E2%86%95');
+        const [min, max] = paramValue;
         this.stockRangeInput.recoveryRangeFilter(min, max);
         this.filteredData.stockData = this.filterByStock(data, min, max);
       }
+      if (param === 'sort') {
+        this.checkSortType(currentParamsObj[param], data);
+      }
     });
     this.updateCheckbox();
-    console.log('Params:', currentParams);
   }
 
   // reset
@@ -223,6 +233,8 @@ class Filter {
 
     this.priceRangeInput.resetRangeFilter();
     this.stockRangeInput.resetRangeFilter();
+
+    this.filteredData.sortData = data.sort((a, b) => a.id - b.id);
   }
 
   resetCheckboxFilter() {

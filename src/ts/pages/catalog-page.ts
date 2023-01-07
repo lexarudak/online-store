@@ -20,6 +20,9 @@ class CatalogPage extends Page {
 
     let filter = new Filter(values);
 
+    filter.recoveryState(values);
+    this.productCard.draw(filter.getData());
+
     getExistentElement('.filter').addEventListener('input', (e) => {
       filter.checkboxFilter(e.target, values);
       filter.rangeInputFilter(e.target, values);
@@ -45,11 +48,6 @@ class CatalogPage extends Page {
       filter = new Filter(values);
       filter.resetState(values);
       this.productCard.draw(values);
-    });
-
-    window.addEventListener('load', () => {
-      filter.recoveryState(values);
-      this.productCard.draw(filter.getData());
     });
   }
 

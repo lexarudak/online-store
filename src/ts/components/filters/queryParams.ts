@@ -1,13 +1,11 @@
 import { QueryParams } from '../../base/types';
 
-function getQueryParamsObj() {
-  const oldQueryParams = localStorage.getItem('queryParams');
-  return oldQueryParams ? JSON.parse(oldQueryParams) : {};
-}
-
 export function resetQueryParamsObj() {
   queryParamsObj = {};
-  localStorage.removeItem('queryParams');
 }
 
-export let queryParamsObj: QueryParams = getQueryParamsObj();
+export function setQueryParamsObj(obj: Partial<QueryParams>) {
+  obj ? (queryParamsObj = obj) : (queryParamsObj = {});
+}
+
+export let queryParamsObj: Partial<QueryParams> = {};

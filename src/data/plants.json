@@ -37,7 +37,7 @@
     {
       "id": 3,
       "title": "Echeveria SC-035",
-      "description": "Echeveria is a large genus of flowering plant in the family Crassulaceae, native to semi-desert areas of Central America, Mexico and northwestern South America.",
+      "description": "Echeveria is a large genus of flowering in the family Crassulaceae, native to semi-desert areas of Central America, Mexico and northwestern South America.",
       "height": 10,
       "price": 10,
       "sale": 10,
@@ -157,7 +157,7 @@
       "sale": 20,
       "rating": 4.8,
       "stock": 28,
-      "type": "Flowering plant",
+      "type": "Flowering",
       "thumbnail": "plants/10/1.jpg",
       "images": [
         "plants/10/1.jpg",
@@ -173,7 +173,7 @@
       "sale": 10,
       "rating": 4.2,
       "stock": 65,
-      "type": "Flowering plant",
+      "type": "Flowering",
       "thumbnail": "plants/11/1.jpg",
       "images": [
         "plants/11/1.jpg",
@@ -189,7 +189,7 @@
       "sale": 0,
       "rating": 4.6,
       "stock": 52,
-      "type": "Flowering plant",
+      "type": "Flowering",
       "thumbnail": "plants/12/1.jpg",
       "images": [
         "plants/12/1.jpg",
@@ -205,7 +205,7 @@
       "sale": 20,
       "rating": 4.8,
       "stock": 40,
-      "type": "Flowering plant",
+      "type": "Flowering",
       "thumbnail": "plants/13/1.jpg",
       "images": [
         "plants/13/1.jpg",
@@ -215,13 +215,13 @@
     {
       "id": 14,
       "title": "Orchid OR-037",
-      "description": "Orchids have a mystique that seems to set them apart from most other flowers: They are elegant and almost unreal in their perfection. Even though orchids are one of the largest flowering plant families, every orchid species has a unique look.",
+      "description": "Orchids have a mystique that seems to set them apart from most other flowers: They are elegant and almost unreal in their perfection. Even though orchids are one of the largest flowering families, every orchid species has a unique look.",
       "height": 27,
       "price": 25,
       "sale": 0,
       "rating": 4.8,
       "stock": 40,
-      "type": "Flowering plant",
+      "type": "Flowering",
       "thumbnail": "plants/14/1.jpg",
       "images": [
         "plants/14/1.jpg",
