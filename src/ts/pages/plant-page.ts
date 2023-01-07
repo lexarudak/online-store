@@ -105,7 +105,7 @@ class PlantPage extends Page {
     if (linkFilter instanceof HTMLAnchorElement && thisPageLink instanceof HTMLElement) {
       const newLink = new URL(window.location.href);
       newLink.pathname = PagesList.catalogPage;
-      newLink.searchParams.set('someFilter', plant.type);
+      newLink.searchParams.set('type', plant.type.toLowerCase());
       linkFilter.href = newLink.toString();
       linkFilter.innerText = plant.type;
       thisPageLink.innerText = plant.title;
