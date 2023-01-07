@@ -185,8 +185,10 @@ class Filter {
   // recovery
 
   recoveryState(data: Products[]) {
-    if (!window.location.search) return;
-    const currentParamsList = window.location.search.slice(1).split('&');
+    if (!window.location.search) Router.setQueryParams();
+    const url = new URL(window.location.href);
+    if (!url.search) return;
+    const currentParamsList = url.search.slice(1).split('&');
     const currentParamsObj = Object.fromEntries(currentParamsList.map((el) => el.split('=')));
     console.log('Object:', currentParamsObj);
     const paramsKeys = Object.keys(currentParamsObj);
