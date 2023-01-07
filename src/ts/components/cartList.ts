@@ -52,6 +52,7 @@ class CartList {
       }
       cart.updateHeader();
       this.updateCartList(cart, pageInfo);
+      localStorage.setItem('pageInfo', JSON.stringify(pageInfo));
     }
     return { cart, pageInfo };
   }
@@ -81,7 +82,8 @@ class CartList {
           cart.delete(id);
           cart.basket[id] ? this.updateCard(element, cart, id) : element.remove();
           this.isCurrentPageValid(cart, pageInfo) ? null : this.currentPageDown(cart, pageInfo);
-          this.getMaxPage(cart, pageInfo) ? null : Router.goTo(PagesList.cartPage);
+          cart.basket[id] ? null : this.fillCards(cart, pageInfo);
+          this.getMaxPage(cart, pageInfo) === 0 ? Router.goTo(PagesList.cartPage) : null;
           break;
         default:
           break;
@@ -141,6 +143,7 @@ class CartList {
   }
 
   public fillCards(cart: Cart, pageInfo: PageInfo) {
+    this.isCurrentPageValid(cart, pageInfo) ? null : (pageInfo.currentPage = 1);
     if (this.cardsContainer) {
       this.cardsContainer.innerHTML = '';
       const itemsInBasket = Object.keys(cart.basket);
