@@ -14,6 +14,22 @@ class CatalogPage extends Page {
     this.productCard = new ProductCards(cart);
   }
 
+  setSettingsButton() {
+    getExistentElement('.catalog__filter-button').addEventListener('click', () => {
+      this.toggleFilter();
+    });
+    getExistentElement('.catalog__filter-popup').addEventListener('click', () => {
+      this.toggleFilter();
+    });
+  }
+
+  toggleFilter() {
+    getExistentElement('.filter').classList.toggle('filter_active');
+    getExistentElement('.catalog__filter-popup').classList.toggle('catalog__filter-popup_active');
+    getExistentElement('.catalog__filter-button').classList.toggle('filter-button_active');
+    document.body.classList.toggle('body_hold');
+  }
+
   drawProductCard(data: PlantsData): void {
     const values: Products[] = data.products ? data.products : [];
     this.productCard.draw(values);
@@ -57,6 +73,7 @@ class CatalogPage extends Page {
       this.container.innerHTML = '';
       this.container.append(page);
       this.drawProductCard(plantsData);
+      this.setSettingsButton();
     }
   }
 }
