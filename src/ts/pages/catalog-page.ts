@@ -18,7 +18,12 @@ class CatalogPage extends Page {
     const values: Products[] = data.products ? data.products : [];
     const filter = new Filter(values);
 
-    filter.recoveryState(values);
+    try {
+      filter.recoveryState(values);
+    } catch (err) {
+      alert(`Error! Сheck out the link`);
+      this.productCard.draw(values);
+    }
     this.productCard.draw(filter.getData());
 
     getExistentElement('.filter').addEventListener('input', (e) => {

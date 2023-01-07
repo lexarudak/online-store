@@ -49,7 +49,6 @@ class ProductCards {
 
       fragment.append(productCardClone);
     });
-    getExistentElement('.products__container').innerHTML = '';
     getExistentElement('.products__container').appendChild(fragment);
   }
 }
