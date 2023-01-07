@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  padding: 100px 30px;
+  padding: 100px 0px;
   background-color: rgba(255, 255, 255, 0);
   backdrop-filter: blur(0px);
   display: flex;
@@ -14,6 +14,7 @@
   transition: .5s;
   opacity: 0;
   visibility: hidden;
+  z-index: 101;
 
   &__active {
     background-color: $green-extra-light-opacity;
@@ -34,12 +35,19 @@
   opacity: 1;
   visibility: visible;
   height: 850px;
+  margin: 10px;
 
   &_hide {
     opacity: 0;
     visibility: 0;
     overflow: hidden;
     height: 0px;
+  }
+
+  @media (max-width: 600px) {
+    width: 300px;
+    padding: 10px;
+    height: 740px;
   }
 }
 
@@ -49,10 +57,19 @@
 
   &__title {
     margin: 0;
+
+    @media (max-width: 600px) {
+      font-size: 30px;
+    }
   }
 
   &__text {
     margin-top: 15px;
+
+    @media (max-width: 600px) {
+      font-size: 14px;
+      margin-top: 10px;
+    }
   }
 
   &__input {
@@ -75,6 +92,10 @@
 
     &_active {
       opacity: 1;
+    }
+
+    @media (max-width: 600px) {
+      font-size: 14px;
     }
   }
 
@@ -122,26 +143,35 @@
 
 .purchase__message-container {
   position: fixed;
-  height: calc(100% - 150px);
+  height: calc(100% - 210px);
   width: 100%;
   z-index: 1;
   display: flex;
+  margin: 10px;
   align-items: center;
   justify-content: center;
 }
 
 .purchase__message {
   background: $white-medium;
-  padding: 40px;
+  padding: 30px;
   border-radius: 20px;
   box-shadow: $shadow;
   transition: .5s;
   opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
 
 
   &_hide {
     transform: translate(0px, -200%);
     opacity: 0;
     visibility: 0;
+  }
+
+  @media (max-width: 600px) {
+    width: 300px;
   }
 }
