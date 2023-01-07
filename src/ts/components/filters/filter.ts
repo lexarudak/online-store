@@ -176,17 +176,35 @@ class Filter {
 
   getData() {
     const data = this.filteredData.getFinalData();
+    this.setEmptyText(data.length);
     this.currentData = data;
     this.productCount.textContent = data.length + '';
     Router.setQueryParams();
     return data;
   }
 
+  setEmptyText(length: number) {
+    const container = getExistentElement('.products__container');
+    if (!length) {
+      container.style.fontSize = '30px';
+      container.style.fontWeight = '500';
+      container.style.color = '#22795D';
+      container.innerHTML = 'NOT FOUND :(';
+    } else {
+      container.style.fontSize = '';
+      container.style.fontWeight = '';
+      container.style.color = '';
+      container.innerHTML = '';
+    }
+  }
+
   // recovery
 
   recoveryState(data: Products[]) {
-    if (!window.location.search) return;
-    const currentParamsList = window.location.search.slice(1).split('&');
+    if (!window.location.search) Router.setQueryParams();
+    const url = new URL(window.location.href);
+    if (!url.search) return;
+    const currentParamsList = url.search.slice(1).split('&');
     const currentParamsObj = Object.fromEntries(currentParamsList.map((el) => el.split('=')));
     console.log('Object:', currentParamsObj);
     const paramsKeys = Object.keys(currentParamsObj);
@@ -254,6 +272,8 @@ class Filter {
     getExistentElement('.layout__portrait').classList.add('active');
     getExistentElement('.layout__landscape').classList.remove('active');
     getExistentElement('.products__container').classList.remove('landscape');
+
+    getExistentElement<HTMLInputElement>('.sort-input').value = '';
   }
 
   resetCheckboxFilter() {

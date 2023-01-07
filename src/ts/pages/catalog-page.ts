@@ -4,7 +4,7 @@ import Filter from '../components/filters/filter';
 import { PlantsData, Products } from '../base/types';
 import plantsData from '../../data/plants.json';
 import Cart from '../components/cart';
-import { getExistentElement } from '../base/helpers';
+import { getExistentElement, isHTMLElement } from '../base/helpers';
 
 class CatalogPage extends Page {
   productCard: ProductCards;
@@ -32,17 +32,19 @@ class CatalogPage extends Page {
 
   drawProductCard(data: PlantsData): void {
     const values: Products[] = data.products ? data.products : [];
-    this.productCard.draw(values);
+    const filter = new Filter(values);
 
-    let filter = new Filter(values);
-
-    filter.recoveryState(values);
+    try {
+      filter.recoveryState(values);
+    } catch (err) {
+      alert(`Error! Сheck out the link`);
+      this.productCard.draw(values);
+    }
     this.productCard.draw(filter.getData());
 
     getExistentElement('.filter').addEventListener('input', (e) => {
       filter.checkboxFilter(e.target, values);
       filter.rangeInputFilter(e.target, values);
-
       this.productCard.draw(filter.getData());
     });
 
@@ -61,9 +63,24 @@ class CatalogPage extends Page {
     });
 
     getExistentElement('.button_filter').addEventListener('click', () => {
-      filter = new Filter(values);
       filter.resetState(values);
       this.productCard.draw(values);
+    });
+
+    getExistentElement('.button_copy').addEventListener('click', (e) => {
+      navigator.clipboard.writeText(window.location.href);
+      if (!isHTMLElement(e.target)) throw new Error();
+      const button = e.target;
+      button.style.color = '#FFFFFF';
+      button.style.border = 'none';
+      button.style.backgroundColor = '#ab5abb';
+      button.textContent = 'Copied!';
+      setTimeout(function () {
+        button.style.color = '';
+        button.style.border = '';
+        button.style.backgroundColor = '';
+        button.textContent = 'Copy link';
+      }, 1200);
     });
   }
 
