@@ -115,7 +115,11 @@ class Filter {
       return (
         item.title.toLowerCase().includes(sortInputValue) ||
         item.type.toLowerCase().includes(sortInputValue) ||
-        item.description.toLowerCase().includes(sortInputValue)
+        item.description.toLowerCase().includes(sortInputValue) ||
+        String(item.price).includes(sortInputValue) ||
+        String(item.sale).includes(sortInputValue) ||
+        String(item.rating).includes(sortInputValue) ||
+        String(item.stock).includes(sortInputValue)
       );
     });
     queryParamsObj.search = sortInputValue;
@@ -223,6 +227,10 @@ class Filter {
         getExistentElement('.layout__portrait').classList.remove('active');
         getExistentElement('.layout__landscape').classList.add('active');
         getExistentElement('.products__container').classList.add('landscape');
+      }
+      if (param === 'search') {
+        getExistentElement<HTMLInputElement>('.sort-input').value = paramValue;
+        this.sortInput(data);
       }
     });
   }
