@@ -49,7 +49,7 @@ class Cart {
     HTMLElement ? (HTMLElement.innerHTML = this.getProductOldSum().toString()) : null;
   }
 
-  private saveCart() {
+  public saveCart() {
     const cart = {
       basket: this.basket,
       activePromoCodes: this.activePromoCodes,

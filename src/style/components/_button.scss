@@ -113,10 +113,17 @@
   align-items: center;
   gap: 10px;
 
+  @media (max-width: 600px) {
+    height: 40px;
+  }
+
   &__link,
   &__slash {
     color: $grey-medium;
     transition: .3s;
+  @media (max-width: 600px) {
+    font-size: 12px;
+  }
   }
 
   &__link:hover {

@@ -9,6 +9,11 @@ h2 {
 
 .page-title {
   margin: 30px 0px;
+
+  @media (max-width: 600px) {
+    margin: 20px 0px;
+    font-size: 30px;
+  }
 }
 
 .subtitle {

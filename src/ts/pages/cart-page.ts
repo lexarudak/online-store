@@ -14,10 +14,23 @@ class CartPage extends Page {
   constructor(cart: Cart) {
     super(cart, 'cart');
     this.cart = cart;
-    this.pageInfo = {
-      itemsOnPage: 3,
+    this.pageInfo = this.setPageInfo();
+  }
+
+  private setPageInfo() {
+    let pageInfo: PageInfo;
+    const startPageInfo = {
+      itemsOnPage: 4,
       currentPage: 1,
     };
+    const oldPageInfoJson = localStorage.getItem('pageInfo');
+    if (oldPageInfoJson) {
+      const oldPageInfoObj: PageInfo = JSON.parse(oldPageInfoJson);
+      oldPageInfoObj ? (pageInfo = oldPageInfoObj) : (pageInfo = startPageInfo);
+    } else {
+      pageInfo = startPageInfo;
+    }
+    return pageInfo;
   }
 
   private getTotal() {
@@ -28,10 +41,6 @@ class CartPage extends Page {
       });
     }
     return `$${Math.floor(sum).toString()}`;
-  }
-
-  private getProductDiscount() {
-    return `- ${Math.floor((1 - this.cart.getProductSum() / this.cart.getProductOldSum()) * 100).toString()} %`;
   }
 
   private makePromoCard(code: string, discount: number): HTMLElement {
@@ -61,14 +70,20 @@ class CartPage extends Page {
   public updateBill(HTMLBill: Element) {
     const amount = HTMLBill.querySelector('#bill-item');
     amount ? (amount.innerHTML = this.cart.getProductAmount().toString()) : null;
-    const subtotal = HTMLBill.querySelector('#bill-old-sum');
-    subtotal ? (subtotal.innerHTML = this.cart.getProductOldSum().toString()) : null;
-    const productDiscount = HTMLBill.querySelector('#bill-product-discount-value');
-    productDiscount ? (productDiscount.innerHTML = this.getProductDiscount()) : null;
     const container = HTMLBill.querySelector('#bill-promo-container');
     container instanceof HTMLElement ? this.setPromoCodes(container) : null;
     const total = HTMLBill.querySelector('#bill-total');
     total ? (total.innerHTML = this.getTotal()) : null;
+    const subtotal = HTMLBill.querySelector('#bill-old-sum');
+    if (subtotal instanceof HTMLElement) {
+      const subtotalVal = this.cart.getProductOldSum().toString();
+      subtotal.innerHTML = subtotalVal;
+      if (subtotalVal === this.getTotal().slice(1)) {
+        subtotal.style.textDecoration = 'none';
+      } else {
+        subtotal.style.textDecoration = 'line-through';
+      }
+    }
     this.setQuery();
   }
 
@@ -76,10 +91,16 @@ class CartPage extends Page {
     const currentUrl = new URL(window.location.href);
     const queryCart = currentUrl.searchParams.get('cart');
     if (queryCart) {
-      const fakeCart: Cart = JSON.parse(queryCart);
-      if (this.isCartValid(fakeCart)) {
-        this.cart.basket = fakeCart.basket;
-        this.cart.activePromoCodes = fakeCart.activePromoCodes;
+      try {
+        const queryCartObj: Cart = JSON.parse(queryCart);
+        console.log(queryCartObj);
+        if (queryCartObj && this.isCartValid(queryCartObj)) {
+          this.cart.basket = queryCartObj.basket;
+          this.cart.activePromoCodes = queryCartObj.activePromoCodes;
+          this.cart.saveCart();
+        }
+      } catch (e) {
+        console.log('Non-existent query parameters. oh well, we loaded the page without them');
       }
     }
   }
@@ -87,7 +108,13 @@ class CartPage extends Page {
   private setPaginationFromQuery() {
     const currentUrl = new URL(window.location.href);
     const queryPageInfo = currentUrl.searchParams.get('pageInfo');
-    queryPageInfo ? (this.pageInfo = JSON.parse(queryPageInfo)) : null;
+    if (queryPageInfo && JSON.parse(queryPageInfo)) {
+      const queryPageInfoObj: PageInfo = JSON.parse(queryPageInfo);
+      if (queryPageInfoObj && this.isPaginationValid(queryPageInfoObj)) {
+        this.pageInfo = queryPageInfoObj;
+        localStorage.setItem('pageInfo', JSON.stringify(queryPageInfoObj));
+      }
+    }
   }
 
   private setQuery() {
@@ -97,15 +124,28 @@ class CartPage extends Page {
     window.history.pushState('', currentUrl.toString(), currentUrl);
   }
 
-  private isCartValid(fakeCart: Cart) {
+  private isCartValid(queryCartObj: Cart) {
     let errors = 0;
-    !fakeCart.activePromoCodes ? (errors += 1) : null;
-    !fakeCart.basket ? (errors += 1) : null;
-    for (const key in fakeCart.basket) {
+    !queryCartObj.activePromoCodes ? (errors += 1) : null;
+    !queryCartObj.basket ? (errors += 1) : null;
+    for (const key in queryCartObj.basket) {
       const plant = plants.products.filter((value) => value.id.toString() === key)[0];
       !plant ? (errors += 1) : null;
-      plant.stock < fakeCart.basket[key] ? (errors += 1) : null;
+      plant.stock < queryCartObj.basket[key] ? (errors += 1) : null;
     }
+    if (errors === 0) return true;
+    return false;
+  }
+
+  private isPaginationValid(queryPageInfo: PageInfo) {
+    let errors = 0;
+    !queryPageInfo.currentPage ? (errors += 1) : null;
+    !queryPageInfo.itemsOnPage ? (errors += 1) : null;
+    queryPageInfo.itemsOnPage < 1 || queryPageInfo.itemsOnPage > 10 ? (errors += 1) : null;
+    const itemsInBasket = Object.keys(this.cart.basket).length;
+    const lastPage = Math.ceil(itemsInBasket / queryPageInfo.itemsOnPage);
+    queryPageInfo.currentPage > lastPage || queryPageInfo.currentPage < 1 ? (errors += 1) : null;
+    console.log(lastPage, queryPageInfo.currentPage, errors);
     if (errors === 0) return true;
     return false;
   }
@@ -160,6 +200,7 @@ class CartPage extends Page {
     if (itemsContainer instanceof HTMLElement && bill) {
       getExistentElement('.clean-card-btn', itemsContainer).addEventListener('click', () => {
         this.cart.cleanCart();
+        this.pageInfo.currentPage = 1;
         Router.goTo(PagesList.cartPage);
       });
       const cartList = new CartList(itemsContainer);
