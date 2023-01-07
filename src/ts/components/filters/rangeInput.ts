@@ -62,6 +62,20 @@ class RangeInput {
       this.range.style.right = 100 - (maxVal / +this.rangeInputMax.max) * 100 + '%';
     }
   }
+
+  recoveryRangeFilter(min: string, max: string) {
+    this.priceInputMin.value = min;
+    this.priceInputMax.value = max;
+    this.changePriceInputMin();
+    this.changePriceInputMax();
+  }
+
+  resetRangeFilter() {
+    this.priceInputMin.value = this.priceInputMax.min;
+    this.priceInputMax.value = this.priceInputMax.max;
+    this.changePriceInputMin();
+    this.changePriceInputMax();
+  }
 }
 
 export default RangeInput;

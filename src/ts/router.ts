@@ -7,7 +7,6 @@ import ErrorPage from './pages/error-page';
 import Page from './pages/page';
 import PlantPage from './pages/plant-page';
 import { queryParamsObj } from './components/filters/queryParams';
-import { QueryParams } from './base/types';
 
 class Router {
   static catalogPage: Page;
@@ -69,31 +68,14 @@ class Router {
     });
     const page = new URL(window.location.href).pathname;
     Router.render(page);
-    Router.setQueryParams(); //test
-    Router.getQueryParams(); //test
   }
 
-  //test
   static setQueryParams() {
-    const oldQueryParams = localStorage.getItem('queryParams');
-    let queryParamsTemp: QueryParams = queryParamsObj;
-    if (oldQueryParams) {
-      queryParamsTemp = JSON.parse(oldQueryParams);
-    }
-    const queryParams = Object.fromEntries(Object.entries(queryParamsTemp).filter((n) => n[1] !== ''));
-
-    const params = new URLSearchParams(queryParams);
-    const baseUrl = window.location.href;
-    const postUrl = new URL('catalog', baseUrl);
-    postUrl.search = params.toString();
-    window.history.pushState('', postUrl.toString(), postUrl);
-  }
-
-  static getQueryParams() {
-    const currentParams = window.location.search.slice(1).split('&');
-    const currentParamsObj = Object.fromEntries(currentParams.map((el) => el.split('=')));
-    console.log('Params:', currentParamsObj);
-    return currentParamsObj;
+    const currentParamsObj = Object.fromEntries(Object.entries(queryParamsObj).filter((item) => item[1] !== ''));
+    const paramsStr = new URLSearchParams(currentParamsObj);
+    const currentUrl = new URL('catalog', window.location.href);
+    currentUrl.search = paramsStr.toString();
+    window.history.pushState('', 'catalog', currentUrl);
   }
 }
 

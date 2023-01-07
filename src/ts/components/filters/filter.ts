@@ -4,7 +4,7 @@ import { FilterType } from '../../base/enums';
 import RangeInput from './rangeInput';
 import CheckboxFilter from './checkboxFilter';
 import FilteredData from './filteredData';
-import { queryParamsObj } from './queryParams';
+import { queryParamsObj, resetQueryParamsObj, setQueryParamsObj } from './queryParams';
 import Router from '../../router';
 
 class Filter {
@@ -17,6 +17,7 @@ class Filter {
   heightFilter: CheckboxFilter;
   saleFilter: CheckboxFilter;
 
+  currentData: Products[];
   filteredData: FilteredData;
   productCount: HTMLElement;
 
@@ -30,6 +31,7 @@ class Filter {
     this.heightFilter = new CheckboxFilter(FilterType.height);
     this.saleFilter = new CheckboxFilter(FilterType.sale);
 
+    this.currentData = data;
     this.filteredData = new FilteredData(data);
     this.productCount = getExistentElement('.found-products__num');
   }
@@ -41,16 +43,15 @@ class Filter {
       const stock = this.stockRangeInput;
       const [min, max] = this.addListenerByType(stock);
       this.filteredData.stockData = this.filterByStock(data, min, max);
-      queryParamsObj.stock = min + '↕' + max;
+      queryParamsObj.stock = min + '.' + max;
       console.log(queryParamsObj);
     } else if (target.closest('.filter__price')) {
       const price = this.priceRangeInput;
       const [min, max] = this.addListenerByType(price);
       this.filteredData.priceData = this.filterByPrice(data, min, max);
-      queryParamsObj.price = min + '↕' + max;
+      queryParamsObj.price = min + '.' + max;
       console.log(queryParamsObj);
     }
-    localStorage.setItem('queryParams', JSON.stringify(queryParamsObj));
   }
 
   addListenerByType(type: RangeInput) {
@@ -80,6 +81,29 @@ class Filter {
       this.filteredData.checkHeightData = this.heightFilter.checkboxTypeFilter(target, data);
     if (target.closest('.filter__sale'))
       this.filteredData.checkSaleData = this.saleFilter.checkboxTypeFilter(target, data);
+
+    this.updateCheckbox();
+  }
+
+  updateCheckbox() {
+    const checkbox = [...getExistentElement('.filter').querySelectorAll('input[type="checkbox"]')];
+    const checked = [
+      ...this.categoryFilter.selectedArr,
+      ...this.heightFilter.selectedArr,
+      ...this.saleFilter.selectedArr,
+    ];
+
+    checkbox.forEach((item) => {
+      if (item instanceof HTMLInputElement) {
+        if (checked.length) {
+          checked.forEach((check) => {
+            if (item.value === check) item.checked = true;
+          });
+        } else {
+          item.checked = false;
+        }
+      }
+    });
   }
 
   //sort
@@ -95,12 +119,17 @@ class Filter {
       );
     });
     queryParamsObj.search = sortInputValue;
-    localStorage.setItem('queryParams', JSON.stringify(queryParamsObj));
   }
 
   sortBy(target: EventTarget | null, data: Products[]): void {
-    if (!isHTMLElement(target)) throw new Error();
-    switch (target.dataset.sort) {
+    if (!isHTMLElement(target) || !target.dataset.sort) throw new Error();
+    this.checkSortType(target.dataset.sort, data);
+    queryParamsObj.sort = target.dataset.sort;
+  }
+
+  checkSortType(sortType: string, data: Products[]) {
+    this.filteredData.sortData = data.sort((a, b) => a.id - b.id);
+    switch (sortType) {
       case 'rating-up':
         this.filteredData.sortData = data.sort((a, b) => a.rating - b.rating);
         break;
@@ -114,8 +143,6 @@ class Filter {
         this.filteredData.sortData = data.sort((a, b) => b.price - a.price);
         break;
     }
-    queryParamsObj.sort = target.dataset.sort;
-    localStorage.setItem('queryParams', JSON.stringify(queryParamsObj));
   }
 
   // landscape
@@ -123,9 +150,9 @@ class Filter {
   changeLayout(target: EventTarget | null): void {
     if (!isHTMLElement(target)) throw new Error();
 
-    const portrait = getExistentElement<HTMLInputElement>('.layout__portrait');
-    const landscape = getExistentElement<HTMLInputElement>('.layout__landscape');
-    const productsContainer = getExistentElement<HTMLInputElement>('.products__container');
+    const portrait = getExistentElement('.layout__portrait');
+    const landscape = getExistentElement('.layout__landscape');
+    const productsContainer = getExistentElement('.products__container');
 
     if (target === portrait) {
       portrait.classList.add('active');
@@ -138,7 +165,6 @@ class Filter {
       productsContainer.classList.add('landscape');
       queryParamsObj.landscape = 'true';
     }
-    localStorage.setItem('queryParams', JSON.stringify(queryParamsObj));
     Router.setQueryParams();
   }
 
@@ -146,9 +172,88 @@ class Filter {
 
   getData() {
     const data = this.filteredData.getFinalData();
+    this.currentData = data;
     this.productCount.textContent = data.length + '';
     Router.setQueryParams();
     return data;
+  }
+
+  // recovery
+
+  recoveryState(data: Products[]) {
+    if (!window.location.search) return;
+    const currentParamsList = window.location.search.slice(1).split('&');
+    const currentParamsObj = Object.fromEntries(currentParamsList.map((el) => el.split('=')));
+    console.log('Object:', currentParamsObj);
+    const paramsKeys = Object.keys(currentParamsObj);
+    console.log('Keys:', paramsKeys);
+    setQueryParamsObj(currentParamsObj);
+    paramsKeys.forEach((param: string) => {
+      const paramValue = currentParamsObj[param].split('.');
+      console.log('Value:', paramValue);
+      if (param === FilterType.category) {
+        this.categoryFilter.selectedArr = paramValue;
+        this.filteredData.checkCategoryData = this.categoryFilter.checkboxTypeFilt(this.currentData);
+        this.updateCheckbox();
+      }
+      if (param === FilterType.height) {
+        this.heightFilter.selectedArr = paramValue;
+        this.filteredData.checkHeightData = this.heightFilter.checkboxTypeFilt(this.currentData);
+        this.updateCheckbox();
+      }
+      if (param === FilterType.sale) {
+        this.saleFilter.selectedArr = paramValue;
+        this.filteredData.checkSaleData = this.saleFilter.checkboxTypeFilt(this.currentData);
+        this.updateCheckbox();
+      }
+      if (param === 'price') {
+        const [min, max] = paramValue;
+        this.priceRangeInput.recoveryRangeFilter(min, max);
+        this.filteredData.priceData = this.filterByPrice(data, min, max);
+      }
+      if (param === 'stock') {
+        const [min, max] = paramValue;
+        this.stockRangeInput.recoveryRangeFilter(min, max);
+        this.filteredData.stockData = this.filterByStock(data, min, max);
+      }
+      if (param === 'sort') {
+        this.checkSortType(currentParamsObj[param], data);
+      }
+      if (param === 'landscape') {
+        getExistentElement('.layout__portrait').classList.remove('active');
+        getExistentElement('.layout__landscape').classList.add('active');
+        getExistentElement('.products__container').classList.add('landscape');
+      }
+    });
+  }
+
+  // reset
+
+  resetState(data: Products[]) {
+    console.log('reset');
+    this.productCount.textContent = '24';
+    this.filteredData = new FilteredData(data);
+    resetQueryParamsObj();
+    Router.setQueryParams();
+
+    this.resetCheckboxFilter();
+
+    this.priceRangeInput.resetRangeFilter();
+    this.stockRangeInput.resetRangeFilter();
+
+    this.filteredData.sortData = data.sort((a, b) => a.id - b.id);
+
+    getExistentElement('.layout__portrait').classList.add('active');
+    getExistentElement('.layout__landscape').classList.remove('active');
+    getExistentElement('.products__container').classList.remove('landscape');
+  }
+
+  resetCheckboxFilter() {
+    this.categoryFilter.resetSelectedArr();
+    this.heightFilter.resetSelectedArr();
+    this.saleFilter.resetSelectedArr();
+
+    this.updateCheckbox();
   }
 }
 
