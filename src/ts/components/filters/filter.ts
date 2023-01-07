@@ -150,9 +150,9 @@ class Filter {
   changeLayout(target: EventTarget | null): void {
     if (!isHTMLElement(target)) throw new Error();
 
-    const portrait = getExistentElement<HTMLInputElement>('.layout__portrait');
-    const landscape = getExistentElement<HTMLInputElement>('.layout__landscape');
-    const productsContainer = getExistentElement<HTMLInputElement>('.products__container');
+    const portrait = getExistentElement('.layout__portrait');
+    const landscape = getExistentElement('.layout__landscape');
+    const productsContainer = getExistentElement('.products__container');
 
     if (target === portrait) {
       portrait.classList.add('active');
@@ -194,14 +194,17 @@ class Filter {
       if (param === FilterType.category) {
         this.categoryFilter.selectedArr = paramValue;
         this.filteredData.checkCategoryData = this.categoryFilter.checkboxTypeFilt(this.currentData);
+        this.updateCheckbox();
       }
       if (param === FilterType.height) {
         this.heightFilter.selectedArr = paramValue;
         this.filteredData.checkHeightData = this.heightFilter.checkboxTypeFilt(this.currentData);
+        this.updateCheckbox();
       }
       if (param === FilterType.sale) {
         this.saleFilter.selectedArr = paramValue;
         this.filteredData.checkSaleData = this.saleFilter.checkboxTypeFilt(this.currentData);
+        this.updateCheckbox();
       }
       if (param === 'price') {
         const [min, max] = paramValue;
@@ -216,8 +219,12 @@ class Filter {
       if (param === 'sort') {
         this.checkSortType(currentParamsObj[param], data);
       }
+      if (param === 'landscape') {
+        getExistentElement('.layout__portrait').classList.remove('active');
+        getExistentElement('.layout__landscape').classList.add('active');
+        getExistentElement('.products__container').classList.add('landscape');
+      }
     });
-    this.updateCheckbox();
   }
 
   // reset
@@ -235,6 +242,10 @@ class Filter {
     this.stockRangeInput.resetRangeFilter();
 
     this.filteredData.sortData = data.sort((a, b) => a.id - b.id);
+
+    getExistentElement('.layout__portrait').classList.add('active');
+    getExistentElement('.layout__landscape').classList.remove('active');
+    getExistentElement('.products__container').classList.remove('landscape');
   }
 
   resetCheckboxFilter() {
