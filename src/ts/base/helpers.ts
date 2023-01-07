@@ -29,7 +29,7 @@ function setAddButton(button: HTMLElement, cart: Cart, plant: Products) {
     id in cart.basket ? button.classList.add('button-purple') : button.classList.add('button');
     id in cart.basket ? (button.innerHTML = 'In your cart') : (button.innerHTML = 'Add to cart');
     button.addEventListener('click', function () {
-      id in cart.basket ? cart.delete(id) : cart.add(id);
+      id in cart.basket ? delete cart.basket[id] : cart.add(id);
       id in cart.basket
         ? button.classList.replace('button', 'button-purple')
         : button.classList.replace('button-purple', 'button');
