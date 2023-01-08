@@ -42,12 +42,16 @@ export interface DataObj {
 }
 
 export interface QueryParams {
-  search?: string;
-  sort?: string;
-  type?: string;
-  height?: string;
-  sale?: string;
-  price?: string;
-  stock?: string;
-  landscape?: string;
+  search: string;
+  sort: string;
+  type: string;
+  height: string;
+  sale: string;
+  price: string;
+  stock: string;
+  landscape: string;
+}
+
+export interface Template {
+  [key: string]: string[];
 }

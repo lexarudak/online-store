@@ -4,8 +4,8 @@ import { FilterType } from '../../base/enums';
 import RangeInput from './rangeInput';
 import CheckboxFilter from './checkboxFilter';
 import FilteredData from './filteredData';
-import { queryParamsObj, resetQueryParamsObj, setQueryParamsObj } from './queryParams';
-import Router from '../../router';
+import { queryParamsObj, resetQueryParamsObj, setQueryParamsObj, queryParamsTemtplate } from './queryParams';
+import CatalogPage from './../../pages/catalog-page';
 
 class Filter {
   priceRangeInputParent: HTMLElement;
@@ -44,13 +44,11 @@ class Filter {
       const [min, max] = this.addListenerByType(stock);
       this.filteredData.stockData = this.filterByStock(data, min, max);
       queryParamsObj.stock = min + '.' + max;
-      console.log(queryParamsObj);
     } else if (target.closest('.filter__price')) {
       const price = this.priceRangeInput;
       const [min, max] = this.addListenerByType(price);
       this.filteredData.priceData = this.filterByPrice(data, min, max);
       queryParamsObj.price = min + '.' + max;
-      console.log(queryParamsObj);
     }
   }
 
@@ -169,21 +167,21 @@ class Filter {
       productsContainer.classList.add('landscape');
       queryParamsObj.landscape = 'true';
     }
-    Router.setQueryParams();
+    CatalogPage.setQueryParams();
   }
 
   // data
 
   getData() {
     const data = this.filteredData.getFinalData();
-    this.setEmptyText(data.length);
+    this.showText(data.length);
     this.currentData = data;
     this.productCount.textContent = data.length + '';
-    Router.setQueryParams();
+    CatalogPage.setQueryParams();
     return data;
   }
 
-  setEmptyText(length: number) {
+  showText(length: number) {
     const container = getExistentElement('.products__container');
     if (!length) {
       container.style.fontSize = '30px';
@@ -201,47 +199,55 @@ class Filter {
   // recovery
 
   recoveryState(data: Products[]) {
-    if (!window.location.search) Router.setQueryParams();
+    if (!window.location.search) CatalogPage.setQueryParams();
     const url = new URL(window.location.href);
     if (!url.search) return;
     const currentParamsList = url.search.slice(1).split('&');
     const currentParamsObj = Object.fromEntries(currentParamsList.map((el) => el.split('=')));
-    console.log('Object:', currentParamsObj);
+    // console.log('Object:', currentParamsObj);
     const paramsKeys = Object.keys(currentParamsObj);
-    console.log('Keys:', paramsKeys);
+    // console.log('Keys:', paramsKeys);
     setQueryParamsObj(currentParamsObj);
     paramsKeys.forEach((param: string) => {
       const paramValue = currentParamsObj[param].split('.');
-      console.log('Value:', paramValue);
+      // console.log('Value:', paramValue);
+      this.isURLValid(param);
       if (param === FilterType.category) {
+        this.isURLValueValid('ckeckValues', param, paramValue);
         this.categoryFilter.selectedArr = paramValue;
         this.filteredData.checkCategoryData = this.categoryFilter.checkboxTypeFilt(this.currentData);
         this.updateCheckbox();
       }
       if (param === FilterType.height) {
+        this.isURLValueValid('ckeckValues', param, paramValue);
         this.heightFilter.selectedArr = paramValue;
         this.filteredData.checkHeightData = this.heightFilter.checkboxTypeFilt(this.currentData);
         this.updateCheckbox();
       }
       if (param === FilterType.sale) {
+        this.isURLValueValid('ckeckValues', param, paramValue);
         this.saleFilter.selectedArr = paramValue;
         this.filteredData.checkSaleData = this.saleFilter.checkboxTypeFilt(this.currentData);
         this.updateCheckbox();
       }
       if (param === 'price') {
+        this.isURLValueValid('ckeckRange', param, paramValue, 100);
         const [min, max] = paramValue;
         this.priceRangeInput.recoveryRangeFilter(min, max);
         this.filteredData.priceData = this.filterByPrice(data, min, max);
       }
       if (param === 'stock') {
+        this.isURLValueValid('ckeckRange', param, paramValue, 65);
         const [min, max] = paramValue;
         this.stockRangeInput.recoveryRangeFilter(min, max);
         this.filteredData.stockData = this.filterByStock(data, min, max);
       }
       if (param === 'sort') {
+        this.isURLValueValid('ckeckValues', param, paramValue);
         this.checkSortType(currentParamsObj[param], data);
       }
       if (param === 'landscape') {
+        this.isURLValueValid('ckeckValues', param, paramValue);
         getExistentElement('.layout__portrait').classList.remove('active');
         getExistentElement('.layout__landscape').classList.add('active');
         getExistentElement('.products__container').classList.add('landscape');
@@ -253,14 +259,41 @@ class Filter {
     });
   }
 
+  isURLValid(urlParamKey: string) {
+    const paramsKeys = Object.keys(queryParamsTemtplate);
+    if (!paramsKeys.includes(urlParamKey)) {
+      history.back();
+    }
+  }
+
+  isURLValueValid(filterType: string, param: string, paramValue: string[], max?: number) {
+    let errors = 0;
+    const validValues = queryParamsTemtplate[param];
+    console.log(filterType, paramValue, validValues);
+    if (filterType === 'ckeckValues' && paramValue.length) {
+      paramValue.forEach((value) => {
+        if (!validValues.includes(value)) {
+          errors++;
+        }
+      });
+    } else if (filterType === 'ckeckRange' && paramValue.length && max) {
+      if (paramValue.length !== 2 || +paramValue[0] >= +paramValue[1] || +paramValue[0] < 1 || +paramValue[2] > max) {
+        errors++;
+        console.log('Range ERROR', paramValue);
+      }
+    }
+    if (errors) history.back();
+  }
+
   // reset
 
   resetState(data: Products[]) {
     console.log('reset');
+    this.showText(24);
     this.productCount.textContent = '24';
     this.filteredData = new FilteredData(data);
     resetQueryParamsObj();
-    Router.setQueryParams();
+    CatalogPage.setQueryParams();
 
     this.resetCheckboxFilter();
 

@@ -6,7 +6,6 @@ import CatalogPage from './pages/catalog-page';
 import ErrorPage from './pages/error-page';
 import Page from './pages/page';
 import PlantPage from './pages/plant-page';
-import { queryParamsObj } from './components/filters/queryParams';
 
 class Router {
   static catalogPage: Page;
@@ -68,14 +67,6 @@ class Router {
     });
     const page = new URL(window.location.href).pathname;
     Router.render(page);
-  }
-
-  static setQueryParams() {
-    const currentParamsObj = Object.fromEntries(Object.entries(queryParamsObj).filter((item) => item[1] !== ''));
-    const paramsStr = new URLSearchParams(currentParamsObj);
-    const currentUrl = new URL(window.location.href);
-    currentUrl.search = paramsStr.toString();
-    window.history.pushState({}, 'catalog', currentUrl);
   }
 }
 

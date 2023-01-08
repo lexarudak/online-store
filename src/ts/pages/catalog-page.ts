@@ -5,6 +5,7 @@ import { PlantsData, Products } from '../base/types';
 import plantsData from '../../data/plants.json';
 import Cart from '../components/cart';
 import { getExistentElement, isHTMLElement } from '../base/helpers';
+import { queryParamsObj } from './../components/filters/queryParams';
 
 class CatalogPage extends Page {
   productCard: ProductCards;
@@ -37,8 +38,7 @@ class CatalogPage extends Page {
     try {
       filter.recoveryState(values);
     } catch (err) {
-      alert(`Error! Сheck out the link`);
-      this.productCard.draw(values);
+      history.back();
     }
     this.productCard.draw(filter.getData());
 
@@ -80,7 +80,7 @@ class CatalogPage extends Page {
         button.style.border = '';
         button.style.backgroundColor = '';
         button.textContent = 'Copy link';
-      }, 1200);
+      }, 800);
     });
   }
 
@@ -92,6 +92,14 @@ class CatalogPage extends Page {
       this.drawProductCard(plantsData);
       this.setSettingsButton();
     }
+  }
+
+  static setQueryParams() {
+    const currentParamsObj = Object.fromEntries(Object.entries(queryParamsObj).filter((item) => item[1] !== ''));
+    const paramsStr = new URLSearchParams(currentParamsObj);
+    const currentUrl = new URL(window.location.href);
+    currentUrl.search = paramsStr.toString();
+    window.history.pushState({}, 'catalog', currentUrl);
   }
 }
 
