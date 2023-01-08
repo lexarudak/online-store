@@ -43,12 +43,12 @@ class Filter {
       const stock = this.stockRangeInput;
       const [min, max] = this.addListenerByType(stock);
       this.filteredData.stockData = this.filterByStock(data, min, max);
-      queryParamsObj.stock = min + '.' + max;
+      queryParamsObj.stock = min + '-' + max;
     } else if (target.closest('.filter__price')) {
       const price = this.priceRangeInput;
       const [min, max] = this.addListenerByType(price);
       this.filteredData.priceData = this.filterByPrice(data, min, max);
-      queryParamsObj.price = min + '.' + max;
+      queryParamsObj.price = min + '-' + max;
     }
   }
 
@@ -209,7 +209,7 @@ class Filter {
     // console.log('Keys:', paramsKeys);
     setQueryParamsObj(currentParamsObj);
     paramsKeys.forEach((param: string) => {
-      const paramValue = currentParamsObj[param].split('.');
+      const paramValue = currentParamsObj[param].split('-');
       // console.log('Value:', paramValue);
       this.isURLValid(param);
       if (param === FilterType.category) {

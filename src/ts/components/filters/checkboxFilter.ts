@@ -22,7 +22,7 @@ class CheckboxFilter {
         this.selectedArr.splice(this.selectedArr.indexOf(target.value), 1);
       }
     }
-    queryParamsObj[this.filterType] = [...new Set(this.selectedArr)].join('.');
+    queryParamsObj[this.filterType] = [...new Set(this.selectedArr)].join('-');
     console.log(queryParamsObj);
     return this.checkboxTypeFilt(data);
   }

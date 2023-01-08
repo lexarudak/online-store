@@ -36,10 +36,10 @@ class RangeInput {
     const minPrice = +this.priceInputMin.value;
     if (this.parentSelector.className === 'filter__stock' && +this.priceInputMax.value > 65) {
       this.priceInputMax.value = '65';
-      queryParamsObj.price = minPrice + '.' + '65';
+      queryParamsObj.price = minPrice + '-' + '65';
     } else if (+this.priceInputMax.value > 100) {
       this.priceInputMax.value = '100';
-      queryParamsObj.price = minPrice + '.' + '100';
+      queryParamsObj.price = minPrice + '-' + '100';
     }
     CatalogPage.setQueryParams();
     if (+this.priceInputMax.value <= minPrice) this.priceInputMax.value = (minPrice + 1).toString();
