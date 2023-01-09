@@ -245,8 +245,12 @@ class Filter {
         this.filteredData.stockData = this.filterByStock(data, min, max);
       }
       if (param === 'sort') {
-        this.isURLValueValid('ckeckValues', param, paramValue);
+        if (!queryParamsTemtplate[param].includes(currentParamsObj[param])) {
+          delete queryParamsObj.sort;
+        }
+
         this.checkSortType(currentParamsObj[param], data);
+        console.log(currentParamsObj[param]);
       }
       if (param === 'landscape') {
         this.isURLValueValid('ckeckValues', param, paramValue);
