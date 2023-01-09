@@ -97,7 +97,7 @@ class CatalogPage extends Page {
   static setQueryParams() {
     const currentParamsObj = Object.fromEntries(Object.entries(queryParamsObj).filter((item) => item[1] !== ''));
     const paramsStr = new URLSearchParams(currentParamsObj);
-    const currentUrl = new URL(window.location.href);
+    const currentUrl = new URL(window.location.href.split('#')[0]);
     currentUrl.search = paramsStr.toString();
     window.history.replaceState({}, 'catalog', currentUrl);
   }

@@ -35,7 +35,6 @@ class RangeInput {
       queryParamsObj.price = minPrice + '-' + '100';
     }
     while (this.priceInputMax.value[0] === '0') this.priceInputMax.value = this.priceInputMax.value.slice(1);
-    CatalogPage.setQueryParams();
   }
 
   changePriceInputMin() {
@@ -44,6 +43,10 @@ class RangeInput {
     if (+this.priceInputMin.value < 1) this.priceInputMin.value = '1';
 
     while (this.priceInputMin.value[0] === '0') this.priceInputMin.value = this.priceInputMin.value.slice(1);
+    this.parentSelector.className === 'filter__stock'
+      ? (queryParamsObj.stock = this.priceInputMin.value + '-' + maxPrice)
+      : (queryParamsObj.price = this.priceInputMin.value + '-' + maxPrice);
+    CatalogPage.setQueryParams();
 
     if (+this.priceInputMin.value) {
       this.rangeInputMin.value = this.priceInputMin.value;
@@ -54,6 +57,11 @@ class RangeInput {
   changePriceInputMax() {
     if (+this.priceInputMax.value <= +this.priceInputMin.value)
       this.priceInputMax.value = (+this.priceInputMin.value + 1).toString();
+
+    this.parentSelector.className === 'filter__stock'
+      ? (queryParamsObj.stock = this.priceInputMin.value + '-' + this.priceInputMax.value)
+      : (queryParamsObj.price = this.priceInputMin.value + '-' + this.priceInputMax.value);
+    CatalogPage.setQueryParams();
 
     this.rangeInputMax.value = this.priceInputMax.value;
     this.range.style.right = 100 - (+this.priceInputMax.value / +this.rangeInputMax.max) * 100 + '%';
@@ -92,7 +100,6 @@ class RangeInput {
   resetRangeFilter() {
     this.priceInputMin.value = this.priceInputMax.min;
     this.priceInputMax.value = this.priceInputMax.max;
-    this.maxValidate();
     this.changePriceInputMin();
     this.changePriceInputMax();
   }
