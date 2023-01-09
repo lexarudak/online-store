@@ -99,7 +99,7 @@ class CatalogPage extends Page {
     const paramsStr = new URLSearchParams(currentParamsObj);
     const currentUrl = new URL(window.location.href);
     currentUrl.search = paramsStr.toString();
-    window.history.pushState({}, 'catalog', currentUrl);
+    window.history.replaceState({}, 'catalog', currentUrl);
   }
 }
 

@@ -46,12 +46,16 @@ class CartCard {
       getExistentElement('.product__title', card).innerText = this.plant.title;
       getExistentElement('.product__description', card).innerHTML = this.plant.description.toString();
       getExistentElement('.product__stock-value', card).innerHTML = this.plant.stock.toString();
-      getExistentElement('.product', card).addEventListener('click', (e) => {
-        const target = e.target;
-        if (target instanceof HTMLElement) {
-          target.classList.contains('button-arrow') ? null : Router.goTo(this.link);
-        }
-      });
+      getExistentElement('.product', card).addEventListener(
+        'click',
+        (e) => {
+          const target = e.target;
+          if (target instanceof HTMLElement) {
+            target.classList.contains('button-arrow') ? null : Router.goTo(this.link);
+          }
+        },
+        false
+      );
 
       this.countContainer.value = this.count.toString();
       this.priceContainer.innerHTML = '$' + (this.plant.price * this.count).toString();

@@ -93,7 +93,6 @@ class CartPage extends Page {
     if (queryCart) {
       try {
         const queryCartObj: Cart = JSON.parse(queryCart);
-        console.log(queryCartObj);
         if (queryCartObj && this.isCartValid(queryCartObj)) {
           this.cart.basket = queryCartObj.basket;
           this.cart.activePromoCodes = queryCartObj.activePromoCodes;
@@ -119,9 +118,10 @@ class CartPage extends Page {
 
   private setQuery() {
     const currentUrl = new URL(window.location.href);
+    if (currentUrl.pathname !== PagesList.cartPage) return;
     currentUrl.searchParams.set('cart', JSON.stringify(this.cart));
     currentUrl.searchParams.set('pageInfo', JSON.stringify(this.pageInfo));
-    window.history.pushState('', currentUrl.toString(), currentUrl);
+    window.history.replaceState({}, currentUrl.toString(), currentUrl);
   }
 
   private isCartValid(queryCartObj: Cart) {
@@ -145,7 +145,6 @@ class CartPage extends Page {
     const itemsInBasket = Object.keys(this.cart.basket).length;
     const lastPage = Math.ceil(itemsInBasket / queryPageInfo.itemsOnPage);
     queryPageInfo.currentPage > lastPage || queryPageInfo.currentPage < 1 ? (errors += 1) : null;
-    console.log(lastPage, queryPageInfo.currentPage, errors);
     if (errors === 0) return true;
     return false;
   }
@@ -209,12 +208,10 @@ class CartPage extends Page {
         this.cart = newData.cart;
         this.pageInfo = newData.pageInfo;
         this.updateBill(bill);
-        this.setQuery();
       });
       cartList.updateCartList(this.cart, this.pageInfo);
       cartList.fillCards(this.cart, this.pageInfo);
       this.cart.updateHeader();
-      this.setQuery();
     }
 
     return fullPage;
