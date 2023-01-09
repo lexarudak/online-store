@@ -2,9 +2,11 @@ import { getExistentElement, openPurchaseModal } from '../base/helpers';
 import { promoList } from '../base/promo-codes';
 import Cart from '../components/cart';
 import CartList from '../components/cartList';
-import App from '../app';
 import Page from './page';
 import { PageInfo } from '../base/types';
+import Router from '../router';
+import { PagesList } from '../base/enums';
+import plants from '../../data/plants.json';
 
 class CartPage extends Page {
   public pageInfo: PageInfo;
@@ -12,24 +14,33 @@ class CartPage extends Page {
   constructor(cart: Cart) {
     super(cart, 'cart');
     this.cart = cart;
-    this.pageInfo = {
-      itemsOnPage: 3,
+    this.pageInfo = this.setPageInfo();
+  }
+
+  private setPageInfo() {
+    let pageInfo: PageInfo;
+    const startPageInfo = {
+      itemsOnPage: 4,
       currentPage: 1,
     };
+    const oldPageInfoJson = localStorage.getItem('pageInfo');
+    if (oldPageInfoJson) {
+      const oldPageInfoObj: PageInfo = JSON.parse(oldPageInfoJson);
+      oldPageInfoObj ? (pageInfo = oldPageInfoObj) : (pageInfo = startPageInfo);
+    } else {
+      pageInfo = startPageInfo;
+    }
+    return pageInfo;
   }
 
   private getTotal() {
-    let sum = this.cart.productSum;
+    let sum = this.cart.getProductSum();
     if (this.cart.activePromoCodes.length > 0) {
       this.cart.activePromoCodes.forEach((code) => {
         sum = sum * ((100 - promoList[code]) / 100);
       });
     }
     return `$${Math.floor(sum).toString()}`;
-  }
-
-  private getProductDiscount() {
-    return `- ${Math.floor((1 - this.cart.productSum / this.cart.productOldSum) * 100).toString()} %`;
   }
 
   private makePromoCard(code: string, discount: number): HTMLElement {
@@ -58,27 +69,97 @@ class CartPage extends Page {
 
   public updateBill(HTMLBill: Element) {
     const amount = HTMLBill.querySelector('#bill-item');
-    amount ? (amount.innerHTML = this.cart.productAmount.toString()) : null;
-    const subtotal = HTMLBill.querySelector('#bill-old-sum');
-    subtotal ? (subtotal.innerHTML = this.cart.productOldSum.toString()) : null;
-    const productDiscount = HTMLBill.querySelector('#bill-product-discount-value');
-    productDiscount ? (productDiscount.innerHTML = this.getProductDiscount()) : null;
+    amount ? (amount.innerHTML = this.cart.getProductAmount().toString()) : null;
     const container = HTMLBill.querySelector('#bill-promo-container');
     container instanceof HTMLElement ? this.setPromoCodes(container) : null;
     const total = HTMLBill.querySelector('#bill-total');
     total ? (total.innerHTML = this.getTotal()) : null;
+    const subtotal = HTMLBill.querySelector('#bill-old-sum');
+    if (subtotal instanceof HTMLElement) {
+      const subtotalVal = this.cart.getProductOldSum().toString();
+      subtotal.innerHTML = subtotalVal;
+      if (subtotalVal === this.getTotal().slice(1)) {
+        subtotal.style.textDecoration = 'none';
+      } else {
+        subtotal.style.textDecoration = 'line-through';
+      }
+    }
+    this.setQuery();
   }
 
-  protected fillPage(page: DocumentFragment, id: string): DocumentFragment {
+  private setCartFromQuery() {
+    const currentUrl = new URL(window.location.href);
+    const queryCart = currentUrl.searchParams.get('cart');
+    if (queryCart) {
+      try {
+        const queryCartObj: Cart = JSON.parse(queryCart);
+        if (queryCartObj && this.isCartValid(queryCartObj)) {
+          this.cart.basket = queryCartObj.basket;
+          this.cart.activePromoCodes = queryCartObj.activePromoCodes;
+          this.cart.saveCart();
+        }
+      } catch (e) {
+        console.log('Non-existent query parameters. oh well, we loaded the page without them');
+      }
+    }
+  }
+
+  private setPaginationFromQuery() {
+    const currentUrl = new URL(window.location.href);
+    const queryPageInfo = currentUrl.searchParams.get('pageInfo');
+    if (queryPageInfo && JSON.parse(queryPageInfo)) {
+      const queryPageInfoObj: PageInfo = JSON.parse(queryPageInfo);
+      if (queryPageInfoObj && this.isPaginationValid(queryPageInfoObj)) {
+        this.pageInfo = queryPageInfoObj;
+        localStorage.setItem('pageInfo', JSON.stringify(queryPageInfoObj));
+      }
+    }
+  }
+
+  private setQuery() {
+    const currentUrl = new URL(window.location.href);
+    if (currentUrl.pathname !== PagesList.cartPage) return;
+    currentUrl.searchParams.set('cart', JSON.stringify(this.cart));
+    currentUrl.searchParams.set('pageInfo', JSON.stringify(this.pageInfo));
+    window.history.replaceState({}, currentUrl.toString(), currentUrl);
+  }
+
+  private isCartValid(queryCartObj: Cart) {
+    let errors = 0;
+    !queryCartObj.activePromoCodes ? (errors += 1) : null;
+    !queryCartObj.basket ? (errors += 1) : null;
+    for (const key in queryCartObj.basket) {
+      const plant = plants.products.filter((value) => value.id.toString() === key)[0];
+      !plant ? (errors += 1) : null;
+      plant.stock < queryCartObj.basket[key] ? (errors += 1) : null;
+    }
+    if (errors === 0) return true;
+    return false;
+  }
+
+  private isPaginationValid(queryPageInfo: PageInfo) {
+    let errors = 0;
+    !queryPageInfo.currentPage ? (errors += 1) : null;
+    !queryPageInfo.itemsOnPage ? (errors += 1) : null;
+    queryPageInfo.itemsOnPage < 1 || queryPageInfo.itemsOnPage > 10 ? (errors += 1) : null;
+    const itemsInBasket = Object.keys(this.cart.basket).length;
+    const lastPage = Math.ceil(itemsInBasket / queryPageInfo.itemsOnPage);
+    queryPageInfo.currentPage > lastPage || queryPageInfo.currentPage < 1 ? (errors += 1) : null;
+    if (errors === 0) return true;
+    return false;
+  }
+
+  protected fillPage(page: DocumentFragment): DocumentFragment {
+    this.setCartFromQuery();
+    this.setPaginationFromQuery();
     const cartContainer = page.querySelector('.cart-page__container');
-    if (id === 'empty') {
+    if (this.cart.getProductAmount() === 0) {
       const emptyTemp = document.getElementById('empty-cart');
       if (emptyTemp instanceof HTMLTemplateElement) {
         const emptyPage = emptyTemp.content.cloneNode(true);
         cartContainer?.append(emptyPage);
       }
-    }
-    if (id === 'full') {
+    } else {
       const fullTemp = document.getElementById('full-cart');
       if (fullTemp instanceof HTMLTemplateElement) {
         const fullPage = fullTemp.content.cloneNode(true);
@@ -118,7 +199,8 @@ class CartPage extends Page {
     if (itemsContainer instanceof HTMLElement && bill) {
       getExistentElement('.clean-card-btn', itemsContainer).addEventListener('click', () => {
         this.cart.cleanCart();
-        App.loadStartPage('cart');
+        this.pageInfo.currentPage = 1;
+        Router.goTo(PagesList.cartPage);
       });
       const cartList = new CartList(itemsContainer);
       itemsContainer.addEventListener('click', (e) => {
@@ -129,6 +211,7 @@ class CartPage extends Page {
       });
       cartList.updateCartList(this.cart, this.pageInfo);
       cartList.fillCards(this.cart, this.pageInfo);
+      this.cart.updateHeader();
     }
 
     return fullPage;

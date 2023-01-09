@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" href="./assets/svg/empty-cart-icon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@200;400;500&display=swap"
     rel="stylesheet">
   <title>Online-store</title>
@@ -14,16 +15,16 @@
   <div class="body__wrapper">
     <header class="header">
       <div class="header__container container">
-        <a class="header__logo" href="#/catalog">
+        <a class="header__logo" href="/catalog">
           <h1 class="header__logo-text">Online<br>store</h1>
         </a>
         <nav class="nav">
           <ul class="nav__list">
-            <li class="nav__item"><a class="nav__link" href="#/catalog">Catalog</a></li>
+            <li class="nav__item"><a class="nav__link" href="/catalog">Catalog</a></li>
             <li class="nav__item"><a class="nav__link" href="#promo">Promo code</a></li>
             <li class="nav__item"><a class="nav__link" href="#contacts">Contacts</a></li>
           </ul>
-          <a class="cart" href="#/cart">
+          <a class="cart" href="/cart">
             <span class="cart__num" id="header-amount">0</span>
           </a>
           <div class="total-amount">
@@ -74,6 +75,8 @@
             </li>
             <li class="footer__item"><span>2022</span>
             </li>
+            <li class="footer__item design-info"><a href="https://www.behance.net/gallery/157498329/Online-store-of-indoor-plants/modules/888571069" target="_blank">Designed by Romana Chaban</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -99,8 +102,8 @@
                 <input type="checkbox" class="check__input type" value="sansevieria">
                 <span class="check__span"></span>
               </label></li>
-            <li class="check"><label class="check__label">Flowering plant
-                <input type="checkbox" class="check__input type" value="flowering plant">
+            <li class="check"><label class="check__label">Flowering
+                <input type="checkbox" class="check__input type" value="flowering">
                 <span class="check__span"></span>
               </label></li>
             <li class="check"><label class="check__label">Fern
@@ -164,7 +167,7 @@
     
         <div class="filter__sale check">
           <label class="check__label">Sale
-            <input type="checkbox" class="check__input">
+            <input type="checkbox" class="check__input" value="true">
             <span class="check__span"></span>
           </label>
         </div>
@@ -191,7 +194,7 @@
     
         <div class="filter__button-wrapper">
           <button class="button button_filter">Reset</button>
-          <button class="button button_filter button-light">Copy link</button>
+          <button class="button button_filter button-light button_copy">Copy link</button>
         </div>
       </div>
     
@@ -218,9 +221,13 @@
           </div>
         </div>
     
-        <div class="products__container">
-
-        </div>
+        <div class="products__container">Not Found</div>
+      </div>
+      <div class="catalog__filter-button filter-button">
+        <span class="filter-button__round"></span>
+        <span class="filter-button__stripe"></span>
+      </div>
+      <div class="catalog__filter-popup">
       </div>
     </section>
   </template>
@@ -234,13 +241,12 @@
             </div>
           </div>
           <div class="product__info">
-            <div class="product__type">Echeveria</div>
-            <h2 class="product__title">Succulent</h2>
-            <p class="product__description">Succulent plants are drought-resistant plants in which the leaves, stem, or
-              roots have become more than usually fleshy by the development of water-storing tissue.</p>
+            <div class="product__type"></div>
+            <h2 class="product__title"></h2>
+            <p class="product__description"></p>
             <div class="product__purchase">
-              <div class="product__price usd-symbol">15</div>
-              <button class="product__button button">Add to cart</button>
+              <div class="product__price usd-symbol"></div>
+              <button class="product__button button"></button>
             </div>
             <div class="product__stock">In stock: <span class="product__stock-num">28</span></div>
           </div>
@@ -250,11 +256,11 @@
   <template id="product-page">
     <section class="product-page page">
       <div class="link-navigation">
-        <a class="link-navigation__link" href="#/catalog">Catalog</a>
+        <a class="link-navigation__link" href="/catalog">Catalog</a>
         <span class="link-navigation__slash"> / </span>
-        <a class="link-navigation__link" href="#">Echeveria</a>
+        <a class="link-navigation__link catalog-filter-link" href="#"></a>
         <span class="link-navigation__slash"> / </span>
-        <a class="link-navigation__link" id="navigation-name" href="#">Succulent</a>
+        <a class="link-navigation__link this-page-link" href="#"></a>
       </div>
       <h2 class="page-title" id="product-title"></h2>
       <div class="product-page__top-block">
@@ -294,9 +300,9 @@
   <template id="cart">
     <section class="cart-page page">
       <div class="link-navigation">
-        <a class="link-navigation__link" href="#/catalog">Catalog</a>
+        <a class="link-navigation__link " href="/catalog">Catalog</a>
         <span class="link-navigation__slash"> / </span>
-        <a class="link-navigation__link" href="#/cart">Cart</a>
+        <a class="link-navigation__link" href="/cart">Cart</a>
       </div>
       <h2 class="page-title">Cart</h2>
       <div class="cart-page__container">
@@ -310,7 +316,7 @@
           <img class="empty-cart-page__img" src="./assets/svg/empty-cart-icon.svg" alt="empty cart icon">
           <div class="empty-cart-page__block">
             <p class="empty-cart-page__text">Your cart is empty.</p>
-            <a class="empty-cart__btn button" href="#/catalog">Go to catalog</a>
+            <a class="empty-cart__btn button" href="/catalog">Go to catalog</a>
           </div>
         </section>
       </template>
@@ -335,7 +341,7 @@
                   <button class="button-arrow" id="pagination-items-plus">&gt;</button>
                 </div>
               </div>
-              <a class="clean-card-btn" href="#/cart">Clean cart</a>
+              <a class="clean-card-btn" href="/cart">Clean cart</a>
             </div>
             <ul class="cart-list">
               
@@ -357,10 +363,6 @@
                 <span>Subtotal</span>
                 <span class="usd-symbol" id="bill-old-sum"></span>
               </p>
-              <div class="discounts__item" id="bill-product-discount">
-                <span>Product discount</span>
-                <span id="bill-product-discount-value"></span>
-              </div>
               <ul class="discounts" id="bill-promo-container">
               </ul>
               <p class="full-cart-page__total">
@@ -368,10 +370,10 @@
                 <span id="bill-total"></span>
               </p>
             </div>
-            <a class="full-cart-page__buy-button button" href="#/purchase">
+            <span class="full-cart-page__buy-button button">
               Proceed to checkout
-            </a>
-            <a class="full-cart-page__catalog-button button-light" href="#/catalog">
+            </span>
+            <a class="full-cart-page__catalog-button button-light" href="/catalog">
               Continue shopping
             </a>
 
@@ -390,6 +392,7 @@
               <div class="product__info">
                 <div class="product__type"></div>
                 <h2 class="product__title"></h2>
+                <p class="product__description"></p>
                 <div class="product__stock">In stock: <span   class="product__stock-value"></span>
                 </div>
                 <div class="product__purchase">
@@ -411,7 +414,7 @@
         <h2 class="error-page__title">SORRY</h2>
         <h3 class="error-page__subtitle">PAGE NOT FOUND</h3>
         <p class="error-page__text">It's just error 404</p>
-        <a class="button error-page__btn" href="#/catalog">Go to catalog</a>
+        <a class="button error-page__btn" href="/catalog">Go to catalog</a>
       </div>
       <span class="error-page__smile">:(</span>
     </section>

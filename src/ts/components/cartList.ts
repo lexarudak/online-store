@@ -1,10 +1,10 @@
-import { changeCartListActions } from '../base/enums';
+import { changeCartListActions, PagesList } from '../base/enums';
 import { getExistentElement } from '../base/helpers';
 import Cart from './cart';
 import CartCard from './product-card/cart-cards';
 import plants from '../../data/plants.json';
-import App from '../app';
 import { PageInfo } from '../base/types';
+import Router from '../router';
 
 class CartList {
   public container: HTMLElement;
@@ -46,12 +46,13 @@ class CartList {
           }
           if (this.getMaxPage(cart, pageInfo) < pageInfo.currentPage && this.getMaxPage(cart, pageInfo) !== 0) {
             pageInfo.currentPage -= 1;
-            App.loadStartPage('cart');
+            Router.goTo(PagesList.cartPage);
           }
           break;
       }
       cart.updateHeader();
       this.updateCartList(cart, pageInfo);
+      localStorage.setItem('pageInfo', JSON.stringify(pageInfo));
     }
     return { cart, pageInfo };
   }
@@ -81,7 +82,8 @@ class CartList {
           cart.delete(id);
           cart.basket[id] ? this.updateCard(element, cart, id) : element.remove();
           this.isCurrentPageValid(cart, pageInfo) ? null : this.currentPageDown(cart, pageInfo);
-          this.getMaxPage(cart, pageInfo) ? null : App.loadStartPage('cart');
+          cart.basket[id] ? null : this.fillCards(cart, pageInfo);
+          this.getMaxPage(cart, pageInfo) === 0 ? Router.goTo(PagesList.cartPage) : null;
           break;
         default:
           break;
@@ -96,8 +98,8 @@ class CartList {
     const oldPriceContainer = getExistentElement('.product__old-price', element);
     const countContainer = getExistentElement('.product__amount-number', element) as HTMLInputElement;
     priceContainer.innerHTML = '$' + (plant.price * cart.basket[id]).toString();
-    if (plant.discountPercentage) {
-      const oldPriceValue = Math.ceil((plant.price * cart.basket[id]) / ((100 - plant.discountPercentage) / 100));
+    if (plant.sale) {
+      const oldPriceValue = Math.ceil((plant.price * cart.basket[id]) / ((100 - plant.sale) / 100));
       oldPriceContainer.innerHTML = '$' + oldPriceValue.toString();
     }
     countContainer.value = cart.basket[id].toString();
@@ -141,6 +143,7 @@ class CartList {
   }
 
   public fillCards(cart: Cart, pageInfo: PageInfo) {
+    this.isCurrentPageValid(cart, pageInfo) ? null : (pageInfo.currentPage = 1);
     if (this.cardsContainer) {
       this.cardsContainer.innerHTML = '';
       const itemsInBasket = Object.keys(cart.basket);

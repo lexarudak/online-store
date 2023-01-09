@@ -1,6 +1,6 @@
-import App from '../app';
 import { cardInteger, cardLogo, PagesList } from '../base/enums';
 import { getExistentElement, isHTMLElement } from '../base/helpers';
+import Router from '../router';
 import Cart from './cart';
 
 class PurchaseModal {
@@ -238,7 +238,7 @@ class PurchaseModal {
       setTimeout(() => {
         if (Math.abs(a - 3) === 0) {
           this.cart.cleanCart();
-          App.loadStartPage(PagesList.catalogPage);
+          Router.goTo(PagesList.catalogPage);
           this.modalContainer.classList.remove('purchase-modal__active');
           document.body.classList.remove('body_hold');
           this.modalContainer.innerHTML = '';

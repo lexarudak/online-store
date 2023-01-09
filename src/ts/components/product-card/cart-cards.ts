@@ -1,10 +1,11 @@
 import { Products } from '../../base/types';
 import plants from '../../../data/plants.json';
 import { getExistentElement, isHTMLElement } from '../../base/helpers';
-import App from '../../app';
+import Router from '../../router';
 
 class CartCard {
   public id: string;
+  public link: string;
   public plant: Products;
   public number: number;
   public count: number;
@@ -15,6 +16,7 @@ class CartCard {
 
   constructor(id: string, number: number, count: number) {
     this.id = id;
+    this.link = `/${id}`;
     this.plant = plants.products.filter((plant) => plant.id === Number(id))[0];
     this.number = number;
     this.count = count;
@@ -42,24 +44,27 @@ class CartCard {
       getExistentElement('.product__rating', card).innerHTML = this.plant.rating.toString() + '<span>&#9734;</span>';
       getExistentElement('.product__type', card).innerText = this.plant.type;
       getExistentElement('.product__title', card).innerText = this.plant.title;
+      getExistentElement('.product__description', card).innerHTML = this.plant.description.toString();
       getExistentElement('.product__stock-value', card).innerHTML = this.plant.stock.toString();
-      getExistentElement('.product', card).addEventListener('click', (e) => {
-        const target = e.target;
-        if (target instanceof HTMLElement) {
-          target.classList.contains('button-arrow') ? null : App.loadStartPage(this.id.toString());
-        }
-      });
+      getExistentElement('.product', card).addEventListener(
+        'click',
+        (e) => {
+          const target = e.target;
+          if (target instanceof HTMLElement) {
+            target.classList.contains('button-arrow') ? null : Router.goTo(this.link);
+          }
+        },
+        false
+      );
 
       this.countContainer.value = this.count.toString();
       this.priceContainer.innerHTML = '$' + (this.plant.price * this.count).toString();
-      if (this.plant.discountPercentage > 0) {
+      if (this.plant.sale > 0) {
         const round = document.createElement('div');
         round.classList.add('product__discount');
-        round.innerHTML = this.plant.discountPercentage.toString() + '<span> %</span>';
+        round.innerHTML = this.plant.sale.toString() + '<span> %</span>';
         getExistentElement('.product__icons', card).prepend(round);
-        const oldPriceValue = Math.ceil(
-          (this.plant.price * this.count) / ((100 - this.plant.discountPercentage) / 100)
-        );
+        const oldPriceValue = Math.ceil((this.plant.price * this.count) / ((100 - this.plant.sale) / 100));
         this.oldPriceContainer.innerHTML = '$' + oldPriceValue.toString();
         this.priceContainer.classList.add('product-page__new-price_sale');
       }

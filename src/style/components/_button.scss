@@ -113,10 +113,17 @@
   align-items: center;
   gap: 10px;
 
+  @media (max-width: 600px) {
+    height: 40px;
+  }
+
   &__link,
   &__slash {
     color: $grey-medium;
     transition: .3s;
+  @media (max-width: 600px) {
+    font-size: 12px;
+  }
   }
 
   &__link:hover {
@@ -124,3 +131,54 @@
     }
 }
 
+.filter-button {
+  position: absolute;
+  top: 150px;
+  right: 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  box-shadow: $shadow;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $white-medium;
+  transition: .3s;
+  cursor: pointer;
+  z-index: 200;
+
+  &:hover {
+    transform: scale(.95);
+    box-shadow: none;
+  }
+
+  &__stripe {
+    background-color: $green-dark;
+    border-radius: 3px;
+    width: 25px;
+    height: 3px;
+    transition: .3s;
+  }
+
+  &__round {
+    position: absolute;
+    background-color: $green-dark;
+    border-radius: 100px;
+    width: 10px;
+    height: 10px;
+    transition: .3s;
+  }
+
+  &_active {
+    .filter-button__stripe {
+      transform: rotate(45deg);
+    }
+    .filter-button__round {
+      transform: rotate(-45deg);
+      border-radius: 3px;
+      width: 25px;
+      height: 3px;
+    }
+  }
+
+}

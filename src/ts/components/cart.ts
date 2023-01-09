@@ -3,30 +3,58 @@ import plants from '../../data/plants.json';
 import { promoList } from '../base/promo-codes';
 
 class Cart {
-  public productAmount: number;
-  public productSum: number;
-  public productOldSum: number;
   public basket: Basket;
   public activePromoCodes: string[];
 
   constructor() {
     this.basket = {};
-    this.productAmount = 0;
-    this.productSum = 0;
-    this.productOldSum = 0;
     this.activePromoCodes = [];
   }
 
+  public getProductAmount() {
+    let answer = 0;
+    for (const key in this.basket) {
+      answer += this.basket[key];
+    }
+    return answer;
+  }
+
+  public getProductSum() {
+    let answer = 0;
+    for (const key in this.basket) {
+      const plant = plants.products.filter((plant) => plant.id.toString() === key)[0];
+      answer += this.basket[key] * plant.price;
+    }
+    return answer;
+  }
+
+  public getProductOldSum() {
+    let answer = 0;
+    for (const key in this.basket) {
+      const plant = plants.products.filter((plant) => plant.id.toString() === key)[0];
+      answer += this.basket[key] * (plant.price / (1 - plant.sale / 100));
+    }
+    return Math.ceil(answer);
+  }
+
   public showProductAmount(HTMLElement: HTMLElement | null) {
-    HTMLElement ? (HTMLElement.innerHTML = this.productAmount.toString()) : null;
+    HTMLElement ? (HTMLElement.innerHTML = this.getProductAmount().toString()) : null;
   }
 
   public showProductSum(HTMLElement: HTMLElement | null) {
-    HTMLElement ? (HTMLElement.innerHTML = this.productSum.toString()) : null;
+    HTMLElement ? (HTMLElement.innerHTML = this.getProductSum().toString()) : null;
   }
 
   public showProductOldSum(HTMLElement: HTMLElement | null) {
-    HTMLElement ? (HTMLElement.innerHTML = this.productOldSum.toString()) : null;
+    HTMLElement ? (HTMLElement.innerHTML = this.getProductOldSum().toString()) : null;
+  }
+
+  public saveCart() {
+    const cart = {
+      basket: this.basket,
+      activePromoCodes: this.activePromoCodes,
+    };
+    localStorage.setItem('cart', JSON.stringify(cart));
   }
 
   public updateHeader() {
@@ -38,28 +66,22 @@ class Cart {
 
   public add(id: string) {
     const plant = plants.products.filter((value) => value.id === Number(id))[0];
-    const oldPriceValue = Math.ceil(plant.price / ((100 - plant.discountPercentage) / 100));
     if (plant.stock > this.basket[id] || !this.basket[id]) {
       this.basket[id] ? (this.basket[id] += 1) : (this.basket[id] = 1);
-      this.productAmount += 1;
-      this.productSum += plant.price;
-      this.productOldSum += oldPriceValue;
     }
+    this.saveCart();
   }
 
   public delete(id: string) {
-    const plant = plants.products.filter((value) => value.id === Number(id))[0];
-    const oldPriceValue = Math.ceil(plant.price / ((100 - plant.discountPercentage) / 100));
     if (id in this.basket) {
       this.basket[id] === 1 ? delete this.basket[id] : (this.basket[id] -= 1);
-      this.productAmount -= 1;
-      this.productSum -= plant.price;
-      this.productOldSum -= oldPriceValue;
     }
+    this.saveCart();
   }
 
   public deletePromo(promo: Element) {
     this.activePromoCodes = this.activePromoCodes.filter((code) => code !== promo.id);
+    this.saveCart();
   }
 
   public addPromo(input: HTMLInputElement) {
@@ -67,16 +89,15 @@ class Cart {
     if (promo in promoList && !this.activePromoCodes.includes(promo)) {
       this.activePromoCodes.push(promo);
     }
+    this.saveCart();
   }
   public cleanCart() {
-    this.productAmount = 0;
-    this.productSum = 0;
-    this.productOldSum = 0;
     const cartKeys = Object.keys(this.basket);
     cartKeys.forEach((key) => {
       delete this.basket[key];
     });
     this.updateHeader();
+    this.saveCart();
   }
 }
 

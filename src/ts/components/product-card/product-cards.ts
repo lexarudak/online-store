@@ -1,7 +1,7 @@
 import { Products } from '../../base/types';
 import { isHTMLElement, getExistentElement, setAddButton } from '../../base/helpers';
-import App from '../../app';
 import Cart from '../cart';
+import Router from '../../router';
 
 class ProductCards {
   public cart: Cart;
@@ -30,26 +30,25 @@ class ProductCards {
       getExistentElement('.product__stock-num', productCardClone).textContent = item.stock.toString();
       getExistentElement('.product__rating-num', productCardClone).textContent = item.rating.toString();
 
-      if (item.discountPercentage) {
-        getExistentElement('.product__discount-num', productCardClone).textContent = item.discountPercentage.toString();
+      if (item.sale) {
+        getExistentElement('.product__discount-num', productCardClone).textContent = item.sale.toString();
         getExistentElement('.product__price', productCardClone).style.color = '#ab5abb';
       } else {
         getExistentElement('.product__discount', productCardClone).style.display = 'none';
       }
       getExistentElement('.product__title', productCardClone).addEventListener('click', function () {
-        App.loadStartPage(item.id.toString());
+        Router.goTo(`/${item.id}`);
       });
 
       const button = getExistentElement<HTMLElement>('button', productCardClone);
       setAddButton(button, this.cart, item);
 
       getExistentElement('.product', productCardClone).addEventListener('click', (e) => {
-        e.target !== button ? App.loadStartPage(item.id.toString()) : null;
+        e.target !== button ? Router.goTo(`/${item.id}`) : null;
       });
 
       fragment.append(productCardClone);
     });
-    getExistentElement('.products__container').innerHTML = '';
     getExistentElement('.products__container').appendChild(fragment);
   }
 }

@@ -1,55 +1,29 @@
-import { isPlantsId } from './base/helpers';
 import Cart from './components/cart';
-import CartPage from './pages/cart-page';
-import CatalogPage from './pages/catalog-page';
-import Page from './pages/page';
-import { PagesList } from './base/enums';
-import PlantPage from './pages/plant-page';
+import Router from './router';
 
 class App {
-  private static catalogPage: Page;
-  private static cartPage: Page;
-  private static plantPage: Page;
   public cart: Cart;
+  static router: Router;
 
   constructor() {
-    this.cart = new Cart();
-    App.catalogPage = new CatalogPage(this.cart);
-    App.cartPage = new CartPage(this.cart);
-    App.plantPage = new PlantPage(this.cart);
+    this.cart = this.setCart();
+    App.router = new Router(this.cart);
   }
 
-  private loadPage() {
-    window.addEventListener('hashchange', function () {
-      const hash = this.window.location.hash.slice(2);
-      App.router(hash);
-    });
-  }
-
-  static router(pageId: string) {
-    if (isPlantsId(pageId)) {
-      App.plantPage.draw(pageId);
+  private setCart() {
+    const newCart = new Cart();
+    const oldCartJson = localStorage.getItem('cart');
+    if (oldCartJson) {
+      const oldCart: Cart = JSON.parse(oldCartJson);
+      oldCart.basket ? (newCart.basket = oldCart.basket) : null;
+      oldCart.activePromoCodes ? (newCart.activePromoCodes = oldCart.activePromoCodes) : null;
     }
-    if (pageId === PagesList.catalogPage) {
-      App.catalogPage.draw();
-    }
-    if (pageId === PagesList.cartPage) {
-      if (App.cartPage.cart.productAmount === 0) {
-        App.cartPage.draw('empty');
-      } else {
-        App.cartPage.draw('full');
-      }
-    }
-  }
-
-  public static loadStartPage(startPageId: string) {
-    window.location.hash = `#/${startPageId}`;
-    App.router(startPageId);
+    console.log(newCart);
+    return newCart;
   }
 
   start() {
-    this.loadPage();
-    App.loadStartPage(PagesList.catalogPage);
+    Router.startRouter();
     this.cart.updateHeader();
   }
 }

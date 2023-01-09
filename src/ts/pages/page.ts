@@ -19,7 +19,7 @@ class Page {
     const template = document.getElementById(this.id);
     if (template instanceof HTMLTemplateElement && this.container) {
       const newPage = template.content.cloneNode(true);
-      if (id && newPage instanceof DocumentFragment) {
+      if (newPage instanceof DocumentFragment) {
         const filledPage = this.fillPage(newPage, id);
         return filledPage;
       }
@@ -31,7 +31,6 @@ class Page {
     const page = this.makePage(id);
     if (page && this.container) {
       this.container.innerHTML = '';
-      document.documentElement.scrollTop;
       this.container.append(page);
     }
   }

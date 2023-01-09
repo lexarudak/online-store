@@ -4,7 +4,7 @@ export interface Products {
   description: string;
   height: number;
   price: number;
-  discountPercentage: number;
+  sale: number;
   rating: number;
   stock: number;
   type: string;
@@ -29,6 +29,10 @@ export type PageInfo = {
   [id: string]: number;
 };
 
+export type Routs = {
+  [id: string]: string;
+};
+
 export interface DataObj {
   newData: Products[];
   inputData: Products[];
@@ -37,8 +41,17 @@ export interface DataObj {
   priceData: Products[];
 }
 
-export enum FilterType {
-  category = 'type',
-  height = 'height',
-  sale = 'discountPercentage',
+export interface QueryParams {
+  search: string;
+  sort: string;
+  type: string;
+  height: string;
+  sale: string;
+  price: string;
+  stock: string;
+  landscape: string;
+}
+
+export interface Template {
+  [key: string]: string[];
 }

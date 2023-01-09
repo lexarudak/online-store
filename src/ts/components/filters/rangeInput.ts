@@ -1,4 +1,6 @@
 import { getExistentElement } from '../../base/helpers';
+import { queryParamsObj } from './queryParams';
+import CatalogPage from './../../pages/catalog-page';
 
 class RangeInput {
   parentSelector: HTMLElement;
@@ -32,7 +34,14 @@ class RangeInput {
 
   changePriceInputMax() {
     const minPrice = +this.priceInputMin.value;
-    if (+this.priceInputMax.value > 100) this.priceInputMax.value = '100';
+    if (this.parentSelector.className === 'filter__stock' && +this.priceInputMax.value > 65) {
+      this.priceInputMax.value = '65';
+      queryParamsObj.price = minPrice + '-' + '65';
+    } else if (+this.priceInputMax.value > 100) {
+      this.priceInputMax.value = '100';
+      queryParamsObj.price = minPrice + '-' + '100';
+    }
+    CatalogPage.setQueryParams();
     if (+this.priceInputMax.value <= minPrice) this.priceInputMax.value = (minPrice + 1).toString();
 
     while (this.priceInputMax.value[0] === '0') this.priceInputMax.value = this.priceInputMax.value.slice(1);
@@ -61,6 +70,20 @@ class RangeInput {
       this.priceInputMax.value = maxVal.toString();
       this.range.style.right = 100 - (maxVal / +this.rangeInputMax.max) * 100 + '%';
     }
+  }
+
+  recoveryRangeFilter(min: string, max: string) {
+    this.priceInputMin.value = min;
+    this.priceInputMax.value = max;
+    this.changePriceInputMin();
+    this.changePriceInputMax();
+  }
+
+  resetRangeFilter() {
+    this.priceInputMin.value = this.priceInputMax.min;
+    this.priceInputMax.value = this.priceInputMax.max;
+    this.changePriceInputMin();
+    this.changePriceInputMax();
   }
 }
 

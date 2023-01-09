@@ -4,7 +4,7 @@ class FilteredData {
   sortData: Products[];
   inputData: Products[];
   checkCategoryData: Products[];
-  checHeightData: Products[];
+  checkHeightData: Products[];
   checkSaleData: Products[];
   priceData: Products[];
   stockData: Products[];
@@ -13,7 +13,7 @@ class FilteredData {
     this.sortData = data;
     this.inputData = data;
     this.checkCategoryData = data;
-    this.checHeightData = data;
+    this.checkHeightData = data;
     this.checkSaleData = data;
     this.priceData = data;
     this.stockData = data;

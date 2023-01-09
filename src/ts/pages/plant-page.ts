@@ -2,6 +2,7 @@ import Page from './page';
 import plants from '../../data/plants.json';
 import Cart from '../components/cart';
 import { setAddButton, setBuyNowButton } from '../base/helpers';
+import { PagesList } from '../base/enums';
 
 class PlantPage extends Page {
   plantId?: string;
@@ -97,6 +98,20 @@ class PlantPage extends Page {
     }
   }
 
+  private setBreadCrumbs(page: DocumentFragment) {
+    const plant = this.getPlant();
+    const thisPageLink = page.querySelector('.this-page-link');
+    const linkFilter = page.querySelector('.catalog-filter-link');
+    if (linkFilter instanceof HTMLAnchorElement && thisPageLink instanceof HTMLElement) {
+      const newLink = new URL(window.location.href);
+      newLink.pathname = PagesList.catalogPage;
+      newLink.searchParams.set('type', plant.type.toLowerCase());
+      linkFilter.href = newLink.toString();
+      linkFilter.innerText = plant.type;
+      thisPageLink.innerText = plant.title;
+    }
+  }
+
   protected fillPage(page: DocumentFragment, id?: string) {
     this.plantId = id;
     if (page instanceof DocumentFragment) {
@@ -122,8 +137,8 @@ class PlantPage extends Page {
 
         const newPrice = page.querySelector('.product-page__new-price');
         newPrice ? (newPrice.innerHTML = plant.price.toString()) : null;
-        if (plant.discountPercentage > 0) {
-          const oldPriceValue = Math.ceil(plant.price / ((100 - plant.discountPercentage) / 100));
+        if (plant.sale > 0) {
+          const oldPriceValue = Math.ceil(plant.price / ((100 - plant.sale) / 100));
           const oldPrice = document.createElement('span');
           oldPrice.textContent = oldPriceValue.toString();
           oldPrice.classList.add('product-page__old-price', 'usd-symbol');
@@ -135,6 +150,7 @@ class PlantPage extends Page {
         descriptionContainer ? this.setDescription(descriptionContainer) : null;
 
         this.setPictures(page);
+        this.setBreadCrumbs(page);
         const addBtn = page.querySelector('.product-page__add-to-cart-btn');
         const buyNowBtn = page.querySelector('.product-page__buy-now-btn');
         addBtn instanceof HTMLElement ? setAddButton(addBtn, this.cart, this.getPlant()) : null;

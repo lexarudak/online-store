@@ -1,6 +1,6 @@
 export const enum PagesList {
-  catalogPage = 'catalog',
-  cartPage = 'cart',
+  catalogPage = '/catalog',
+  cartPage = '/cart',
 }
 
 export const enum changeCartListActions {
@@ -21,4 +21,10 @@ export const enum cardInteger {
   visa = '4',
   masterCard = '5',
   americanExpress = '3',
+}
+
+export enum FilterType {
+  category = 'type',
+  height = 'height',
+  sale = 'sale',
 }
