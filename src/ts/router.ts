@@ -21,7 +21,7 @@ class Router {
   }
 
   static render(pathname: string) {
-    console.log('render start', pathname);
+    console.log('render:', pathname);
     switch (pathname) {
       case PagesList.catalogPage:
         Router.catalogPage.draw();
@@ -46,6 +46,8 @@ class Router {
   static goTo(pageId: string) {
     window.history.pushState({ pageId }, pageId, pageId);
     Router.render(pageId);
+    window.scrollTo(0, 0);
+    console.log('scroll?');
   }
 
   static changeLinks() {
@@ -54,7 +56,12 @@ class Router {
       if (!link.classList.contains('link-changed')) {
         link.addEventListener('click', (e) => {
           e.preventDefault();
-          link instanceof HTMLAnchorElement ? Router.goTo(new URL(link.href).pathname) : null;
+          if (
+            link instanceof HTMLAnchorElement &&
+            (new URL(link.href).pathname !== '/catalog' || new URL(window.location.href).pathname !== '/catalog')
+          ) {
+            Router.goTo(new URL(link.href).pathname);
+          }
         });
         link.classList.add('link-changed');
       }
