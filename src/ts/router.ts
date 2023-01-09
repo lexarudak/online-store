@@ -21,7 +21,7 @@ class Router {
   }
 
   static render(pathname: string) {
-    console.log('render:', pathname);
+    // console.log('render:', pathname);
     switch (pathname) {
       case PagesList.catalogPage:
         Router.catalogPage.draw();

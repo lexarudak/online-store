@@ -207,13 +207,10 @@ class Filter {
     if (!url.search) return;
     const currentParamsList = url.search.slice(1).split('&');
     const currentParamsObj = Object.fromEntries(currentParamsList.map((el) => el.split('=')));
-    // console.log('Object:', currentParamsObj);
     const paramsKeys = Object.keys(currentParamsObj);
-    // console.log('Keys:', paramsKeys);
     setQueryParamsObj(currentParamsObj);
     paramsKeys.forEach((param: string) => {
       const paramValue = currentParamsObj[param].split('-');
-      // console.log('Value:', paramValue);
       this.isURLValid(param);
       if (param === FilterType.category) {
         this.isURLValueValid('ckeckValues', param, paramValue);
