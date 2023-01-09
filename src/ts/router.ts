@@ -56,7 +56,12 @@ class Router {
       if (!link.classList.contains('link-changed')) {
         link.addEventListener('click', (e) => {
           e.preventDefault();
-          link instanceof HTMLAnchorElement ? Router.goTo(new URL(link.href).pathname) : null;
+          if (
+            link instanceof HTMLAnchorElement &&
+            (new URL(link.href).pathname !== '/catalog' || new URL(window.location.href).pathname !== '/catalog')
+          ) {
+            Router.goTo(new URL(link.href).pathname);
+          }
         });
         link.classList.add('link-changed');
       }
