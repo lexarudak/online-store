@@ -9,7 +9,6 @@ class ProductCards {
     this.cart = cart;
   }
   draw(data: Products[]): void {
-    // console.log(data);
     const productCard: Products[] = data;
     const fragment: DocumentFragment = document.createDocumentFragment();
     const productCardTemp: HTMLTemplateElement = getExistentElement<HTMLTemplateElement>('#productCardTemp');
