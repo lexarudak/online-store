@@ -120,7 +120,9 @@ class Filter {
         String(item.price).includes(sortInputValue) ||
         String(item.sale).includes(sortInputValue) ||
         String(item.rating).includes(sortInputValue) ||
-        String(item.stock).includes(sortInputValue)
+        String(item.stock).includes(sortInputValue) ||
+        String(item.rating).includes(sortInputValue) ||
+        String(item.height).includes(sortInputValue)
       );
     });
     queryParamsObj.search = sortInputValue;
