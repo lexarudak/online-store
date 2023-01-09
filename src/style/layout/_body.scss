@@ -4,4 +4,12 @@
   align-items: center;
   height: 100%;
   position: relative;
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+  }
+}
+
+.body_hold {
+  overflow: hidden;
 }

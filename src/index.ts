@@ -1,3 +1,7 @@
 import './index.html';
 import './index.scss';
-console.log('Hello World!');
+import './assets/svg/empty-cart-icon.svg';
+import App from './ts/app';
+
+const app = new App();
+app.start();
