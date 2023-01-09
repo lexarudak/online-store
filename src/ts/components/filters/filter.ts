@@ -57,6 +57,8 @@ class Filter {
     type.priceInputMax.addEventListener('change', () => type.changePriceInputMax());
     type.rangeInputMin.addEventListener('input', () => type.changeRangeInputMin());
     type.rangeInputMax.addEventListener('input', () => type.changeRangeInputMax());
+    type.priceInputMin.addEventListener('input', () => type.validatePriceInput());
+    type.priceInputMax.addEventListener('input', () => type.validatePriceInput());
     return [type.priceInputMin.value, type.priceInputMax.value];
   }
 
@@ -108,6 +110,7 @@ class Filter {
 
   sortInput(data: Products[]): void {
     const input = getExistentElement<HTMLInputElement>('.sort-input');
+    input.value = input.value.replace(/[^a-z0-9\-.,;'()\s]/gi, '');
     const sortInputValue: string = input.value.toLowerCase().trim();
     this.filteredData.inputData = data.filter((item) => {
       return (
@@ -253,7 +256,11 @@ class Filter {
         getExistentElement('.products__container').classList.add('landscape');
       }
       if (param === 'search') {
-        getExistentElement<HTMLInputElement>('.sort-input').value = paramValue;
+        let searchValue = decodeURI(currentParamsObj[param]);
+        while (searchValue.includes('%2C') || searchValue.includes('+')) {
+          searchValue = searchValue.replace('%2C', ',').replace('+', ' ');
+        }
+        getExistentElement<HTMLInputElement>('.sort-input').value = searchValue;
         this.sortInput(data);
       }
     });
@@ -269,7 +276,6 @@ class Filter {
   isURLValueValid(filterType: string, param: string, paramValue: string[], max?: number) {
     let errors = 0;
     const validValues = queryParamsTemtplate[param];
-    console.log(filterType, paramValue, validValues);
     if (filterType === 'ckeckValues' && paramValue.length) {
       paramValue.forEach((value) => {
         if (!validValues.includes(value)) {
@@ -279,7 +285,6 @@ class Filter {
     } else if (filterType === 'ckeckRange' && paramValue.length && max) {
       if (paramValue.length !== 2 || +paramValue[0] >= +paramValue[1] || +paramValue[0] < 1 || +paramValue[2] > max) {
         errors++;
-        console.log('Range ERROR', paramValue);
       }
     }
     if (errors) history.back();
@@ -288,7 +293,6 @@ class Filter {
   // reset
 
   resetState(data: Products[]) {
-    console.log('reset');
     this.showText(24);
     this.productCount.textContent = '24';
     this.filteredData = new FilteredData(data);

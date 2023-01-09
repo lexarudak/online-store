@@ -47,7 +47,6 @@ class Router {
     window.history.pushState({ pageId }, pageId, pageId);
     Router.render(pageId);
     window.scrollTo(0, 0);
-    console.log('scroll?');
   }
 
   static changeLinks() {
