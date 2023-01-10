@@ -39,17 +39,54 @@ class Filter {
   rangeInputFilter(target: EventTarget | null, data: Products[]) {
     if (!isHTMLElement(target)) throw new Error();
 
+    let type = '';
+
     if (target.closest('.filter__stock')) {
       const stock = this.stockRangeInput;
       const [min, max] = this.addListenerByType(stock);
       this.filteredData.stockData = this.filterByStock(data, min, max);
       queryParamsObj.stock = min + '-' + max;
+      type = 'stock';
     } else if (target.closest('.filter__price')) {
       const price = this.priceRangeInput;
       const [min, max] = this.addListenerByType(price);
       this.filteredData.priceData = this.filterByPrice(data, min, max);
       queryParamsObj.price = min + '-' + max;
+      type = 'price';
     }
+    return type;
+  }
+
+  updateRangeFilter(data: Products[]) {
+    const stock = data.map((item) => item.stock).sort((a, b) => a - b);
+
+    let min = '';
+    let max = '';
+    let active = false;
+    if (stock.length) {
+      min = stock[0] + '';
+      max = stock[stock.length - 1] + '';
+      active = true;
+    }
+    // console.log(min, max, stock);
+    this.stockRangeInput.recoveryRangeFilter(min, max);
+    return active;
+  }
+
+  updatePriceRangeFilter(data: Products[]) {
+    const price = data.map((item) => item.price).sort((a, b) => a - b);
+
+    let min = '';
+    let max = '';
+    let active = false;
+    if (price.length) {
+      min = price[0] + '';
+      max = price[price.length - 1] + '';
+      active = true;
+    }
+    // console.log(min, max, price);
+    this.priceRangeInput.recoveryRangeFilter(min, max);
+    return active;
   }
 
   addListenerByType(type: RangeInput) {
@@ -132,6 +169,7 @@ class Filter {
     if (!isHTMLElement(target) || !target.dataset.sort) throw new Error();
     this.checkSortType(target.dataset.sort, data);
     queryParamsObj.sort = target.dataset.sort;
+    this.addActive(target);
   }
 
   checkSortType(sortType: string, data: Products[]) {
@@ -150,6 +188,16 @@ class Filter {
         this.filteredData.sortData = data.sort((a, b) => b.price - a.price);
         break;
     }
+  }
+
+  addActive(target: HTMLElement) {
+    const controls = document.querySelectorAll('.sort-control');
+    controls.forEach((control) => {
+      if (isHTMLElement(control)) {
+        control.style.opacity = '';
+      }
+    });
+    target.style.opacity = '1';
   }
 
   // landscape
@@ -177,10 +225,18 @@ class Filter {
 
   // data
 
-  getData() {
+  getData(type?: string) {
     const data = this.filteredData.getFinalData();
     this.showText(data.length);
     this.currentData = data;
+    if (type === 'stock') {
+      this.updatePriceRangeFilter(data);
+    } else if (type === 'price') {
+      this.updateRangeFilter(data);
+    } else {
+      this.updateRangeFilter(data);
+      this.updatePriceRangeFilter(data);
+    }
     this.productCount.textContent = data.length + '';
     CatalogPage.setQueryParams();
     return data;
@@ -248,9 +304,9 @@ class Filter {
         if (!queryParamsTemtplate[param].includes(currentParamsObj[param])) {
           delete queryParamsObj.sort;
         }
-
         this.checkSortType(currentParamsObj[param], data);
-        console.log(currentParamsObj[param]);
+        const sortEl = getExistentElement(`[data-sort = ${currentParamsObj[param]}]`);
+        this.addActive(sortEl);
       }
       if (param === 'landscape') {
         this.isURLValueValid('ckeckValues', param, paramValue);
