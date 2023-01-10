@@ -277,7 +277,7 @@ class Filter {
   }
 
   getSaleNum(typeArr: string[]) {
-    const typeCount = typeArr.filter((item) => item);
+    const typeCount = typeArr.filter((item) => +item);
     return typeCount.length + '' || '0';
   }
 
@@ -416,6 +416,12 @@ class Filter {
 
     getExistentElement<HTMLInputElement>('.sort-input').value = '';
     this.resetTypeCount();
+    const controls = document.querySelectorAll('.sort-control');
+    controls.forEach((control) => {
+      if (isHTMLElement(control)) {
+        control.style.opacity = '';
+      }
+    });
   }
 
   resetCheckboxFilter() {
