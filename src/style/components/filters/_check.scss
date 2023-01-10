@@ -1,4 +1,5 @@
 .check {
+  @include flexbox(space-between);
   position: relative;
   padding-left: 35px;
   margin-top: 10px;
@@ -21,6 +22,12 @@
     border-radius: 3px;
     border: 1px solid $grey-light;
     transition: 0.5s;
+  }
+
+  &__found {
+    font-size: 0.8em;
+    color: $grey-medium;
+    vertical-align: baseline;
   }
 }
 

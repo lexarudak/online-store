@@ -62,15 +62,12 @@ class Filter {
 
     let min = '';
     let max = '';
-    let active = false;
     if (stock.length) {
       min = stock[0] + '';
       max = stock[stock.length - 1] + '';
-      active = true;
     }
     // console.log(min, max, stock);
     this.stockRangeInput.recoveryRangeFilter(min, max);
-    return active;
   }
 
   updatePriceRangeFilter(data: Products[]) {
@@ -78,15 +75,11 @@ class Filter {
 
     let min = '';
     let max = '';
-    let active = false;
     if (price.length) {
       min = price[0] + '';
       max = price[price.length - 1] + '';
-      active = true;
     }
-    // console.log(min, max, price);
     this.priceRangeInput.recoveryRangeFilter(min, max);
-    return active;
   }
 
   addListenerByType(type: RangeInput) {
@@ -110,10 +103,11 @@ class Filter {
   // checkbox
 
   checkboxFilter(target: EventTarget | null, data: Products[]) {
-    if (!isHTMLElement(target)) throw new Error();
+    if (!(target instanceof HTMLInputElement)) throw new Error();
 
-    if (target.closest('.filter__type'))
+    if (target.closest('.filter__type')) {
       this.filteredData.checkCategoryData = this.categoryFilter.checkboxTypeFilter(target, data);
+    }
     if (target.closest('.filter__height'))
       this.filteredData.checkHeightData = this.heightFilter.checkboxTypeFilter(target, data);
     if (target.closest('.filter__sale'))
@@ -238,8 +232,59 @@ class Filter {
       this.updatePriceRangeFilter(data);
     }
     this.productCount.textContent = data.length + '';
+    this.setTypeNum(data);
+    this.setHeightNum(data);
+    this.setSaleNum(data);
     CatalogPage.setQueryParams();
     return data;
+  }
+
+  setTypeNum(data: Products[]) {
+    const typeArr: string[] = data.map((item) => item.type.toLowerCase());
+    getExistentElement('#succulent').textContent = this.getTypeNum(typeArr, 'succulent');
+    getExistentElement('#sansevieria').textContent = this.getTypeNum(typeArr, 'sansevieria');
+    getExistentElement('#flowering').textContent = this.getTypeNum(typeArr, 'flowering');
+    getExistentElement('#fern').textContent = this.getTypeNum(typeArr, 'fern');
+    getExistentElement('#lavender').textContent = this.getTypeNum(typeArr, 'lavender');
+    getExistentElement('#cactus').textContent = this.getTypeNum(typeArr, 'cactus');
+    getExistentElement('#tree').textContent = this.getTypeNum(typeArr, 'tree');
+  }
+
+  setHeightNum(data: Products[]) {
+    const typeArr: string[] = data.map((item) => item.height.toString());
+    getExistentElement('#short').textContent = this.getHeightNum(typeArr, 'short');
+    getExistentElement('#medium').textContent = this.getHeightNum(typeArr, 'medium');
+    getExistentElement('#tall').textContent = this.getHeightNum(typeArr, 'tall');
+  }
+
+  setSaleNum(data: Products[]) {
+    const typeArr: string[] = data.map((item) => item.sale.toString());
+    getExistentElement('#true').textContent = this.getSaleNum(typeArr);
+  }
+
+  getTypeNum(typeArr: string[], type: string) {
+    const typeCount = typeArr.filter((item) => {
+      return item === type;
+    });
+    return typeCount.length + '' || '0';
+  }
+
+  getHeightNum(typeArr: string[], height: string) {
+    const typeCount = typeArr.filter((item) => {
+      return this.checkHeight(height, +item);
+    });
+    return typeCount.length + '' || '0';
+  }
+
+  getSaleNum(typeArr: string[]) {
+    const typeCount = typeArr.filter((item) => item);
+    return typeCount.length + '' || '0';
+  }
+
+  checkHeight(height: string, item: number) {
+    if (height === 'short') return item <= 30;
+    if (height === 'medium') return item > 30 && item <= 100;
+    return item > 100;
   }
 
   showText(length: number) {
@@ -370,6 +415,7 @@ class Filter {
     getExistentElement('.products__container').classList.remove('landscape');
 
     getExistentElement<HTMLInputElement>('.sort-input').value = '';
+    this.resetTypeCount();
   }
 
   resetCheckboxFilter() {
@@ -378,6 +424,20 @@ class Filter {
     this.saleFilter.resetSelectedArr();
 
     this.updateCheckbox();
+  }
+
+  resetTypeCount() {
+    getExistentElement('#succulent').textContent = '6';
+    getExistentElement('#sansevieria').textContent = '3';
+    getExistentElement('#flowering').textContent = '5';
+    getExistentElement('#fern').textContent = '2';
+    getExistentElement('#lavender').textContent = '2';
+    getExistentElement('#cactus').textContent = '3';
+    getExistentElement('#tree').textContent = '3';
+    getExistentElement('#short').textContent = '10';
+    getExistentElement('#medium').textContent = '9';
+    getExistentElement('#tall').textContent = '5';
+    getExistentElement('#true').textContent = '18';
   }
 }
 
