@@ -1,6 +1,6 @@
 import { getExistentElement } from '../../base/helpers';
 import { queryParamsObj } from './queryParams';
-import CatalogPage from './../../pages/catalog-page';
+import CatalogPage from '../../pages/catalog-page';
 
 class RangeInput {
   parentSelector: HTMLElement;

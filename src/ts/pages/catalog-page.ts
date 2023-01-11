@@ -5,7 +5,7 @@ import { PlantsData, Products } from '../base/types';
 import plantsData from '../../data/plants.json';
 import Cart from '../components/cart';
 import { getExistentElement, isHTMLElement } from '../base/helpers';
-import { queryParamsObj } from './../components/filters/queryParams';
+import { queryParamsObj } from '../components/filters/queryParams';
 
 class CatalogPage extends Page {
   productCard: ProductCards;
