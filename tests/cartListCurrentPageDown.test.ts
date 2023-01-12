@@ -20,31 +20,34 @@ beforeEach(() => {
   };
 });
 
-test('check page up', () => {
+test('check page down', () => {
   cart.add('1');
   cart.add('2');
   cart.add('3');
   cart.add('4');
-  cartList.currentPageUp(cart, pageInfo);
-  expect(pageInfo.currentPage).toStrictEqual(2);
+  pageInfo.currentPage = 2;
+  cartList.currentPageDown(cart, pageInfo);
+  expect(pageInfo.currentPage).toStrictEqual(1);
 });
 
 test('check do nothing', () => {
   cart.add('1');
   cart.add('2');
   cart.add('3');
-  cartList.currentPageUp(cart, pageInfo);
+  cart.add('4');
+  pageInfo.currentPage = 1;
+  cartList.currentPageDown(cart, pageInfo);
   expect(pageInfo.currentPage).toStrictEqual(1);
 });
 
-test('check do nothing', () => {
-  pageInfo.currentPage = 4;
-  cartList.currentPageUp(cart, pageInfo);
-  expect(pageInfo.currentPage).toStrictEqual(4);
+test('check empty cart', () => {
+  pageInfo.currentPage = 1;
+  cartList.currentPageDown(cart, pageInfo);
+  expect(pageInfo.currentPage).toStrictEqual(1);
 });
 
-test('check up from 0', () => {
-  pageInfo.currentPage = 0;
-  cartList.currentPageUp(cart, pageInfo);
-  expect(pageInfo.currentPage).toStrictEqual(1);
+test('check wrong currentPage', () => {
+  pageInfo.currentPage = -1;
+  cartList.currentPageDown(cart, pageInfo);
+  expect(pageInfo.currentPage).toStrictEqual(-1);
 });
