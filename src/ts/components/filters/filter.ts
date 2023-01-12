@@ -6,7 +6,8 @@ import RangeInput from './rangeInput';
 import CheckboxFilter from './checkboxFilter';
 import FilteredData from './filteredData';
 import filterHelpers from './filterHelpers';
-import { queryParamsObj, resetQueryParamsObj, setQueryParamsObj, queryParamsTemtplate } from './queryParams';
+import { recovery } from './recovery';
+import { queryParamsObj, resetQueryParamsObj, setQueryParamsObj } from './queryParams';
 import CatalogPage from './../../pages/catalog-page';
 
 class Filter {
@@ -69,11 +70,11 @@ class Filter {
     return [type.priceInputMin.value, type.priceInputMax.value];
   }
 
-  private filterByPrice(data: Products[], priceMin: string, priceMax: string) {
+  filterByPrice(data: Products[], priceMin: string, priceMax: string) {
     return data.filter((item) => +priceMin <= item.price && item.price <= +priceMax);
   }
 
-  private filterByStock(data: Products[], stockMin: string, stockMax: string) {
+  filterByStock(data: Products[], stockMin: string, stockMax: string) {
     return data.filter((item) => +stockMin <= item.stock && item.stock <= +stockMax);
   }
 
@@ -105,7 +106,7 @@ class Filter {
     this.updateCheckbox();
   }
 
-  private updateCheckbox() {
+  updateCheckbox() {
     const checkbox = [...getExistentElement('.filter').querySelectorAll('input[type="checkbox"]')];
     const checked = [
       ...this.categoryFilter.selectedArr,
@@ -155,7 +156,7 @@ class Filter {
     filterHelpers.addActive(target);
   }
 
-  private checkSortType(sortType: string, data: Products[]) {
+  checkSortType(sortType: string, data: Products[]) {
     this.filteredData.sortData = data.sort((a, b) => a.id - b.id);
     switch (sortType) {
       case 'rating-up':
@@ -247,62 +248,8 @@ class Filter {
     if (!url.search) return;
     const currentParamsList = url.search.slice(1).split('&');
     const currentParamsObj: StrObj = Object.fromEntries(currentParamsList.map((el) => el.split('=')));
-    const paramsKeys = Object.keys(currentParamsObj);
     setQueryParamsObj(currentParamsObj);
-    paramsKeys.forEach((param: string) => {
-      const paramValue = currentParamsObj[param].split('-');
-      filterHelpers.isURLValid(param);
-      if (param === FilterType.category) {
-        filterHelpers.isURLValueValid('ckeckValues', param, paramValue);
-        this.categoryFilter.selectedArr = paramValue;
-        this.filteredData.checkCategoryData = this.categoryFilter.checkboxTypeFilt(this.currentData);
-        this.updateCheckbox();
-      }
-      if (param === FilterType.height) {
-        filterHelpers.isURLValueValid('ckeckValues', param, paramValue);
-        this.heightFilter.selectedArr = paramValue;
-        this.filteredData.checkHeightData = this.heightFilter.checkboxTypeFilt(this.currentData);
-        this.updateCheckbox();
-      }
-      if (param === FilterType.sale) {
-        filterHelpers.isURLValueValid('ckeckValues', param, paramValue);
-        this.saleFilter.selectedArr = paramValue;
-        this.filteredData.checkSaleData = this.saleFilter.checkboxTypeFilt(this.currentData);
-        this.updateCheckbox();
-      }
-      if (param === 'price') {
-        filterHelpers.isURLValueValid('ckeckRange', param, paramValue, 100);
-        const [min, max] = paramValue;
-        this.priceRangeInput.recoveryRangeFilter(min, max);
-        this.filteredData.priceData = this.filterByPrice(data, min, max);
-      }
-      if (param === 'stock') {
-        filterHelpers.isURLValueValid('ckeckRange', param, paramValue, 65);
-        const [min, max] = paramValue;
-        this.stockRangeInput.recoveryRangeFilter(min, max);
-        this.filteredData.stockData = this.filterByStock(data, min, max);
-      }
-      if (param === 'sort') {
-        if (!queryParamsTemtplate[param].includes(currentParamsObj[param])) delete queryParamsObj.sort;
-        this.checkSortType(currentParamsObj[param], data);
-        const sortEl = getExistentElement(`[data-sort = ${currentParamsObj[param]}]`);
-        filterHelpers.addActive(sortEl);
-      }
-      if (param === 'landscape') {
-        filterHelpers.isURLValueValid('ckeckValues', param, paramValue);
-        getExistentElement('.layout__portrait').classList.remove('active');
-        getExistentElement('.layout__landscape').classList.add('active');
-        getExistentElement('.products__container').classList.add('landscape');
-      }
-      if (param === 'search') {
-        let searchValue: string = currentParamsObj[param];
-        while (searchValue.includes('%2C') || searchValue.includes('+')) {
-          searchValue = searchValue.replace('%2C', ',').replace('+', ' ');
-        }
-        getExistentElement<HTMLInputElement>('.sort-input').value = searchValue;
-        this.searchInput(data);
-      }
-    });
+    recovery(data, currentParamsObj, this);
   }
 
   // reset

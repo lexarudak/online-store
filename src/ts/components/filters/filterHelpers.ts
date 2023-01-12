@@ -1,4 +1,3 @@
-import { queryParamsTemtplate } from './queryParams';
 import { isHTMLElement, getExistentElement } from '../../base/helpers';
 
 function updateMinMax(values: number[]) {
@@ -67,38 +66,12 @@ function showText(length: number) {
 
 // recovery
 
-function isURLValid(urlParamKey: string) {
-  const paramsKeys = Object.keys(queryParamsTemtplate);
-  if (!paramsKeys.includes(urlParamKey)) {
-    history.back();
-  }
-}
-
-function isURLValueValid(filterType: string, param: string, paramValue: string[], max?: number) {
-  let errors = 0;
-  const validValues = queryParamsTemtplate[param];
-  if (filterType === 'ckeckValues' && paramValue.length) {
-    paramValue.forEach((value) => {
-      if (!validValues.includes(value)) {
-        errors++;
-      }
-    });
-  } else if (filterType === 'ckeckRange' && paramValue.length && max) {
-    if (paramValue.length !== 2 || +paramValue[0] >= +paramValue[1] || +paramValue[0] < 1 || +paramValue[2] > max) {
-      errors++;
-    }
-  }
-  if (errors) history.back();
-}
-
 export default {
   updateMinMax,
   getTypeNum,
   getHeightNum,
   checkHeight,
   getSaleNum,
-  isURLValid,
-  isURLValueValid,
   showText,
   addActive,
 };
