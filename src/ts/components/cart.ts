@@ -85,11 +85,13 @@ class Cart {
     this.saveCart();
   }
 
+  public isPromoInPromoList(promo: string) {
+    return promo in promoList && !this.activePromoCodes.includes(promo);
+  }
+
   public addPromo(input: HTMLInputElement) {
     const promo = input.value.toUpperCase();
-    if (promo in promoList && !this.activePromoCodes.includes(promo)) {
-      this.activePromoCodes.push(promo);
-    }
+    this.isPromoInPromoList(promo) ? this.activePromoCodes.push(promo) : null;
     this.saveCart();
   }
   public cleanCart() {

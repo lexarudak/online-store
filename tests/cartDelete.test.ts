@@ -7,7 +7,7 @@ beforeEach(() => {
   cart.saveCart = () => null;
 });
 
-test('check ease add', () => {
+test('check ease delete', () => {
   cart.basket = { '1': 1 };
   cart.delete('1');
   expect(cart.basket).toStrictEqual({});
