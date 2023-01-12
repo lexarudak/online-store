@@ -113,6 +113,7 @@ class CartList {
   }
 
   public isCurrentPageValid(cart: Cart, pageInfo: PageInfo) {
+    if (pageInfo.currentPage < 1) return false;
     if (this.getMaxPage(cart, pageInfo) < pageInfo.currentPage) {
       return false;
     } else {
