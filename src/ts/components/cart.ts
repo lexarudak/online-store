@@ -82,6 +82,7 @@ class Cart {
 
   public deletePromo(promo: Element) {
     this.activePromoCodes = this.activePromoCodes.filter((code) => code !== promo.id);
+    console.log(promo);
     this.saveCart();
   }
 
