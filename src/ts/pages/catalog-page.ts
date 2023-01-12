@@ -49,7 +49,7 @@ class CatalogPage extends Page {
     });
 
     getExistentElement<HTMLInputElement>('.sort-input').addEventListener('input', () => {
-      filter.sortInput(values);
+      filter.searchInput(values);
       this.productCard.draw(filter.getData());
     });
 

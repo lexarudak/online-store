@@ -58,3 +58,6 @@ export interface QueryParams {
 export interface Template {
   [key: string]: string[];
 }
+export interface StrObj {
+  [key: string]: string;
+}

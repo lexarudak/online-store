@@ -1,9 +1,11 @@
 import { isHTMLElement, getExistentElement } from '../../base/helpers';
-import { Products } from '../../base/types';
+import { StrObj, Products } from '../../base/types';
 import { FilterType } from '../../base/enums';
+import { counters } from '../../base/counters';
 import RangeInput from './rangeInput';
 import CheckboxFilter from './checkboxFilter';
 import FilteredData from './filteredData';
+import filterHelpers from './filterHelpers';
 import { queryParamsObj, resetQueryParamsObj, setQueryParamsObj, queryParamsTemtplate } from './queryParams';
 import CatalogPage from './../../pages/catalog-page';
 
@@ -57,31 +59,6 @@ class Filter {
     return type;
   }
 
-  updateRangeFilter(data: Products[]) {
-    const stock = data.map((item) => item.stock).sort((a, b) => a - b);
-
-    let min = '';
-    let max = '';
-    if (stock.length) {
-      min = stock[0] + '';
-      max = stock[stock.length - 1] + '';
-    }
-    // console.log(min, max, stock);
-    this.stockRangeInput.recoveryRangeFilter(min, max);
-  }
-
-  updatePriceRangeFilter(data: Products[]) {
-    const price = data.map((item) => item.price).sort((a, b) => a - b);
-
-    let min = '';
-    let max = '';
-    if (price.length) {
-      min = price[0] + '';
-      max = price[price.length - 1] + '';
-    }
-    this.priceRangeInput.recoveryRangeFilter(min, max);
-  }
-
   addListenerByType(type: RangeInput) {
     type.priceInputMin.addEventListener('change', () => type.changePriceInputMin());
     type.priceInputMax.addEventListener('change', () => type.changePriceInputMax());
@@ -92,12 +69,24 @@ class Filter {
     return [type.priceInputMin.value, type.priceInputMax.value];
   }
 
-  filterByPrice(data: Products[], priceMin: string, priceMax: string) {
+  private filterByPrice(data: Products[], priceMin: string, priceMax: string) {
     return data.filter((item) => +priceMin <= item.price && item.price <= +priceMax);
   }
 
-  filterByStock(data: Products[], stockMin: string, stockMax: string) {
+  private filterByStock(data: Products[], stockMin: string, stockMax: string) {
     return data.filter((item) => +stockMin <= item.stock && item.stock <= +stockMax);
+  }
+
+  private updateRangeFilter(data: Products[]) {
+    const stock = data.map((item) => item.stock).sort((a, b) => a - b);
+    const [min, max] = filterHelpers.updateMinMax(stock);
+    this.stockRangeInput.recoveryRangeFilter(min, max);
+  }
+
+  private updatePriceRangeFilter(data: Products[]) {
+    const price = data.map((item) => item.price).sort((a, b) => a - b);
+    const [min, max] = filterHelpers.updateMinMax(price);
+    this.priceRangeInput.recoveryRangeFilter(min, max);
   }
 
   // checkbox
@@ -116,7 +105,7 @@ class Filter {
     this.updateCheckbox();
   }
 
-  updateCheckbox() {
+  private updateCheckbox() {
     const checkbox = [...getExistentElement('.filter').querySelectorAll('input[type="checkbox"]')];
     const checked = [
       ...this.categoryFilter.selectedArr,
@@ -137,9 +126,7 @@ class Filter {
     });
   }
 
-  //sort
-
-  sortInput(data: Products[]): void {
+  searchInput(data: Products[]): void {
     const input = getExistentElement<HTMLInputElement>('.sort-input');
     input.value = input.value.replace(/[^a-z0-9\-.,;'()\s]/gi, '');
     const sortInputValue: string = input.value.toLowerCase().trim();
@@ -159,14 +146,16 @@ class Filter {
     queryParamsObj.search = sortInputValue;
   }
 
+  //sort
+
   sortBy(target: EventTarget | null, data: Products[]): void {
     if (!isHTMLElement(target) || !target.dataset.sort) throw new Error();
     this.checkSortType(target.dataset.sort, data);
     queryParamsObj.sort = target.dataset.sort;
-    this.addActive(target);
+    filterHelpers.addActive(target);
   }
 
-  checkSortType(sortType: string, data: Products[]) {
+  private checkSortType(sortType: string, data: Products[]) {
     this.filteredData.sortData = data.sort((a, b) => a.id - b.id);
     switch (sortType) {
       case 'rating-up':
@@ -182,16 +171,6 @@ class Filter {
         this.filteredData.sortData = data.sort((a, b) => b.price - a.price);
         break;
     }
-  }
-
-  addActive(target: HTMLElement) {
-    const controls = document.querySelectorAll('.sort-control');
-    controls.forEach((control) => {
-      if (isHTMLElement(control)) {
-        control.style.opacity = '';
-      }
-    });
-    target.style.opacity = '1';
   }
 
   // landscape
@@ -221,7 +200,7 @@ class Filter {
 
   getData(type?: string) {
     const data = this.filteredData.getFinalData();
-    this.showText(data.length);
+    filterHelpers.showText(data.length);
     this.currentData = data;
     if (type === 'stock') {
       this.updatePriceRangeFilter(data);
@@ -239,67 +218,25 @@ class Filter {
     return data;
   }
 
-  setTypeNum(data: Products[]) {
+  // products counter by type
+
+  private setTypeNum(data: Products[]) {
     const typeArr: string[] = data.map((item) => item.type.toLowerCase());
-    getExistentElement('#succulent').textContent = this.getTypeNum(typeArr, 'succulent');
-    getExistentElement('#sansevieria').textContent = this.getTypeNum(typeArr, 'sansevieria');
-    getExistentElement('#flowering').textContent = this.getTypeNum(typeArr, 'flowering');
-    getExistentElement('#fern').textContent = this.getTypeNum(typeArr, 'fern');
-    getExistentElement('#lavender').textContent = this.getTypeNum(typeArr, 'lavender');
-    getExistentElement('#cactus').textContent = this.getTypeNum(typeArr, 'cactus');
-    getExistentElement('#tree').textContent = this.getTypeNum(typeArr, 'tree');
+    counters.slice(0, 7).forEach((_, i) => {
+      getExistentElement(counters[i]).textContent = filterHelpers.getTypeNum(typeArr, counters[i].slice(1));
+    });
   }
 
-  setHeightNum(data: Products[]) {
+  private setHeightNum(data: Products[]) {
     const typeArr: string[] = data.map((item) => item.height.toString());
-    getExistentElement('#short').textContent = this.getHeightNum(typeArr, 'short');
-    getExistentElement('#medium').textContent = this.getHeightNum(typeArr, 'medium');
-    getExistentElement('#tall').textContent = this.getHeightNum(typeArr, 'tall');
+    getExistentElement('#short').textContent = filterHelpers.getHeightNum(typeArr, 'short');
+    getExistentElement('#medium').textContent = filterHelpers.getHeightNum(typeArr, 'medium');
+    getExistentElement('#tall').textContent = filterHelpers.getHeightNum(typeArr, 'tall');
   }
 
-  setSaleNum(data: Products[]) {
+  private setSaleNum(data: Products[]) {
     const typeArr: string[] = data.map((item) => item.sale.toString());
-    getExistentElement('#true').textContent = this.getSaleNum(typeArr);
-  }
-
-  getTypeNum(typeArr: string[], type: string) {
-    const typeCount = typeArr.filter((item) => {
-      return item === type;
-    });
-    return typeCount.length + '' || '0';
-  }
-
-  getHeightNum(typeArr: string[], height: string) {
-    const typeCount = typeArr.filter((item) => {
-      return this.checkHeight(height, +item);
-    });
-    return typeCount.length + '' || '0';
-  }
-
-  getSaleNum(typeArr: string[]) {
-    const typeCount = typeArr.filter((item) => +item);
-    return typeCount.length + '' || '0';
-  }
-
-  checkHeight(height: string, item: number) {
-    if (height === 'short') return item <= 30;
-    if (height === 'medium') return item > 30 && item <= 100;
-    return item > 100;
-  }
-
-  showText(length: number) {
-    const container = getExistentElement('.products__container');
-    if (!length) {
-      container.style.fontSize = '30px';
-      container.style.fontWeight = '500';
-      container.style.color = '#22795D';
-      container.innerHTML = 'NOT FOUND :(';
-    } else {
-      container.style.fontSize = '';
-      container.style.fontWeight = '';
-      container.style.color = '';
-      container.innerHTML = '';
-    }
+    getExistentElement('#true').textContent = filterHelpers.getSaleNum(typeArr);
   }
 
   // recovery
@@ -309,95 +246,69 @@ class Filter {
     const url = new URL(window.location.href);
     if (!url.search) return;
     const currentParamsList = url.search.slice(1).split('&');
-    const currentParamsObj = Object.fromEntries(currentParamsList.map((el) => el.split('=')));
+    const currentParamsObj: StrObj = Object.fromEntries(currentParamsList.map((el) => el.split('=')));
     const paramsKeys = Object.keys(currentParamsObj);
     setQueryParamsObj(currentParamsObj);
     paramsKeys.forEach((param: string) => {
       const paramValue = currentParamsObj[param].split('-');
-      this.isURLValid(param);
+      filterHelpers.isURLValid(param);
       if (param === FilterType.category) {
-        this.isURLValueValid('ckeckValues', param, paramValue);
+        filterHelpers.isURLValueValid('ckeckValues', param, paramValue);
         this.categoryFilter.selectedArr = paramValue;
         this.filteredData.checkCategoryData = this.categoryFilter.checkboxTypeFilt(this.currentData);
         this.updateCheckbox();
       }
       if (param === FilterType.height) {
-        this.isURLValueValid('ckeckValues', param, paramValue);
+        filterHelpers.isURLValueValid('ckeckValues', param, paramValue);
         this.heightFilter.selectedArr = paramValue;
         this.filteredData.checkHeightData = this.heightFilter.checkboxTypeFilt(this.currentData);
         this.updateCheckbox();
       }
       if (param === FilterType.sale) {
-        this.isURLValueValid('ckeckValues', param, paramValue);
+        filterHelpers.isURLValueValid('ckeckValues', param, paramValue);
         this.saleFilter.selectedArr = paramValue;
         this.filteredData.checkSaleData = this.saleFilter.checkboxTypeFilt(this.currentData);
         this.updateCheckbox();
       }
       if (param === 'price') {
-        this.isURLValueValid('ckeckRange', param, paramValue, 100);
+        filterHelpers.isURLValueValid('ckeckRange', param, paramValue, 100);
         const [min, max] = paramValue;
         this.priceRangeInput.recoveryRangeFilter(min, max);
         this.filteredData.priceData = this.filterByPrice(data, min, max);
       }
       if (param === 'stock') {
-        this.isURLValueValid('ckeckRange', param, paramValue, 65);
+        filterHelpers.isURLValueValid('ckeckRange', param, paramValue, 65);
         const [min, max] = paramValue;
         this.stockRangeInput.recoveryRangeFilter(min, max);
         this.filteredData.stockData = this.filterByStock(data, min, max);
       }
       if (param === 'sort') {
-        if (!queryParamsTemtplate[param].includes(currentParamsObj[param])) {
-          delete queryParamsObj.sort;
-        }
+        if (!queryParamsTemtplate[param].includes(currentParamsObj[param])) delete queryParamsObj.sort;
         this.checkSortType(currentParamsObj[param], data);
         const sortEl = getExistentElement(`[data-sort = ${currentParamsObj[param]}]`);
-        this.addActive(sortEl);
+        filterHelpers.addActive(sortEl);
       }
       if (param === 'landscape') {
-        this.isURLValueValid('ckeckValues', param, paramValue);
+        filterHelpers.isURLValueValid('ckeckValues', param, paramValue);
         getExistentElement('.layout__portrait').classList.remove('active');
         getExistentElement('.layout__landscape').classList.add('active');
         getExistentElement('.products__container').classList.add('landscape');
       }
       if (param === 'search') {
-        let searchValue = decodeURI(currentParamsObj[param]);
+        let searchValue: string = currentParamsObj[param];
         while (searchValue.includes('%2C') || searchValue.includes('+')) {
           searchValue = searchValue.replace('%2C', ',').replace('+', ' ');
         }
         getExistentElement<HTMLInputElement>('.sort-input').value = searchValue;
-        this.sortInput(data);
+        this.searchInput(data);
       }
     });
-  }
-
-  isURLValid(urlParamKey: string) {
-    const paramsKeys = Object.keys(queryParamsTemtplate);
-    if (!paramsKeys.includes(urlParamKey)) {
-      history.back();
-    }
-  }
-
-  isURLValueValid(filterType: string, param: string, paramValue: string[], max?: number) {
-    let errors = 0;
-    const validValues = queryParamsTemtplate[param];
-    if (filterType === 'ckeckValues' && paramValue.length) {
-      paramValue.forEach((value) => {
-        if (!validValues.includes(value)) {
-          errors++;
-        }
-      });
-    } else if (filterType === 'ckeckRange' && paramValue.length && max) {
-      if (paramValue.length !== 2 || +paramValue[0] >= +paramValue[1] || +paramValue[0] < 1 || +paramValue[2] > max) {
-        errors++;
-      }
-    }
-    if (errors) history.back();
   }
 
   // reset
 
   resetState(data: Products[]) {
-    this.showText(24);
+    filterHelpers.showText(24);
     this.productCount.textContent = '24';
     this.filteredData = new FilteredData(data);
     resetQueryParamsObj();
@@ -424,7 +335,7 @@ class Filter {
     });
   }
 
-  resetCheckboxFilter() {
+  private resetCheckboxFilter() {
     this.categoryFilter.resetSelectedArr();
     this.heightFilter.resetSelectedArr();
     this.saleFilter.resetSelectedArr();
@@ -432,18 +343,9 @@ class Filter {
     this.updateCheckbox();
   }
 
-  resetTypeCount() {
-    getExistentElement('#succulent').textContent = '6';
-    getExistentElement('#sansevieria').textContent = '3';
-    getExistentElement('#flowering').textContent = '5';
-    getExistentElement('#fern').textContent = '2';
-    getExistentElement('#lavender').textContent = '2';
-    getExistentElement('#cactus').textContent = '3';
-    getExistentElement('#tree').textContent = '3';
-    getExistentElement('#short').textContent = '10';
-    getExistentElement('#medium').textContent = '9';
-    getExistentElement('#tall').textContent = '5';
-    getExistentElement('#true').textContent = '18';
+  private resetTypeCount() {
+    const total = ['6', '3', '5', '2', '2', '3', '3', '10', '9', '5', '18'];
+    total.forEach((_, i) => (getExistentElement(counters[i]).textContent = total[i]));
   }
 }
 
