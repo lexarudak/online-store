@@ -8,29 +8,29 @@ beforeEach(() => {
 });
 
 test('check ease true', () => {
-  expect(cart.isPromoInPromoList('SALE10')).toBe(true);
+  expect(cart.isPromoInPromoList('SALE10')).toBeTruthy();
 });
 
 test('check ease true', () => {
-  expect(cart.isPromoInPromoList('PLANTS10')).toBe(true);
+  expect(cart.isPromoInPromoList('PLANTS10')).toBeTruthy();
 });
 
 test('check ease true', () => {
-  expect(cart.isPromoInPromoList('FORYOU10')).toBe(true);
+  expect(cart.isPromoInPromoList('FORYOU10')).toBeTruthy();
 });
 
 test('check ease false', () => {
-  expect(cart.isPromoInPromoList('FORYOU11')).toBe(false);
+  expect(cart.isPromoInPromoList('FORYOU11')).toBeFalsy();
 });
 
 test('check ease false', () => {
-  expect(cart.isPromoInPromoList('sdasdasd')).toBe(false);
+  expect(cart.isPromoInPromoList('sdasdasd')).toBeFalsy();
 });
 
 test('check empty', () => {
-  expect(cart.isPromoInPromoList('')).toBe(false);
+  expect(cart.isPromoInPromoList('')).toBeFalsy();
 });
 
 test('check lowercase', () => {
-  expect(cart.isPromoInPromoList('sale10')).toBe(false);
+  expect(cart.isPromoInPromoList('sale10')).toBeFalsy();
 });

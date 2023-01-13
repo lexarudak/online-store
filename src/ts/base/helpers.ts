@@ -14,6 +14,12 @@ function getExistentElement<T extends HTMLElement>(selector: string, node: Docum
   if (el === null) throw new Error(`Element not found!`);
   return el;
 }
+function getExistentInputElement<T extends HTMLElement>(selector: string, node: Document | HTMLElement = document): T {
+  const el = node.querySelector<T>(selector);
+  if (el === null) throw new Error(`Element not found!`);
+  if (!(el instanceof HTMLInputElement)) throw new Error(`Element type is not input!`);
+  return el;
+}
 
 function isPlantsId(id: string): boolean {
   if (typeof id !== 'string') return false;
@@ -62,9 +68,17 @@ function setBuyNowButton(button: HTMLElement, cart: Cart, plant: Products) {
 function openPurchaseModal(cart: Cart) {
   const modalTemp = document.querySelector('#purchase');
   if (modalTemp instanceof HTMLTemplateElement) {
-    const modal = new PurchaseModal(modalTemp, cart);
+    const modal = new PurchaseModal(modalTemp, cart, getExistentElement('.purchase-modal'));
     modal.draw();
   }
 }
 
-export { isHTMLElement, getExistentElement, isPlantsId, setAddButton, setBuyNowButton, openPurchaseModal };
+export {
+  isHTMLElement,
+  getExistentElement,
+  isPlantsId,
+  setAddButton,
+  setBuyNowButton,
+  openPurchaseModal,
+  getExistentInputElement,
+};
