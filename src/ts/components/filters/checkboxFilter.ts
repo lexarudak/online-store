@@ -23,25 +23,25 @@ class CheckboxFilter {
       }
     }
     queryParamsObj[this.filterType] = [...new Set(this.selectedArr)].join('-');
-    return this.checkboxTypeFilt(data);
+    return this.getCheckboxData(data);
   }
 
-  checkboxTypeFilt(data: Products[]) {
+  getCheckboxData(data: Products[]) {
     let currData = data;
 
     if (this.selectedArr.length) {
       if (this.filterType === FilterType.sale) return currData.filter((item) => item.sale);
 
-      const chekedData: Products[][] = [];
+      const checkedData: Products[][] = [];
       for (const selectedItem of this.selectedArr) {
         if (this.filterType === FilterType.category) {
           const oneType = currData.filter((item) => item.type.toLowerCase() === selectedItem);
-          chekedData.push(oneType);
+          checkedData.push(oneType);
         } else if (this.filterType === FilterType.height) {
-          chekedData.push(this.filterByHeight(selectedItem, currData));
+          checkedData.push(this.filterByHeight(selectedItem, currData));
         }
       }
-      currData = chekedData.flat();
+      currData = checkedData.flat();
     }
     return currData;
   }

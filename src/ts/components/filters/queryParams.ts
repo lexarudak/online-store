@@ -10,7 +10,7 @@ export function setQueryParamsObj(obj: Partial<QueryParams>) {
 
 export let queryParamsObj: Partial<QueryParams> = {};
 
-export const queryParamsTemtplate: Template = {
+export const queryParamsTemplate: Template = {
   sort: ['rating-up', 'rating-down', 'price-up', 'price-down'],
   search: ['value'],
   type: ['succulent', 'sansevieria', 'flowering', 'fern', 'lavender', 'cactus', 'tree'],

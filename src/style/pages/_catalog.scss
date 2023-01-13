@@ -96,7 +96,7 @@
   flex: 1 1 auto;
   gap: 30px;
 
-  &__parametrs {
+  &__parameters {
     @include flexbox();
     width: 100%;
     gap: 20px;
@@ -108,7 +108,7 @@
     }
   }
 
-  &__sort-parametrs {
+  &__sort-parameters {
     @include flexbox(space-between);
     gap: 5px;
     flex: 1 1 auto;

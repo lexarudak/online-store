@@ -40,7 +40,7 @@ export interface DataObj {
   newData: Products[];
   inputData: Products[];
   sortData: Products[];
-  chekedData: Products[];
+  checkedData: Products[];
   priceData: Products[];
 }
 

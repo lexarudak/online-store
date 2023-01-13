@@ -19,7 +19,7 @@
         "style/layout/_footer.scss",
         "style/components/_button.scss",
         "style/components/_product-card.scss",
-        "style/components/_sort-parametrs.scss",
+        "style/components/_sort-parameters.scss",
         "style/components/filters/_range.scss",
         "style/components/filters/_check.scss",
         "style/pages/_home.scss",
