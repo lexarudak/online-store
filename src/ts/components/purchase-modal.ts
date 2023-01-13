@@ -40,53 +40,41 @@ class PurchaseModal {
     target.value = '+' + target.value.replace(/\D+/g, '');
   }
 
-  private isPhoneValid() {
-    const phone = getExistentElement('#purchasePhone');
-    const error = getExistentElement('#purchasePhoneError');
-    if (phone instanceof HTMLInputElement) {
-      let errors = 0;
-      const phoneValue = phone.value;
-      const phoneOnlyNumbers = phoneValue.replace(/\D+/g, '');
-      phoneOnlyNumbers.length < 9 ? (errors += 1) : null;
-      errors === 0
-        ? error.classList.remove('purchase-form__error_active')
-        : error.classList.add('purchase-form__error_active');
-      phone.value = `+${phoneOnlyNumbers}`;
-      if (errors === 0) return true;
-    }
+  private isPhoneValid(phone: HTMLInputElement, error: HTMLElement) {
+    let errors = 0;
+    const phoneValue = phone.value;
+    const phoneOnlyNumbers = phoneValue.replace(/\D+/g, '');
+    phoneOnlyNumbers.length < 9 ? (errors += 1) : null;
+    errors === 0
+      ? error.classList.remove('purchase-form__error_active')
+      : error.classList.add('purchase-form__error_active');
+    phone.value = `+${phoneOnlyNumbers}`;
+    if (errors === 0) return true;
     return false;
   }
 
-  private isAddressValid() {
-    const address = getExistentElement('#purchaseAddress');
-    const error = getExistentElement('#purchaseAddressError');
-    if (address instanceof HTMLInputElement) {
-      let errors = 0;
-      const addressValue = address.value;
-      const addressArr = addressValue.split(' ');
-      addressArr.length < 3 ? (errors += 1) : null;
-      addressArr.forEach((word) => {
-        word.length < 5 ? (errors += 1) : null;
-      });
-      errors === 0 && addressValue !== ''
-        ? error.classList.remove('purchase-form__error_active')
-        : error.classList.add('purchase-form__error_active');
-      if (errors === 0) return true;
-    }
+  private isAddressValid(address: HTMLInputElement, error: HTMLElement) {
+    let errors = 0;
+    const addressValue = address.value;
+    const addressArr = addressValue.split(' ');
+    addressArr.length < 3 ? (errors += 1) : null;
+    addressArr.forEach((word) => {
+      word.length < 5 ? (errors += 1) : null;
+    });
+    errors === 0 && addressValue !== ''
+      ? error.classList.remove('purchase-form__error_active')
+      : error.classList.add('purchase-form__error_active');
+    if (errors === 0) return true;
     return false;
   }
 
-  private isEmailValid() {
-    const email = getExistentElement('#purchaseEmail');
-    const error = getExistentElement('#purchaseEmailError');
-    if (email instanceof HTMLInputElement) {
-      const temp = /^[\w-.]+@[\w-]+\.[a-z]{2,4}$/i;
-      const isEmail = temp.test(email.value);
-      isEmail
-        ? error.classList.remove('purchase-form__error_active')
-        : error.classList.add('purchase-form__error_active');
-      if (isEmail) return true;
-    }
+  private isEmailValid(email: HTMLInputElement, error: HTMLElement) {
+    const temp = /^[\w-.]+@[\w-]+\.[a-z]{2,4}$/i;
+    const isEmail = temp.test(email.value);
+    isEmail
+      ? error.classList.remove('purchase-form__error_active')
+      : error.classList.add('purchase-form__error_active');
+    if (isEmail) return true;
     return false;
   }
 
@@ -185,9 +173,9 @@ class PurchaseModal {
     const payNowBtn = getExistentElement('#payNowBtn');
     if (
       this.isNameValid(getExistentInputElement('#purchaseName'), getExistentElement('#purchaseNameError')) &&
-      this.isPhoneValid() &&
-      this.isAddressValid() &&
-      this.isEmailValid() &&
+      this.isPhoneValid(getExistentInputElement('#purchasePhone'), getExistentElement('#purchasePhoneError')) &&
+      this.isAddressValid(getExistentInputElement('#purchaseAddress'), getExistentElement('#purchaseAddressError')) &&
+      this.isEmailValid(getExistentInputElement('#purchaseEmail'), getExistentElement('#purchaseEmailError')) &&
       this.isCardNumberValid() &&
       this.isCardDateValid() &&
       this.isCardCVVValid()
@@ -253,9 +241,15 @@ class PurchaseModal {
     getExistentElement('#purchaseName', this.modal).addEventListener('blur', () =>
       this.isNameValid(getExistentInputElement('#purchaseName'), getExistentElement('#purchaseNameError'))
     );
-    getExistentElement('#purchasePhone', this.modal).addEventListener('blur', this.isPhoneValid);
-    getExistentElement('#purchaseAddress', this.modal).addEventListener('blur', this.isAddressValid);
-    getExistentElement('#purchaseEmail', this.modal).addEventListener('blur', this.isEmailValid);
+    getExistentElement('#purchasePhone', this.modal).addEventListener('blur', () =>
+      this.isPhoneValid(getExistentInputElement('#purchasePhone'), getExistentElement('#purchasePhoneError'))
+    );
+    getExistentElement('#purchaseAddress', this.modal).addEventListener('blur', () =>
+      this.isAddressValid(getExistentInputElement('#purchaseAddress'), getExistentElement('#purchaseAddressError'))
+    );
+    getExistentElement('#purchaseEmail', this.modal).addEventListener('blur', () =>
+      this.isEmailValid(getExistentInputElement('#purchaseEmail'), getExistentElement('#purchaseEmailError'))
+    );
     getExistentElement('#payCardNumber', this.modal).addEventListener('blur', this.isCardNumberValid);
     getExistentElement('#payCardDate', this.modal).addEventListener('blur', this.isCardDateValid);
     getExistentElement('#payCardCvv', this.modal).addEventListener('blur', this.isCardCVVValid);

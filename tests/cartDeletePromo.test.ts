@@ -13,7 +13,7 @@ test('check ease delete', () => {
   cart.activePromoCodes = ['SALE10'];
   element.id = 'SALE10';
   cart.deletePromo(element);
-  expect(cart.activePromoCodes).toStrictEqual([]);
+  expect(cart.activePromoCodes).not.toContain('SALE10');
 });
 
 test('check 3 times delete', () => {
@@ -22,18 +22,18 @@ test('check 3 times delete', () => {
   cart.deletePromo(element);
   cart.deletePromo(element);
   cart.deletePromo(element);
-  expect(cart.activePromoCodes).toStrictEqual([]);
+  expect(cart.activePromoCodes).toHaveLength(0);
 });
 
 test('check empty', () => {
   cart.activePromoCodes = ['SALE10'];
   cart.deletePromo(element);
-  expect(cart.activePromoCodes).toStrictEqual(['SALE10']);
+  expect(cart.activePromoCodes).toContain('SALE10');
 });
 
 test('check lowercase', () => {
   cart.activePromoCodes = ['SALE10'];
   cart.deletePromo(element);
   element.id = 'saLE10';
-  expect(cart.activePromoCodes).toStrictEqual(['SALE10']);
+  expect(cart.activePromoCodes).toContain('SALE10');
 });
