@@ -105,12 +105,15 @@ class CartList {
     countContainer.value = cart.basket[id].toString();
   }
 
-  private getMaxPage(cart: Cart, pageInfo: PageInfo) {
+  public getMaxPage(cart: Cart, pageInfo: PageInfo) {
+    if (pageInfo.itemsOnPage < 1) return 1;
     const itemsInBasket = Object.keys(cart.basket).length;
+    if (itemsInBasket < 1) return 1;
     return Math.ceil(itemsInBasket / pageInfo.itemsOnPage);
   }
 
-  private isCurrentPageValid(cart: Cart, pageInfo: PageInfo) {
+  public isCurrentPageValid(cart: Cart, pageInfo: PageInfo) {
+    if (pageInfo.currentPage < 1) return false;
     if (this.getMaxPage(cart, pageInfo) < pageInfo.currentPage) {
       return false;
     } else {
@@ -118,25 +121,25 @@ class CartList {
     }
   }
 
-  private currentPageUp(cart: Cart, pageInfo: PageInfo) {
+  public currentPageUp(cart: Cart, pageInfo: PageInfo) {
     const maxPage = this.getMaxPage(cart, pageInfo);
     pageInfo.currentPage < maxPage ? (pageInfo.currentPage += 1) : null;
     this.fillCards(cart, pageInfo);
   }
 
-  private currentPageDown(cart: Cart, pageInfo: PageInfo) {
+  public currentPageDown(cart: Cart, pageInfo: PageInfo) {
     pageInfo.currentPage > 1 ? (pageInfo.currentPage -= 1) : null;
     this.fillCards(cart, pageInfo);
   }
 
-  private itemsOnPageUp(cart: Cart, pageInfo: PageInfo) {
+  public itemsOnPageUp(cart: Cart, pageInfo: PageInfo) {
     pageInfo.itemsOnPage < 10 ? (pageInfo.itemsOnPage += 1) : null;
     this.isCurrentPageValid(cart, pageInfo) ? null : this.currentPageDown(cart, pageInfo);
     this.fillCards(cart, pageInfo);
     return pageInfo;
   }
 
-  private itemsOnPageDown(cart: Cart, pageInfo: PageInfo) {
+  public itemsOnPageDown(cart: Cart, pageInfo: PageInfo) {
     pageInfo.itemsOnPage > 1 ? (pageInfo.itemsOnPage -= 1) : null;
     this.fillCards(cart, pageInfo);
     return pageInfo;

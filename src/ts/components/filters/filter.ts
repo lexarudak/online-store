@@ -5,9 +5,9 @@ import { counters } from '../../base/counters';
 import RangeInput from './rangeInput';
 import CheckboxFilter from './checkboxFilter';
 import FilteredData from './filteredData';
+import { queryParamsObj, resetQueryParamsObj, setQueryParamsObj } from './queryParams';
 import filterHelpers from './filterHelpers';
 import { recovery } from './recovery';
-import { queryParamsObj, resetQueryParamsObj, setQueryParamsObj } from './queryParams';
 import CatalogPage from './../../pages/catalog-page';
 
 class Filter {

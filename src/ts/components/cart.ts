@@ -66,6 +66,7 @@ class Cart {
 
   public add(id: string) {
     const plant = plants.products.filter((value) => value.id === Number(id))[0];
+    if (!plant) return;
     if (plant.stock > this.basket[id] || !this.basket[id]) {
       this.basket[id] ? (this.basket[id] += 1) : (this.basket[id] = 1);
     }
@@ -81,14 +82,17 @@ class Cart {
 
   public deletePromo(promo: Element) {
     this.activePromoCodes = this.activePromoCodes.filter((code) => code !== promo.id);
+    console.log(promo);
     this.saveCart();
+  }
+
+  public isPromoInPromoList(promo: string) {
+    return promo in promoList && !this.activePromoCodes.includes(promo);
   }
 
   public addPromo(input: HTMLInputElement) {
     const promo = input.value.toUpperCase();
-    if (promo in promoList && !this.activePromoCodes.includes(promo)) {
-      this.activePromoCodes.push(promo);
-    }
+    this.isPromoInPromoList(promo) ? this.activePromoCodes.push(promo) : null;
     this.saveCart();
   }
   public cleanCart() {
