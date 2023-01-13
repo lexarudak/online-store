@@ -1,5 +1,5 @@
 import { cardInteger, cardLogo, PagesList } from '../base/enums';
-import { getExistentElement, isHTMLElement } from '../base/helpers';
+import { getExistentElement, getExistentInputElement, isHTMLElement } from '../base/helpers';
 import Router from '../router';
 import Cart from './cart';
 
@@ -7,51 +7,29 @@ class PurchaseModal {
   public cart: Cart;
   private modal: HTMLElement;
   private modalContainer: HTMLElement;
-  private name: HTMLInputElement;
-  private phone: HTMLInputElement;
-  private address: HTMLInputElement;
-  private email: HTMLInputElement;
-  private card: HTMLInputElement;
-  private cardDate: HTMLInputElement;
-  private cardCVV: HTMLInputElement;
-  private payNowBtn: HTMLButtonElement;
-  private form: HTMLFormElement;
   private formValid: boolean;
 
-  constructor(modalTemp: HTMLTemplateElement, cart: Cart) {
-    this.modalContainer = getExistentElement('.purchase-modal');
+  constructor(modalTemp: HTMLTemplateElement, cart: Cart, container: HTMLElement) {
+    this.modalContainer = container;
     const modal = modalTemp.content.cloneNode(true);
     if (!isHTMLElement(modal)) throw new Error(`Element is not HTMLElement!`);
     this.modal = modal;
-    this.name = getExistentElement('#purchaseName', this.modal);
-    this.phone = getExistentElement('#purchasePhone', this.modal);
-    this.address = getExistentElement('#purchaseAddress', this.modal);
-    this.email = getExistentElement('#purchaseEmail', this.modal);
-    this.card = getExistentElement('#payCardNumber', this.modal);
-    this.cardDate = getExistentElement('#payCardDate', this.modal);
-    this.cardCVV = getExistentElement('#payCardCvv', this.modal);
-    this.payNowBtn = getExistentElement('#payNowBtn', this.modal);
-    this.form = getExistentElement('.purchase-form', this.modal);
     this.formValid = false;
     this.cart = cart;
   }
 
-  public isNameValid() {
-    const name = getExistentElement('#purchaseName');
-    const error = getExistentElement('#purchaseNameError');
-    if (name instanceof HTMLInputElement) {
-      let errors = 0;
-      const nameValue = name.value.trim();
-      const nameArr = nameValue.split(' ');
-      nameArr.length < 2 ? (errors += 1) : null;
-      nameArr.forEach((name) => {
-        name.length < 3 ? (errors += 1) : null;
-      });
-      errors === 0 && nameValue !== ''
-        ? error.classList.remove('purchase-form__error_active')
-        : error.classList.add('purchase-form__error_active');
-      if (errors === 0) return true;
-    }
+  public isNameValid(name: HTMLInputElement, error: HTMLElement) {
+    let errors = 0;
+    const nameValue = name.value.trim();
+    const nameArr = nameValue.split(' ');
+    nameArr.length < 2 ? (errors += 1) : null;
+    nameArr.forEach((name) => {
+      name.length < 3 ? (errors += 1) : null;
+    });
+    errors === 0 && nameValue !== ''
+      ? error.classList.remove('purchase-form__error_active')
+      : error.classList.add('purchase-form__error_active');
+    if (errors === 0) return true;
     return false;
   }
 
@@ -172,6 +150,7 @@ class PurchaseModal {
   }
 
   private isCardDateValid() {
+    console.log('isCardDateValid start');
     const cardDate = getExistentElement('#payCardDate');
     const error = getExistentElement('#payCardDateError');
     if (!(cardDate instanceof HTMLInputElement)) throw new Error(`Element not input!`);
@@ -203,8 +182,9 @@ class PurchaseModal {
   }
 
   private isFormValid() {
+    const payNowBtn = getExistentElement('#payNowBtn');
     if (
-      this.isNameValid() &&
+      this.isNameValid(getExistentInputElement('#purchaseName'), getExistentElement('#purchaseNameError')) &&
       this.isPhoneValid() &&
       this.isAddressValid() &&
       this.isEmailValid() &&
@@ -212,13 +192,13 @@ class PurchaseModal {
       this.isCardDateValid() &&
       this.isCardCVVValid()
     ) {
-      this.payNowBtn.classList.replace('button-unable', 'button');
+      payNowBtn.classList.replace('button-unable', 'button');
       this.formValid = true;
-      this.payNowBtn.innerText = 'Buy now!';
+      payNowBtn.innerText = 'Buy now!';
     } else {
-      this.payNowBtn.classList.replace('button', 'button-unable');
+      payNowBtn.classList.replace('button', 'button-unable');
       this.formValid = false;
-      this.payNowBtn.innerText = 'Fill in all the fields';
+      payNowBtn.innerText = 'Fill in all the fields';
     }
   }
 
@@ -264,23 +244,25 @@ class PurchaseModal {
       }
     });
 
-    this.phone.addEventListener('input', (e) => this.checkPhoneSymbol(e));
-    this.card.addEventListener('input', (e) => this.checkCardSymbol(e));
-    this.card.addEventListener('input', (e) => this.checkCardLogo(e));
-    this.cardDate.addEventListener('input', (e) => this.checkCardDateSymbol(e));
-    this.cardCVV.addEventListener('input', (e) => this.checkCardCVVSymbol(e));
+    getExistentElement('#purchasePhone', this.modal).addEventListener('input', (e) => this.checkPhoneSymbol(e));
+    getExistentElement('#payCardNumber', this.modal).addEventListener('input', (e) => this.checkCardSymbol(e));
+    getExistentElement('#payCardNumber', this.modal).addEventListener('input', (e) => this.checkCardLogo(e));
+    getExistentElement('#payCardCvv', this.modal).addEventListener('input', (e) => this.checkCardCVVSymbol(e));
+    getExistentElement('#payCardDate', this.modal).addEventListener('input', (e) => this.checkCardDateSymbol(e));
 
-    this.name.addEventListener('blur', this.isNameValid);
-    this.phone.addEventListener('blur', this.isPhoneValid);
-    this.address.addEventListener('blur', this.isAddressValid);
-    this.email.addEventListener('blur', this.isEmailValid);
-    this.card.addEventListener('blur', this.isCardNumberValid);
-    this.cardDate.addEventListener('blur', this.isCardDateValid);
-    this.cardCVV.addEventListener('blur', this.isCardCVVValid);
+    getExistentElement('#purchaseName', this.modal).addEventListener('blur', () =>
+      this.isNameValid(getExistentInputElement('#purchaseName'), getExistentElement('#purchaseNameError'))
+    );
+    getExistentElement('#purchasePhone', this.modal).addEventListener('blur', this.isPhoneValid);
+    getExistentElement('#purchaseAddress', this.modal).addEventListener('blur', this.isAddressValid);
+    getExistentElement('#purchaseEmail', this.modal).addEventListener('blur', this.isEmailValid);
+    getExistentElement('#payCardNumber', this.modal).addEventListener('blur', this.isCardNumberValid);
+    getExistentElement('#payCardDate', this.modal).addEventListener('blur', this.isCardDateValid);
+    getExistentElement('#payCardCvv', this.modal).addEventListener('blur', this.isCardCVVValid);
 
-    this.form.addEventListener('change', () => this.isFormValid());
+    getExistentElement('.purchase-form', this.modal).addEventListener('change', () => this.isFormValid());
 
-    this.payNowBtn.addEventListener('click', () => {
+    getExistentElement('#payNowBtn', this.modal).addEventListener('click', () => {
       this.formValid ? this.buyNow() : null;
     });
 
