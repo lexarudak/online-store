@@ -43,6 +43,9 @@
   & > div {
     margin-bottom: 50px;
   }
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 
   &__title {
     margin-top: 0;

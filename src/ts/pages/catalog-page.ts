@@ -44,12 +44,12 @@ class CatalogPage extends Page {
 
     getExistentElement('.filter').addEventListener('input', (e) => {
       filter.checkboxFilter(e.target, values);
-      filter.rangeInputFilter(e.target, values);
-      this.productCard.draw(filter.getData());
+      const type = filter.rangeInputFilter(e.target, values);
+      this.productCard.draw(filter.getData(type));
     });
 
     getExistentElement<HTMLInputElement>('.sort-input').addEventListener('input', () => {
-      filter.sortInput(values);
+      filter.searchInput(values);
       this.productCard.draw(filter.getData());
     });
 

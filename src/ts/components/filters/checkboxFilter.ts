@@ -32,7 +32,7 @@ class CheckboxFilter {
     if (this.selectedArr.length) {
       if (this.filterType === FilterType.sale) return currData.filter((item) => item.sale);
 
-      const chekedData = [];
+      const chekedData: Products[][] = [];
       for (const selectedItem of this.selectedArr) {
         if (this.filterType === FilterType.category) {
           const oneType = currData.filter((item) => item.type.toLowerCase() === selectedItem);
