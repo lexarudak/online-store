@@ -18,7 +18,6 @@ class App {
       oldCart.basket ? (newCart.basket = oldCart.basket) : null;
       oldCart.activePromoCodes ? (newCart.activePromoCodes = oldCart.activePromoCodes) : null;
     }
-    // console.log(newCart);
     return newCart;
   }
 
