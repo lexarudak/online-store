@@ -20,8 +20,7 @@
     opacity: 0.3;
     cursor: pointer;
     transition: 0.5s;
-    &:hover,
-    &:active {
+    &:hover {
       opacity: 1;
     }
   }
@@ -35,11 +34,11 @@
 
 .found-products {
   @include flexbox();
-  column-gap: 8px;
+  column-gap: 5px;
   flex-wrap: wrap;
 
   &__num {
-    font-size: 1.5em;
+    font-size: 1.3em;
     color: $green-medium;
     font-weight: bold;
   }
@@ -47,7 +46,7 @@
 
 .sort-input {
   height: 28px;
-  width: 215px;
+  width: 200px;
   border: solid 1px $grey-medium;
   border-radius: 14px;
   outline: none;

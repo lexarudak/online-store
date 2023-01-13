@@ -43,6 +43,9 @@
   & > div {
     margin-bottom: 50px;
   }
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 
   &__title {
     margin-top: 0;
@@ -107,7 +110,7 @@
 
   &__sort-parametrs {
     @include flexbox(space-between);
-    gap: 20px;
+    gap: 5px;
     flex: 1 1 auto;
     min-height: 28px;
 

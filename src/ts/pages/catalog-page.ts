@@ -44,12 +44,12 @@ class CatalogPage extends Page {
 
     getExistentElement('.filter').addEventListener('input', (e) => {
       filter.checkboxFilter(e.target, values);
-      filter.rangeInputFilter(e.target, values);
-      this.productCard.draw(filter.getData());
+      const type = filter.rangeInputFilter(e.target, values);
+      this.productCard.draw(filter.getData(type));
     });
 
     getExistentElement<HTMLInputElement>('.sort-input').addEventListener('input', () => {
-      filter.sortInput(values);
+      filter.searchInput(values);
       this.productCard.draw(filter.getData());
     });
 
@@ -97,7 +97,7 @@ class CatalogPage extends Page {
   static setQueryParams() {
     const currentParamsObj = Object.fromEntries(Object.entries(queryParamsObj).filter((item) => item[1] !== ''));
     const paramsStr = new URLSearchParams(currentParamsObj);
-    const currentUrl = new URL(window.location.href);
+    const currentUrl = new URL(window.location.href.split('#')[0]);
     currentUrl.search = paramsStr.toString();
     window.history.replaceState({}, 'catalog', currentUrl);
   }

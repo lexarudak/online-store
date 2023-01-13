@@ -1,4 +1,7 @@
-export interface Products {
+export interface ProductsObj {
+  [id: string]: number | string | string[];
+}
+export interface Products extends ProductsObj {
   id: number;
   title: string;
   description: string;
@@ -54,4 +57,7 @@ export interface QueryParams {
 
 export interface Template {
   [key: string]: string[];
+}
+export interface StrObj {
+  [key: string]: string;
 }
