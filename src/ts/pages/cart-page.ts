@@ -19,7 +19,7 @@ class CartPage extends Page {
 
   private setPageInfo() {
     let pageInfo: PageInfo;
-    const startPageInfo = {
+    const startPageInfo: PageInfo = {
       itemsOnPage: 4,
       currentPage: 1,
     };

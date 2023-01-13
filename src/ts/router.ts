@@ -4,14 +4,13 @@ import Cart from './components/cart';
 import CartPage from './pages/cart-page';
 import CatalogPage from './pages/catalog-page';
 import ErrorPage from './pages/error-page';
-import Page from './pages/page';
 import PlantPage from './pages/plant-page';
 
 class Router {
-  static catalogPage: Page;
-  static cartPage: Page;
-  static plantPage: Page;
-  static errorPage: Page;
+  static catalogPage: CatalogPage;
+  static cartPage: CartPage;
+  static plantPage: PlantPage;
+  static errorPage: ErrorPage;
 
   constructor(cart: Cart) {
     Router.catalogPage = new CatalogPage(cart);

@@ -138,7 +138,6 @@ class PurchaseModal {
   }
 
   private isCardDateValid() {
-    console.log('isCardDateValid start');
     const cardDate = getExistentElement('#payCardDate');
     const error = getExistentElement('#payCardDateError');
     if (!(cardDate instanceof HTMLInputElement)) throw new Error(`Element not input!`);
